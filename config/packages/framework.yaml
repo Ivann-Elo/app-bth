@@ -16,8 +16,11 @@ framework:
     #esi: true
     #fragments: true
     php_errors:
-        log: true
+        log: true 
 
+    assets:
+        base_path: '/assets/' 
+            
 when@test:
     framework:
         test: true
