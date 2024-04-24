@@ -4,18 +4,9 @@
 
 
 {% block body %} 
-<div class="row justify-content-center">
+<main class="row justify-content-center">
     <!-- Début de la colonne de gauche -->
-    <div class="d-none d-sm-block col-md-12 col-lg-3 py-3">
-        <div class="bg-light text-center px-2">
-            <span class="text-center">Nouveau client</span>
-            <div>
-                ici le formulaire de création de client
-            </div>
-
-        </div>
-
-    </div>
+   {% include "partials/sidebar.html.twig" %}
     <!-- Fin de la colonne de gauche -->
 
     <!-- Début de la colonne de droite -->
@@ -23,7 +14,7 @@
         <h1 class="text-center">{{ titrePage }}</h1>
         {% include "partials/liste_inter.html.twig" %} 
             <span>Mes clients</span>
-            <div class="bg-light px-2 py-3 mt-1 overflow-auto ">
+            <div class="bg-white rounded-2 px-2 py-3 mt-1 overflow-auto ">
                 <div>
                         <!-- Recherche Filtre tableau-->
                 </div> 
@@ -44,5 +35,5 @@
             </div>
     </div>
     <!-- Fin de la colonne de droite -->
-</div>
+</main>    
 {% endblock %}
