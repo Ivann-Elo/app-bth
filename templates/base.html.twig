@@ -7,26 +7,32 @@
 
         <!-- Feuilles de styles --> 
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+        
+        
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/font.css') }}">
         {% endblock %}
-
-
+        
         <!-- Début des fichiers js-->
         <script src="{{ asset('js/scripts.js') }}" defer></script>
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}" defer></script>
         <script src="https://kit.fontawesome.com/7c195b2a60.js" crossorigin="anonymous"></script>
         <!-- Fin des fichiers js-->
 
+
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-        {% include "partials/header.html.twig" %} 
+    <body class="overflow-y-scroll overflow-x-hidden">
+        {% include "partials/header.html.twig" %}  
         {% block body %}
-        <h1>Hiii guys !!</h1>
         {% endblock %}
     </body>
 </html>
