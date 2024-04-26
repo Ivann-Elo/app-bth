@@ -14,6 +14,7 @@ class InterventionController extends AbstractController
         return $this->render('intervention/index.html.twig', [
             'controller_name' => 'InterventionController',
             'titrePage' => 'Fiche d\'intervention',
+            'titreSideBar' => 'Informations client'
         ]);
     } 
 

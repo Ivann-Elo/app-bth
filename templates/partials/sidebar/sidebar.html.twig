@@ -1,0 +1,14 @@
+ <div class="col-lg-3 py-3 sidebar position-fixed">
+        <div class="bg-white text-center px-2 rounded-2 overflow-auto" style="height:90vh">
+            <div class="my-3">
+                <span class="text-center">{{ titreSideBar }}</span>
+            </div>
+            <div>
+                {% if (titreSideBar == 'Nouveau client') %}
+                    {% include "partials/form/clientForm.html.twig" %}
+                {% else %} 
+                    {% include "partials/sideBar/infoClient.html.twig" %}
+                {% endif %}    
+            </div>
+        </div>
+</div>

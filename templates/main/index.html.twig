@@ -4,19 +4,21 @@
 
 
 {% block body %} 
-<main class="row justify-content-center">
-    <!-- Début de la colonne de gauche -->
-   {% include "partials/sidebar.html.twig" %}
-    <!-- Fin de la colonne de gauche -->
+<main class="container-fluid">
+    <div class="row">
 
-    <!-- Début de la colonne de droite -->
-    <div class="col-lg-8 py-3">
-        <h1 class="text-center">{{ titrePage }}</h1>
-        {% include "partials/liste_inter.html.twig" %} 
+        <!-- Début de la colonne de gauche -->
+        {% include "partials/sidebar/sidebar.html.twig" %}
+        <!-- Fin de la colonne de gauche -->
+        
+        <!-- Début de la colonne de droite -->
+        <div class="col-lg-9 py-3 offset-lg-3">
+            <h1 class="text-center">{{ titrePage }}</h1>
+            {% include "partials/liste_inter.html.twig" %} 
             <span>Mes clients</span>
             <div class="bg-white rounded-2 px-2 py-3 mt-1 overflow-auto ">
                 <div>
-                        <!-- Recherche Filtre tableau-->
+                    <!-- Recherche Filtre tableau-->
                 </div> 
                 <div class="overflow-auto" style="max-height: 40vh">
                     <!-- Mon tableau -->
@@ -28,12 +30,13 @@
                         </div>
                     </div>
                     <!-- Fin de Mon tableau-->
-
+                    
                     <!-- Début écriture en dure à remplacer -->
                     <!-- Fin écriture en dure à remplacer -->
                 </div>
             </div>
+        </div>
+        <!-- Fin de la colonne de droite -->
     </div>
-    <!-- Fin de la colonne de droite -->
 </main>    
 {% endblock %}
