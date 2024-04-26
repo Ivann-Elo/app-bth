@@ -62,12 +62,11 @@
         </div>
       </div>
       <!--DEBUT Section PHOTO ou TÂCHES-->
-      <div id="zoneTaches" class="d-block">
-        {% include "partials/sectionTaches.html.twig" %}
-      </div>
-      <div id="zonePhotos" class="d-none">
-        {% include "partials/sectionPhotos.html.twig" %}
-      </div>
+      {% if (show == 'photos') %}
+         {% include "partials/sectionPhotos.html.twig" %}
+      {% else %}
+         {% include "partials/sectionTaches.html.twig" %}
+      {% endif %}  
       <!-- FIN Section PHOTOS ou TÂCHES -->
     </div>
     
