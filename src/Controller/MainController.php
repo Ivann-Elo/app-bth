@@ -13,7 +13,8 @@ class MainController extends AbstractController
     {
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
-            'titrePage' => 'Tableau de bord'
+            'titrePage' => 'Tableau de bord',
+            'titreSideBar' => 'Nouveau client'
         ]);
     }
 }

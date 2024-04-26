@@ -3,72 +3,83 @@
 {% block title %}Detail intervention{% endblock %}
 
 {% block body %} 
-<main class="row justify-content-center">
+<main class="container-fluid">
+  <div class="row">
     <!-- Début de la colonne de gauche -->
-  {% include 'partials/client_sidebar.html.twig' %}
+    {% include 'partials/sidebar/sidebar.html.twig' %}
     <!-- Fin de la colonne de gauche -->
-
+    
     <!-- Début de la colonne de droite -->
-    <div class="col-lg-8 py-3">
-        {% include "partials/info_dropdown.html.twig" %}
-        <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
-        <span class="ms-2">Détail de l'intervention</span><span class="ms-2 roboto-bold">N°01</span>
-        <div class="bg-white p-3 rounded-1 mt-2 mb-3">
-          <div class="row d-flex justify-content-between mb-3">
-            <div class="col-4 ">
-              <span class="i_inter roboto-medium">Statut</span><br>
-              <span>Terminée</span>
-            </div>
-            <div class="col-4 text-center">
-              <span class="i_inter roboto-medium">Date de début</span><br>
-              <span>02-04-2024</span>
-            </div>
-            <div class="col-4 text-end">
-              <span class="i_inter roboto-medium">Date de Fin</span><br>
-              <span>04-04-2024</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5">
-              <div class="mb-3">
-                <span class="i_inter roboto-medium">Description</span><br>
-                <span>Remplacer la salle de bain</span>
-              </div>
-              <div>
-                <span class="i_inter roboto-medium">Note intervention</span><br>
-                <span>Une note sur une intervention</span>
-              </div>
-            </div>
-            <div class="col-md-7">
-              <p class="p-1 titre_document text-center mt-2">Documents</p>
-              <div class="row ps-1">
-                <div class="col-6 d-flex flex-column">
-                  <strong>devis</strong>
-                  <div class="m-1 p-3 rounded-1 document_zone">
-                    <a href="#">Télécharger</a>
-                  </div>
-                </div>
-                <div class="col-6 d-flex flex-column">
-                  <strong>factures</strong>
-                  <div class="m-1 p-3 rounded-1 document_zone">
-                    <a href="#">Télécharger</a>
-                  </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--DEBUT Section PHOTO ou TÂCHES-->
-          <div id="zoneTaches" class="d-block">
-            {% include "partials/sectionTaches.html.twig" %}
-          </div>
-          <div id="zonePhotos" class="d-none">
-            {% include "partials/sectionPhotos.html.twig" %}
-          </div>
-          <!-- FIN Section PHOTOS ou TÂCHES -->
-    </div>
-          
-    <!-- Fin de la colonne de droite -->
-</main> 
+    <div class="col-lg-9 py-3 offset-lg-3">
 
-{% endblock %}
+      {% include "partials/info_dropdown.html.twig" %}
+      <a href="/">Tableau de bord</a>
+      <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
+      <span class="ms-2">Détail de l'intervention</span><span class="ms-2 roboto-bold">N°01</span>
+      <div class="bg-white p-3 rounded-1 mt-2 mb-3">
+        <div class="row d-flex justify-content-between mb-3">
+          <div class="col-4 ">
+            <span class="i_inter roboto-medium">Statut</span><br>
+            <span>Terminée</span>
+          </div>
+          <div class="col-4 text-center">
+            <span class="i_inter roboto-medium">Date de début</span><br>
+            <span>02-04-2024</span>
+          </div>
+          <div class="col-4 text-end">
+            <span class="i_inter roboto-medium">Date de Fin</span><br>
+            <span>04-04-2024</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="mb-3">
+              <span class="i_inter roboto-medium">Description</span><br>
+              <span>Remplacer la salle de bain</span>
+            </div>
+            <div>
+              <span class="i_inter roboto-medium">Note intervention</span><br>
+              <span>Une note sur une intervention</span>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <p class="p-1 titre_document text-center mt-2">Documents</p>
+            <div class="row ps-1">
+              <div class="col-6 d-flex flex-column">
+                <strong>devis</strong>
+                <div class="m-1 p-3 rounded-1 document_zone">
+                  <a href="#">Télécharger</a>
+                </div>
+              </div>
+              <div class="col-6 d-flex flex-column">
+                <strong>factures</strong>
+                <div class="m-1 p-3 rounded-1 document_zone">
+                  <a href="#">Télécharger</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--DEBUT Section PHOTO ou TÂCHES-->
+      {% if (show == 'photos') %}
+         {% include "partials/sectionPhotos.html.twig" %}
+      {% else %}
+         {% include "partials/sectionTaches.html.twig" %}
+      {% endif %}  
+      <!-- FIN Section PHOTOS ou TÂCHES -->
+    </div>
+    
+    <!-- Fin de la colonne de droite -->
+  </div>
+  <div class="modal fade" id="modalModification" tabindex="-1" aria-labelledby="modalModificationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          Ma modal est la
+        </div>
+    </div>
+</div>
+ </main> 
+  
+  {% endblock %}
+  
