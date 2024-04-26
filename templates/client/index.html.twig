@@ -11,15 +11,18 @@
         
         <!-- Début de la colonne de droite -->
         <div class="col-lg-9 py-3 offset-lg-3">
-            <a href="/">Tableau de bord</a>
+            <a href="/" class="navigation">Tableau de bord</a>
              <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
+
             <!-- DEBUT section infos -->
-            <div class="text-center py-3 mb-3 information_client" >
+            <div class="text-center bg-white p-2 rounded-2 mb-2 information_client" >
                {% include 'partials/info_client.html.twig' %} 
             </div>
-
             <!-- FIN section infos -->
-
+            <div class="nouvelleIntervention text-center my-3 py-2">
+                <i class="fa-solid fa-plus"></i><br>
+                Nouvelle intervention
+            </div>
              {% include 'partials/liste_inter.html.twig' %}
 
         </div>
