@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail client{% endblock %}
+
+{% block body %}
+<main class="container-fluid">
+    <div class="row">
+        <!-- Début de la colonne de gauche -->
+        {% include 'partials/sidebar/sidebar.html.twig' %}
+        <!-- Fin de la colonne de gauche -->
+        
+        <!-- Début de la colonne de droite -->
+        <div class="col-lg-9 py-3 offset-lg-3">
+            <a href="/">Tableau de bord</a>
+             <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
+            <!-- DEBUT section infos -->
+            <div class="text-center py-3 mb-3 information_client" >
+               {% include 'partials/info_client.html.twig' %} 
+            </div>
+
+            <!-- FIN section infos -->
+
+             {% include 'partials/liste_inter.html.twig' %}
+
+        </div>
+    </div>            
+
+</main>
+
+
+{% endblock %}
