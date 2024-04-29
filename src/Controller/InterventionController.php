@@ -20,7 +20,17 @@ class InterventionController extends AbstractController
             'titreSideBar' => 'Informations client',
             'show' => $show
         ]);
-    } 
+    }  
+
+    #[Route('/nouvelleIntervention', name: 'app_nouvIntervention')]
+    public function nouvelleIntervention(): Response
+    {
+        return $this->render('intervention/nouvelleInter.html.twig', [
+            'controller_name' => 'InterventionController',
+            'titrePage' => 'Nouvelle intervention',
+            'titreSideBar' => 'Informations client'
+        ]);
+    }
 
 
 }

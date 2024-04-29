@@ -1,0 +1,78 @@
+{% extends "base.html.twig" %}
+{% block title %} {{titrePage}} {% endblock %}
+
+{% block body %}  
+<main class="container-fluid">
+    <div class="row">  
+        {% include "partials/sidebar/sidebar.html.twig" %}
+        <div class="col-lg-9 py-3 offset-lg-3">
+            <nav aria-label="breadcrumb" class="navigation">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/">Tableau de Bord</a></li>
+                  <li class="breadcrumb-item"><a href="/client">Client</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Nouvelle intervention</li>
+                </ol>
+            </nav>
+            
+            <!-- DEBUT section infos -->
+            <div class="text-center p-2 rounded-2 mb-2 information_client" >
+                {% include 'partials/info_dropdown.html.twig' %} 
+            </div>
+            <!-- FIN section infos -->
+
+            <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
+            <span class="ms-2">Créer une nouvelle intervention</span>
+            <div class="bg-white p-3 rounded-1 mt-2 mb-3">
+                <div class="row d-flex justify-content-between mb-3">
+                  <div class="col-6">
+                    <span class="i_inter roboto-medium">Adresse d'intervention</span><br>
+                    <span>12 rue des Lilas<br>14460 Colombelles</span><br>
+                    <input type="button" value="Nouvelle adresse" class="btn btn-secondary mt-2">
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                          <span class="i_inter roboto-medium">Date de début</span><br><input type="date">
+                        </div>
+                        <div class="col-sm-6 text-center">
+                          <span class="i_inter roboto-medium">Fin estimée</span><br><input type="date">
+                        </div>  
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="mb-3">
+                      <span class="i_inter roboto-medium">Description</span><br>
+                      <input type="text" class="form-control">
+                    </div>
+                    <div>
+                      <span class="i_inter roboto-medium">Note intervention</span><br>
+                      <input type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <p class="p-1 titre_document text-center mt-2">Documents</p>
+                    <div class="row ps-1">
+                      <div class="col-6 d-flex flex-column">
+                        <strong>devis</strong>
+                        <div class="m-1 p-3 rounded-1 document_zone text-center" style="height:80px">
+                            <i class="fa-solid fa-file"></i><br>
+                            <span class="fs-6">Ajouter un devis</span>
+                        </div>
+                      </div>
+                      <div class="col-6 d-flex flex-column">
+                        <strong>factures</strong>
+                        <div class="m-1 p-3 rounded-1 document_zone text-center" style="height:80px">
+                            <i class="fa-solid fa-file"></i><br>
+                            <span class="fs-6">Ajouter une facture</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</main>        
+{% endblock %} 
