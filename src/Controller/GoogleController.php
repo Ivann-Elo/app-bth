@@ -11,24 +11,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class GoogleController extends AbstractController
 {
     /**
-     * Link to this controller to start the "connect" process
+     * Route vers l'appel de l'authentification Google
      *
-     * @Route("/connect/google", name="connect_google_start")
+     * 
      */
     #[Route('/connect/google', name: 'connect_google_start')]
     public function connectAction(ClientRegistry $clientRegistry)
     {
-        // will redirect to google!
+        // Rédirection vers l'authentification Google
         return $clientRegistry
-            ->getClient('google'); // key used in config/packages/knpu_oauth2_client.yaml
+            ->getClient('google') // key créée in config/packages/knpu_oauth2_client.yaml
+            ->redirect('email');
     }
 
     /**
-     * After going to google, you're redirected back here
-     * because this is the "redirect_route" you configured
-     * in config/packages/knpu_oauth2_client.yaml
-     *
-     * @Route("/connect/google/check", name="connect_google_check")
+     * Apré avoir été redirigé vers Google, on revient ici
+     * cette méthode est appelée pour récupérer les informations de l'utilisateur
+     * 
      */
     #[Route("/connect/google/check", name:"connect_google_check")]
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry)
@@ -37,17 +36,22 @@ class GoogleController extends AbstractController
         // leave this method blank and create a Guard authenticator
         // (read below)
 
-        /** @var \KnpU\OAuth2ClientBundle\Client\Provider\googleClient $client */
         $client = $clientRegistry->getClient('google');
+        #dd($client);
 
         try {
             // the exact class depends on which provider you're using
             /** @var \League\OAuth2\Client\Provider\googleUser $user */
             $user = $client->fetchUser();
+            $accessToken = $client->getAccessToken();
+            $user = $client->fetchUserFromToken($accessToken);
 
+            // access the underlying "provider" from league/oauth2-client
+            $provider = $client->getOAuth2Provider();
+            
             // do something with all this new power!
             // e.g. $name = $user->getFirstName();
-            var_dump($user); die;
+            // var_dump($user); die;
             // ...
         } catch (IdentityProviderException $e) {
             // something went wrong!
