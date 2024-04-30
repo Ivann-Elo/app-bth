@@ -14,7 +14,9 @@ class ClientController extends AbstractController
         return $this->render('client/index.html.twig', [
             'controller_name' => 'ClientController',
             'titrePage' => 'Détails du client',
-            'titreSideBar' => 'Informations client'
+            'titreSideBar' => 'Informations client',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y')
 
         ]);
     }

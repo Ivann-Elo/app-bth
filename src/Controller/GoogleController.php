@@ -46,6 +46,8 @@ class GoogleController extends AbstractController
             $accessToken = $client->getAccessToken();
             $user = $client->fetchUserFromToken($accessToken);
 
+            dd($user);
+
             // access the underlying "provider" from league/oauth2-client
             $provider = $client->getOAuth2Provider();
             
