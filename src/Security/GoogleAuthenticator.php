@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class MygoogleAuthenticator extends OAuth2Authenticator implements AuthenticationEntrypointInterface
+class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationEntrypointInterface
 { 
     private $clientRegistry;
     private $entityManager;
@@ -48,6 +48,7 @@ class MygoogleAuthenticator extends OAuth2Authenticator implements Authenticatio
                 $googleUser = $client->fetchUserFromToken($accessToken);
 
                 $email = $googleUser->getEmail();
+                #dd($googleUser->getId());
 
                 // 1) have they logged in with google before? Easy!
                 $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['googleId' => $googleUser->getId()]);
@@ -61,6 +62,7 @@ class MygoogleAuthenticator extends OAuth2Authenticator implements Authenticatio
 
                 // 3) Maybe you just want to "register" them by creating
                 // a User object
+
                 $user->setgoogleId($googleUser->getId());
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
@@ -73,7 +75,7 @@ class MygoogleAuthenticator extends OAuth2Authenticator implements Authenticatio
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // change "app_homepage" to some route in your app
-        $targetUrl = $this->router->generate('app_homepage');
+        $targetUrl = $this->router->generate('main');
 
         return new RedirectResponse($targetUrl);
     

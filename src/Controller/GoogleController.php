@@ -21,7 +21,7 @@ class GoogleController extends AbstractController
         // Rédirection vers l'authentification Google
         return $clientRegistry
             ->getClient('google') // key créée in config/packages/knpu_oauth2_client.yaml
-            ->redirect('email');
+            ->redirect(['profile', 'email'], []); // les scopes demandés
     }
 
     /**
