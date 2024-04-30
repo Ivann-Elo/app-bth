@@ -17,4 +17,14 @@ class MainController extends AbstractController
             'titreSideBar' => 'Nouveau client'
         ]);
     }
+
+    #[Route('/calendrier', name: 'calendrier')]
+    public function calendrier(): Response
+    {
+        return $this->render('google/index.html.twig', [
+            'controller_name' => 'MainController',
+            'titrePage' => 'Calendrier',
+            'titreSideBar' => 'Calendrier'
+        ]);
+    }
 }

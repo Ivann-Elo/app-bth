@@ -6,6 +6,9 @@
             <div>
                 {% if (titreSideBar == 'Nouveau client') %}
                     {% include "partials/form/clientForm.html.twig" %}
+                    <div>
+                        <iframe src="https://calendar.google.com/calendar/embed?src=ivann-elore%40hotmail.fr&ctz=Europe%2FParis" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                    </div>
                 {% else %} 
                     {% include "partials/sideBar/infoClient.html.twig" %}
                 {% endif %}    
