@@ -4,15 +4,15 @@
 <div class="position-fixed" style="width:100vw">
     <div class="row text-white bg-white p-3 justify-content-end">
         <div class="d-none d-sm-block col-6 text-center">
-            <span id="date_time" >Date du jour</span>
+            <span id="date_time" >{{ date }}</span>
         </div>
         <div class="col-sm-6 col-md-3 text-end dropdown" id="profileConnect">
             <span class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-user pe-2 "></i>
-            <span class="roboto-regular" >Dauris Benth</span>
+            <span class="roboto-regular" >{{ email }}</span>
             </span>
             <ul class="dropdown-menu">
-            <li><a class="dropdown-item roboto-regular" href="#">Se deconnecter</a></li>
+            <li><a class="dropdown-item roboto-regular" href="{{ path('app_logout') }}">Se deconnecter</a></li>
             </ul>
         </div>
     </div>
