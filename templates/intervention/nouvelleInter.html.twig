@@ -9,7 +9,7 @@
             <nav aria-label="breadcrumb" class="navigation">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="/">Tableau de Bord</a></li>
-                  <li class="breadcrumb-item"><a href="/client">Client</a></li>
+                  <li class="breadcrumb-item"><a href="javascript:history.back()">Client</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Nouvelle intervention</li>
                 </ol>
             </nav>
@@ -26,7 +26,7 @@
                 <div class="row d-flex justify-content-between mb-3">
                   <div class="col-6">
                     <span class="i_inter roboto-medium">Adresse d'intervention</span><br>
-                    <span>12 rue des Lilas<br>14460 Colombelles</span><br>
+                    <span>{{client.rueClient}}<br>{{client.zipClient}}{{client.villeClient}}</span><br>
                     <input type="button" value="Nouvelle adresse" class="btn btn-secondary mt-2">
                   </div>
                   <div class="col-6">

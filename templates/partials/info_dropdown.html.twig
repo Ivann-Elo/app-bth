@@ -3,11 +3,11 @@
     <div class="row ">
         <div class="col-6 text-center">
             <span><strong>Nom</strong></span>
-            <span>Dupont</span>
+            <span>{{client.nom}}</span>
         </div>
         <div class="col-6 text-center">
             <span><strong>Prénom</strong></span>
-            <span>Marc</span>
+            <span>{{client.prenom}}</span>
         </div>
     </div>
     <div id='more-info'>
@@ -21,11 +21,11 @@
     <div class="row">
         <div class="col-6 text-center">
             <span><strong>Nom</strong></span>
-            <span>Dupont</span>
+            <span>{{client.nom}}</span>
         </div>
         <div class="col-6 text-center">
             <span><strong>Prénom</strong></span>
-            <span>Marc</span>
+            <span>{{client.prenom}}</span>
         </div>
     </div>
     <!-- Coordonnées --> 
@@ -34,18 +34,18 @@
         <div class="col-5">
             <div>
                 <span>Téléphone</span><br>
-                <span>06 12 12 15 48</span><i class="fa-solid fa-pen"></i>
+                <span>{{client.telephone}}</span><i class="fa-solid fa-pen"></i>
             </div>
             <div>
                 <span>Email</span><br>
-                <span>contact@mail.fr</span><i class="fa-solid fa-pen"></i>
+                <span>{{client.mail}}</span><i class="fa-solid fa-pen"></i>
             </div>
         </div>
         <div class="col-5">
             <div>
                 <span>Adresse</span><br>
-                <span>12 rue des lilas</span><br>
-                <span>14750 colombelles</span><i class="fa-solid fa-pen"></i>
+                <span>{{client.rueClient}}</span><br>
+                <span>{{client.zipClient}}{{client.villeClient}}</span><i class="fa-solid fa-pen"></i>
             </div>
         </div>
     </div>

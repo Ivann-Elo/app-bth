@@ -1,11 +1,11 @@
 <div class="row mt-4 mb-2">
     <div class="col-6">
         <span class="roboto-bold">Nom</span>
-        <span>Dupont</span>
+        <span>{{client.nom}}</span>
     </div>
     <div class="col-6">
         <span class="roboto-bold">Prénom</span>
-        <span>Marc</span>
+        <span>{{client.prenom}}</span>
     </div>
 </div>
 <div class="text-white infoClient py-4 col-12 px-3 rounded-2">
@@ -16,11 +16,11 @@
     <div class="row">
         <div class="text-start col-6">
             <span class="roboto-bold">Télephone</span><br>
-            <a href="tel:+33771017271" class="text-white text-decoration-none ">06 12 34 56 78</a>
+            <a href="tel:+33771017271" class="text-white text-decoration-none ">{{client.telephone}}</a>
         </div>
         <div class="text-start col-6">
             <span class="d-block roboto-bold">Email</span>
-            <a href="mailto:contact@email.fr" class="text-white text-decoration-none ">contact@email.fr</a>
+            <a href="mailto:contact@email.fr" class="text-white text-decoration-none ">{{client.mail}}</a>
         </div>  
     </div>
     <hr class="border">
@@ -28,8 +28,8 @@
         <span class="d-block roboto-bold">Adresse</span>
         <a href="geo:12+rue+des+Lilas+14460+Colombelles" class="text-white text-decoration-none ">
             <address>
-            12 rue des Lilas<br>
-            14150 Colombelles
+            {{client.rueClient}}<br>
+            {{client.zipClient}} {{client.villeClient}}<br>
             </address>
         </a>
     </div>
