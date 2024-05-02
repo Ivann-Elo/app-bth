@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Repository\ClientRepository;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,16 +15,18 @@ class MainController extends AbstractController
     public function index(ClientRepository $ClientRepository, InterventionRepository $interventionRepository): Response
     {   
         if ($this->getUser()) { 
-                $Clients = $ClientRepository->findAll();
+                $clients = $ClientRepository->findAll();
+                #$client = $ClientRepository->findOneBy(['id' => 12]); // test / debug
+                #dd($clients[1]->getVilleClient());
+
                 $Interventions = $ClientRepository->findAll();
-                dd($Clients[8]);
                 return $this->render('main/index.html.twig', [
                     'controller_name' => 'MainController',
                     'titrePage' => 'Tableau de bord',
                     'titreSideBar' => 'Nouveau client',
                     'email' => $this->getUser()->getEmail(),
                     'date' => (new \DateTime())->format('d-m-Y'),
-                    'Client' => $Clients,
+                    'Clients' => $clients,
                     'Interventions' => $Interventions,
                 ]);
 

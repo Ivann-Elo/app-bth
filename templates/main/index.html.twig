@@ -18,17 +18,33 @@
                     <div>
                         <!-- Recherche Filtre tableau-->
                     </div> 
-                    <div class="overflow-auto" style="max-height: 40vh">
+                    <div class="overflow-auto" style="max-height: 50vh">
                         <!-- Mon tableau -->
-                        <a href="/client" class="text-decoration-none text-black ">
+                        {% for client in Clients %}
+                        {% if client.nom != "Null" and client.nom != "null" %} 
+                            {% set valuesNom = client.nom %}
+                        {% else %}
+                                {% set valuesNom = "_" %}
+                        {% endif %}    
+                        {% if client.prenom != "Null" and client.prenom != "null" %} 
+                            {% set valuesPrenom = client.prenom %}
+                        {% else %}
+                                {% set valuesPrenom = "_" %}
+                        {% endif %}    
+                          
+                        <a href="{{ path('app_client', {'id': client.id}) }}" class="text-decoration-none text-black ">
                             <div class="lign_inter border border-solid rounded-2 p-2 my-2">
                                 <div class="d-flex justify-content-between">
-                                    <span>Dupont</span>
-                                    <span>Marc</span>
-                                    <span>Colombelle</span>
+                                    {% if valuesPrenom == "_" and valuesNom == "_" %}
+                                         <span><strong class='me-1'>Entreprise</strong>{{client.ent}}</span>
+                                    {% else %}
+                                    <span><strong class='me-1'>{{client.civilite}}</strong><strong class='me-1'>{{valuesNom}}</strong>{{valuesPrenom}}</span>
+                                    {% endif %}
+                                    <span class="d-none d-md-block ">{{client.villeClient}}</span>
                                 </div>
                             </div>
                         </a>
+                        {% endfor %}
                         <!-- Fin de Mon tableau-->
                     </div>
                 </div>
