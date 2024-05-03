@@ -14,11 +14,11 @@ class Devi
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $nom_fichier = null;
+    private ?string $nomFichier = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Intervention $id_inter = null;
+    private ?Intervention $idInter = null;
 
     public function getId(): ?int
     {
@@ -34,24 +34,24 @@ class Devi
 
     public function getNomFichier(): ?string
     {
-        return $this->nom_fichier;
+        return $this->nomFichier;
     }
 
-    public function setNomFichier(string $nom_fichier): static
+    public function setNomFichier(string $nomFichier): static
     {
-        $this->nom_fichier = $nom_fichier;
+        $this->nomFichier = $nomFichier;
 
         return $this;
     }
 
     public function getIdInter(): ?Intervention
     {
-        return $this->id_inter;
+        return $this->idInter;
     }
 
-    public function setIdInter(Intervention $id_inter): static
+    public function setIdInter(Intervention $idInter): static
     {
-        $this->id_inter = $id_inter;
+        $this->idInter = $idInter;
 
         return $this;
     }

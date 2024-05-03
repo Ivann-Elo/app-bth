@@ -36,19 +36,19 @@ class Client
     private ?string $telephone = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $rue_client = null;
+    private ?string $rueClient = null;
 
     #[ORM\Column(length: 5)]
-    private ?string $zip_client = null;
+    private ?string $zipClient = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $ville_client = null;
+    private ?string $villeClient = null;
 
 
     /**
      * @var Collection<int, Intervention>
      */
-    #[ORM\OneToMany(targetEntity: Intervention::class, mappedBy: 'id_client')]
+    #[ORM\OneToMany(targetEntity: Intervention::class, mappedBy: 'idClient')]
     private Collection $interventions;
 
     public function __construct()
@@ -142,36 +142,36 @@ class Client
 
     public function getRueClient(): ?string
     {
-        return $this->rue_client;
+        return $this->rueClient;
     }
 
-    public function setRueClient(string $rue_client): static
+    public function setRueClient(string $rueClient): static
     {
-        $this->rue_client = $rue_client;
+        $this->rueClient = $rueClient;
 
         return $this;
     }
 
     public function getZipClient(): ?string
     {
-        return $this->zip_client;
+        return $this->zipClient;
     }
 
-    public function setZipClient(string $zip_client): static
+    public function setZipClient(string $zipClient): static
     {
-        $this->zip_client = $zip_client;
+        $this->zipClient = $zipClient;
 
         return $this;
     }
 
     public function getVilleClient(): ?string
     {
-        return $this->ville_client;
+        return $this->villeClient;
     }
 
-    public function setVilleClient(string $ville_client): static
+    public function setVilleClient(string $villeClient): static
     {
-        $this->ville_client = $ville_client;
+        $this->villeClient = $villeClient;
 
         return $this;
     }
