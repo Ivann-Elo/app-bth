@@ -11,32 +11,31 @@ use Symfony\Component\HttpFoundation\Request;
 class InterventionController extends AbstractController
 {
     #[Route('/intervention/{show}', name: 'app_intervention')]
-    public function index(Request $request): Response
+    public function index(string $show , ClientRepository $Clients): Response
     {   
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-
-        $show = $request->attributes->get('show');
-
+        
+        $client = $Clients->findAll();
         return $this->render('intervention/index.html.twig', [
             'controller_name' => 'InterventionController',
             'titrePage' => 'Fiche d\'intervention',
             'titreSideBar' => 'Informations client',
             'show' => $show,
             'email' => $this->getUser()->getEmail(),
-            'date' => (new \DateTime())->format('d-m-Y')
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'Client' => $client
         ]);
     }  
 
     #[Route('/nouvelleIntervention{id}', name: 'app_nouvIntervention')]
-    public function nouvelleIntervention(ClientRepository $clientRepository, Request $request): Response
+    public function nouvelleIntervention(int $id, ClientRepository $clientRepository, Request $request): Response
     {   
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        
-        $id = $request->attributes->get('id'); 
+
         $client = $clientRepository->findOneBy(['id'=> $id]);
         return $this->render('intervention/nouvelleInter.html.twig', [
             'controller_name' => 'InterventionController',

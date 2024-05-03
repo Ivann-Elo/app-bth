@@ -37,7 +37,6 @@ class GoogleController extends AbstractController
         // (read below)
 
         $client = $clientRegistry->getClient('google');
-        #dd($client);
 
         try {
             // the exact class depends on which provider you're using
