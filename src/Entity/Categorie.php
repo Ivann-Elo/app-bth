@@ -16,15 +16,15 @@ class Categorie
     private ?int $id = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $nom_cat = null;
+    private ?string $nomCat = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $created_by = null;
+    private ?user $createdBy = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Intervention $id_inter = null;
+    private ?Intervention $idInter = null;
 
     public function getId(): ?int
     {
@@ -40,36 +40,36 @@ class Categorie
 
     public function getNomCat(): ?string
     {
-        return $this->nom_cat;
+        return $this->nomCat;
     }
 
-    public function setNomCat(string $nom_cat): static
+    public function setNomCat(string $nomCat): static
     {
-        $this->nom_cat = $nom_cat;
+        $this->nomCat = $nomCat;
 
         return $this;
     }
 
     public function getCreatedBy(): ?user
     {
-        return $this->created_by;
+        return $this->createdBy;
     }
 
-    public function setCreatedBy(?user $created_by): static
+    public function setCreatedBy(?user $createdBy): static
     {
-        $this->created_by = $created_by;
+        $this->createdBy = $createdBy;
 
         return $this;
     }
 
     public function getIdInter(): ?Intervention
     {
-        return $this->id_inter;
+        return $this->idInter;
     }
 
-    public function setIdInter(?Intervention $id_inter): static
+    public function setIdInter(?Intervention $idInter): static
     {
-        $this->id_inter = $id_inter;
+        $this->idInter = $idInter;
 
         return $this;
     }

@@ -21,34 +21,22 @@
          <!-- Début Block avec scroll -->
          <div class="overflow-auto" style="max-height: 40vh";>
             <!-- Début de ma ligne -->
-            <a href="{{ path('app_intervention', {'show': 'photos'}) }}" class="text-decoration-none text-black ">
-                <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
-                    <div class="d-flex justify-content-between  border-bottom py-1 ">
-                        <span>Dupont</span>
-                        <span>Marc</span>
-                        <span>02-04-2024</span>
-                        <span>02-04-2024</span>
+            {% for intervention in interventions %}
+                <a href="{{ path('app_intervention', {'show': 'photos', 'id': intervention.id}) }}" class="text-decoration-none text-black ">
+                    <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
+                        <div class="d-flex justify-content-between  border-bottom py-1 ">
+                            <span>{{ intervention.idClient.nom }}</span>
+                            <span>{{ intervention.idClient.prenom }}</span>
+                            <span>{{ intervention.dateDebut|date('Y-m-d') }}</span>
+                            <span>{{ intervention.dateFin|date('Y-m-d') }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-1">
+                            <span class="text-center" >{{ intervention.description }}</span>
+                            <span class="text-center" >{{ intervention.villeInter }}</span>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-between py-1">
-                        <span class="text-center" >Création de la salle de bain</span>
-                        <span class="text-center" >Colombelles</span>
-                    </div>
-                </div>
-            </a>
-            <!-- Fin de ma ligne-->
-            <!-- Début de ma ligne -->
-            <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
-                <div class="d-flex justify-content-between  border-bottom py-1 ">
-                    <span>Dupont</span>
-                    <span>Marc</span>
-                    <span>02-04-2024</span>
-                    <span>02-04-2024</span>
-                </div>
-                <div class="d-flex justify-content-between py-1">
-                    <span class="text-center" >Création de la salle de bain</span>
-                    <span class="text-center" >Colombelles</span>
-                </div>
-            </div>
+                </a>
+            {% endfor %}
             <!-- Fin de ma ligne-->
         </div>
          <!-- Fin Block avec scroll -->

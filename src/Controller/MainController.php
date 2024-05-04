@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 class MainController extends AbstractController
 {
     #[Route('/', name: 'main')]
@@ -18,7 +19,7 @@ class MainController extends AbstractController
 
                 // Récupération des clients et des interventions
                 $clients = $ClientRepository->findAll();
-                $Interventions = $InterventionRepository->findAll();
+                $interventions = $InterventionRepository->findAll();
                 
                 // Affichage de la page d'accueil
                 return $this->render('main/index.html.twig', [
@@ -28,7 +29,7 @@ class MainController extends AbstractController
                     'email' => $this->getUser()->getEmail(),
                     'date' => (new \DateTime())->format('d-m-Y'),
                     'Clients' => $clients,
-                    'Interventions' => $Interventions,
+                    'interventions' => $interventions,
                 ]);
         
         // Sinon redirection vers la page d'accueil

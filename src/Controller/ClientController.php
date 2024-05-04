@@ -11,9 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ClientController extends AbstractController
 {
     #[Route('/client{id}', name: 'app_client')]
-    public function index(ClientRepository $clientRepository, Request $request): Response
+    public function index(int $id, ClientRepository $clientRepository, Request $request): Response
     {      
-        $id = $request->attributes->get('id'); 
         $client = $clientRepository->findOneBy(['id'=> $id ]);
 
         return $this->render('client/index.html.twig', [

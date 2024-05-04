@@ -18,16 +18,16 @@ class Intervention
 
     #[ORM\ManyToOne(inversedBy: 'interventions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Client $id_client = null;
+    private ?Client $idClient = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $rue_inter = null;
+    private ?string $rueInter = null;
 
     #[ORM\Column(length: 5)]
-    private ?string $zip_inter = null;
+    private ?string $zipInter = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $ville_inter = null;
+    private ?string $villeInter = null;
 
     #[ORM\Column(length: 100)]
     private ?string $description = null;
@@ -36,21 +36,16 @@ class Intervention
     private ?string $note = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $date_creation;
+    private ?\DateTimeImmutable $dateCreation;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_debut = null;
+    private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_fin = null;
+    private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column(length: 10)]
     private ?string $statut = null;
-
-    public function __construct()
-    {
-        $this->date_creation = new \DateTime(); // Initialise avec la date actuelle
-    }
 
     public function getId(): ?int
     {
@@ -66,48 +61,48 @@ class Intervention
 
     public function getIdClient(): ?Client
     {
-        return $this->id_client;
+        return $this->idClient;
     }
 
-    public function setIdClient(?Client $id_client): static
+    public function setIdClient(?Client $idClient): static
     {
-        $this->id_client = $id_client;
+        $this->idClient = $idClient;
 
         return $this;
     }
 
     public function getRueInter(): ?string
     {
-        return $this->rue_inter;
+        return $this->rueInter;
     }
 
-    public function setRueInter(string $rue_inter): static
+    public function setRueInter(string $rueInter): static
     {
-        $this->rue_inter = $rue_inter;
+        $this->rueInter = $rueInter;
 
         return $this;
     }
 
     public function getZipInter(): ?string
     {
-        return $this->zip_inter;
+        return $this->zipInter;
     }
 
-    public function setZipInter(string $zip_inter): static
+    public function setZipInter(string $zipInter): static
     {
-        $this->zip_inter = $zip_inter;
+        $this->zipInter = $zipInter;
 
         return $this;
     }
 
     public function getVilleInter(): ?string
     {
-        return $this->ville_inter;
+        return $this->villeInter;
     }
 
-    public function setVilleInter(string $ville_inter): static
+    public function setVilleInter(string $villeInter): static
     {
-        $this->ville_inter = $ville_inter;
+        $this->villeInter = $villeInter;
 
         return $this;
     }
@@ -138,12 +133,12 @@ class Intervention
 
     public function getDateCreation(): ?\DateTimeImmutable
     {
-        return $this->date_creation;
+        return $this->dateCreation;
     }
 
-    public function setDateCreation(\DateTimeImmutable $date_creation): static
+    public function setDateCreation(\DateTimeImmutable $dateCreation): static
     {
-        $this->date_creation = $date_creation;
+        $this->dateCreation = $dateCreation;
          
 
         return $this;
@@ -151,24 +146,24 @@ class Intervention
 
     public function getDateDebut(): ?\DateTimeInterface
     {
-        return $this->date_debut;
+        return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $date_debut): static
+    public function setDateDebut(\DateTimeInterface $dateDebut): static
     {
-        $this->date_debut = $date_debut;
+        $this->dateDebut = $dateDebut;
 
         return $this;
     }
 
     public function getDateFin(): ?\DateTimeInterface
     {
-        return $this->date_fin;
+        return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeInterface $date_fin): static
+    public function setDateFin(\DateTimeInterface $dateFin): static
     {
-        $this->date_fin = $date_fin;
+        $this->dateFin = $dateFin;
 
         return $this;
     }
