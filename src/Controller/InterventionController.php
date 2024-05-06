@@ -17,15 +17,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InterventionController extends AbstractController
 {
-    #[Route('/intervention/{show}', name: 'app_intervention')]
-    public function index(string $show , ClientRepository $clients, InterventionRepository $intervention): Response
+    #[Route('/intervention/{show}/{idInter}', name: 'app_intervention')]
+    public function index(string $idInter, string $show , ClientRepository $clients, InterventionRepository $interventionRepository): Response
     {   
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        $id = $_GET['id'];
-        $client = $clients->findOneBy(['id'=> $id]);
-        $intervention = $intervention->findBy(['id'=> $id]);
+        
+        $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
+        $idClient = $intervention->getIdClient();
+        $client = $clients->findOneBy(['id'=> $idClient]);
 
         return $this->render('intervention/index.html.twig', [
             'controller_name' => 'InterventionController',
@@ -81,7 +82,7 @@ class InterventionController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('app_intervention', [
                 'show' => 'photos',
-                'id' => $intervention->getId()]);
+                'idInter' => $intervention->getId()]);
         }
 
         //appel de la page provisoire

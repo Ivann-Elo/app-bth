@@ -3,8 +3,8 @@
     <div class="col-3"></div>
     <nav class="d-flex justify-content-center col-6">
       <ul class="list-unstyled d-flex">
-          <li><a href="{{ path('app_intervention', {'show':'photos'})}}" class="text-black text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Photos</a></li>
-          <li><a href="{{ path('app_intervention', {'show':'taches'})}}" class="text-white text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Tâches</a></li>
+          <li><a href="{{ path('app_intervention', {'show':'photos','idInter': intervention.id})}}" class="text-black text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Photos</a></li>
+          <li><a href="{{ path('app_intervention', {'show':'taches','idInter': intervention.id})}}" class="text-white text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Tâches</a></li>
       </ul>
     </nav>
   </div>
