@@ -35,11 +35,11 @@ class MainController extends AbstractController
         
         // Sinon redirection vers la page d'accueil
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_login',['list' => 'Encours']);
         }
     }   
     
-    #[Route('/{list}', name: 'interList')]
+    #[Route('/{{list}}', name: 'interList')]
     public function afficheSelectInter(string $list, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository): Response
     {    
        

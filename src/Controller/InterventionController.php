@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
+use DateTimeImmutable;
 use App\Entity\Intervention;
+use Doctrine\ORM\EntityManager;
 use App\Form\InterventionFormType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\DateImmutableType;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InterventionController extends AbstractController
@@ -40,8 +41,8 @@ class InterventionController extends AbstractController
         ]);
     }  
 
-    #[Route('/nouvelleIntervention{id}', name: 'app_nouvIntervention')]
-    public function nouvelleIntervention(int $id, Request $request,  ClientRepository $clientRepository , EntityManagerInterface $entityManager): Response
+    #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
+    public function nouvelleIntervention( int $idClient, Request $request,  ClientRepository $clientRepository , EntityManagerInterface $entityManager): Response
     {   
         // Si l'utilisateut n'est pas connecté retour à la page login
         if(!$this->getUser()) {
@@ -49,7 +50,7 @@ class InterventionController extends AbstractController
         }
 
         // Récupere le client grace à son id
-        $client = $clientRepository->findOneBy(['id'=> $id]);
+        $client = $clientRepository->findOneBy(['id'=> $idClient]);
         
         // Création du formulaire de contact 
         $intervention = new Intervention();
@@ -77,13 +78,30 @@ class InterventionController extends AbstractController
             $intervention->setStatut($formData->getStatut());
             $intervention->setDateCreation($dateCreation);
 
+            //Confirmer l'ajout de l'intervention
+            $formConfirmation = $this->createFormBuilder($formData)
+            ->add('confirmer', SubmitType::class, ['label' => 'Confirmer'])
+            ->getForm();
+
+            $formConfirmation->handleRequest($request);
+            var_dump($request);
+            die();
+            
+            if($formConfirmation->isSubmitted() && $formConfirmation->isValid()) {
+                $entityManager->persist($intervention);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_intervention', [
+                    'show' => 'photos',
+                    'idInter' => $intervention->getId()]);
+            }
             // Enregistre les données dans la base de données
-            $entityManager->persist($intervention);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_intervention', [
-                'show' => 'photos',
-                'idInter' => $intervention->getId()]);
-        }
+            // $entityManager->persist($intervention);
+            // $entityManager->flush();
+
+            // return $this->redirectToRoute('app_intervention', [
+            //     'show' => 'photos',
+            //     'idInter' => $intervention->getId()]);
+        } 
 
         //appel de la page provisoire
         return $this->render('/intervention/nouvelleInter.html.twig', [
@@ -96,5 +114,6 @@ class InterventionController extends AbstractController
             'formInter' => $ajoutTacheForm->createView()
              ]);
         }
+    
     
 }
