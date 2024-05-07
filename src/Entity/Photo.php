@@ -26,10 +26,6 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Intervention $idInter = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -50,10 +46,6 @@ class Photo
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
     }
 
     public function setImage(EmbeddedFile $image): void

@@ -104,6 +104,9 @@ class InterventionController extends AbstractController
     #[Route('confirmeInter/{idClient}/{dateDebut}/{dateFin}/{description}/{note}/{statut}', name: 'app_confirmeInter')]
     public function ajoutIntervention(string $dateDebut, string $dateFin, string $description, string $statut, string $note, int $idClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response{
         
+         if(!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        } 
         $client = $clientRepository->findOneBy(['id'=> $idClient]);
 
         $intervention = new Intervention();
