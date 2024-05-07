@@ -24,13 +24,13 @@
                {% include 'partials/info_client.html.twig' %} 
             </div>
             <!-- FIN section infos -->
-            <a href="{{ path('app_nouvIntervention', {'id': client.id}) }}">
+            <a href="{{ path('app_nouvIntervention', {'idClient': client.id}) }}">
                 <div class="nouvelleIntervention text-center my-3 py-2 rounded-2">
                    <i class="fa-solid fa-plus"></i><br>
                     Nouvelle intervention
                 </div>
             </a>    
-             {% include 'partials/liste_inter.html.twig' %}
+             {% include 'partials/inter_client.html.twig' %}
 
         </div>
     </div>            

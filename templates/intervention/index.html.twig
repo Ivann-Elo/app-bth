@@ -21,32 +21,32 @@
         </ol>
     </nav>
       <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
-      <span class="ms-2">Détail de l'intervention</span><span class="ms-2 roboto-bold">N°00</span>
+      <span class="ms-2">Détail de l'intervention</span><span class="ms-2 roboto-bold">N°{{intervention.id}} </span>
       <div class="bg-white p-3 rounded-1 mt-2 mb-3">
         <div class="row d-flex justify-content-between mb-3">
-          {{ dump(intervention)}}
+  
           <div class="col-4 ">
             <span class="i_inter roboto-medium">Statut</span><br>
-            <span>En cours</span>
+            <span>{{intervention.statut}}</span>
           </div>
           <div class="col-4 text-center">
             <span class="i_inter roboto-medium">Date de début</span><br>
-            <span>02-04-2024</span>
+            <span>{{intervention.dateDebut|date('Y-m-d')}}</span>
           </div>
           <div class="col-4 text-end">
             <span class="i_inter roboto-medium">Date de Fin</span><br>
-            <span>04-04-2024</span>
+            <span>{{intervention.dateFin|date('Y-m-d')}}</span>
           </div>
         </div>
         <div class="row">
           <div class="col-md-5">
             <div class="mb-3">
               <span class="i_inter roboto-medium">Description</span><br>
-              <span>Remplacer la salle de bain</span>
+              <span>{{intervention.Description}}</span>
             </div>
             <div>
               <span class="i_inter roboto-medium">Note intervention</span><br>
-              <span>Une note sur une intervention</span>
+              <span>{{intervention.note}}</span>
             </div>
           </div>
           <div class="col-md-7">
