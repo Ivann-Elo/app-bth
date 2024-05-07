@@ -106,7 +106,7 @@ class InterventionController extends AbstractController
         //appel de la page provisoire
         return $this->render('/intervention/nouvelleInter.html.twig', [
             'controller_name' => 'InterventionController',
-            'titrePage' => 'Nouvelle intervention',
+            'titrePage' => 'Création d\'une nouvelle intervention',
             'titreSideBar' => 'Informations client',
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('d-m-Y'),
