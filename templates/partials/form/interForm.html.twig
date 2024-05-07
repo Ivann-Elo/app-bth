@@ -3,37 +3,49 @@
     <!-- Debut adresse intervention -->
     <div class="col-6">
     <span class="i_inter roboto-medium">Adresse d'intervention</span><br>
-    <div>
-        <select name="choixAdresse" id="choixAdresse">
-        <option value="adresseClient">Adresse du client</option>
-        <option value="autreClient">Autre adresse</option>
-        </select>
-    </div>
+    <form action="" method="GET">
+
+        <div>
+            <select name="choixAdresse" id="choixAdresse">
+                <option value="adresseClient">Adresse du client</option>
+                <option value="autreClient">Autre adresse</option>
+            </select>
+        </div>
     </div>
     <!-- Fin adresse intervention -->
     <div class="col-6">
-    <div class="row">
-        <div class="col-sm-6 text-center">
-            {{ form_row(formInter.dateDebut) }}
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <label for="dateDebut">Date de début</label>
+                <input type="date" class="date form-control" id="dateDebut" name="dateDebut">
+            </div>
+            <div class="col-sm-6 text-center">
+                <label for="dateFin">Date de fin estimée</label>
+                <input type="date" class="date form-control" id="dateFin" name="dateFin">
+            </div>  
         </div>
-        <div class="col-sm-6 text-center">
-            {{ form_row(formInter.dateFin) }}
-        </div>  
-    </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-5">
         <div class="mb-3">
-            {{ form_row(formInter.description) }}
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" name="description">
         </div>
         <div class="mb-3">
-            {{ form_row(formInter.note) }}
+            <label for="note">Note</label>
+            <input type="text" class="form-control" id="note" name="note">
         </div>
         <div class="mb-3">
-            {{ form_row(formInter.statut) }}
+            <label for="statut">Statut</label>
+            <select name="statut" id="statut" class="'form-select ">
+                <option value="enCours">En cours</option>
+                <option value="termine">Terminé</option>
+                <option value="annule">Annulé</option>
+            </select>
         </div>
         <button type="submit">valider</button>
     </div>
-
+    
 </div>
+</form>

@@ -21,6 +21,7 @@ class InterventionController extends AbstractController
     #[Route('/intervention/{show}/{idInter}', name: 'app_intervention')]
     public function index(string $idInter, string $show , ClientRepository $clients, InterventionRepository $interventionRepository): Response
     {   
+
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
@@ -47,73 +48,83 @@ class InterventionController extends AbstractController
         // Si l'utilisateut n'est pas connecté retour à la page login
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
-        }
+        } 
+
+        //Les vairables necessaires pour l'affichage de la page
+        $vue = "partials/form/interForm.html.twig";
+        $titrePage = "Création d'une nouvelle intervention";
 
         // Récupere le client grace à son id
         $client = $clientRepository->findOneBy(['id'=> $idClient]);
         
-        // Création du formulaire de contact 
-        $intervention = new Intervention();
-        $ajoutTacheForm = $this->createForm(InterventionFormType::class, $intervention);
-        $ajoutTacheForm->handleRequest($request); 
-        
-        // Si le formulaire est soumis et valide
-        if($ajoutTacheForm->isSubmitted() && $ajoutTacheForm->isValid()) {
+        // Création du formulaire de contact
+        if( isset($_GET['dateFin'])){
+            $vue = "partials/confirmeInter.html.twig";
+            $titrePage = "Confirmation de l'intervention"; 
+            $choixAdresse = $_GET['choixAdresse'];
+            $dateDebut = $_GET['dateDebut'];
+            $dateFin = $_GET['dateFin'];
+            $description = $_GET['description'];
+            $note = $_GET['note'];
+            $statut = $_GET['statut'];
 
-            // date de création de l'intervention
-            $dateCreation = new DateTimeImmutable();
+            return $this->render('/intervention/nouvelleInter.html.twig', [
+                'controller_name' => 'InterventionController',
+                'titrePage' => $titrePage,
+                'vue' => $vue,
+                'titreSideBar' => 'Informations client',
+                'email' => $this->getUser()->getEmail(),
+                'date' => (new \DateTime())->format('d-m-Y'),
+                'client' => $client,
+                'choixAdresse' => $choixAdresse,
+                'dateDebut' => $dateDebut,
+                'dateFin' => $dateFin,
+                'description' => $description,
+                'note' => $note,
+                'statut' => $statut
 
-            // Récupére les données du formulaire
-            $formData = $ajoutTacheForm->getData();
-
-            // Prépare les données pour les enregistrer dans la base de données
-            $intervention->setIdClient($client);
-            $intervention->setRueInter($client->getRueClient());
-            $intervention->setZipInter($client->getZipClient());
-            $intervention->setVilleInter($client->getVilleClient());
-            $intervention->setDescription($formData->getDescription());
-            $intervention->setNote($formData->getNote());
-            $intervention->setDateDebut($formData->getDateDebut());
-            $intervention->setDateFin($formData->getDateFin());
-            $intervention->setStatut($formData->getStatut());
-            $intervention->setDateCreation($dateCreation);
-
-            //Confirmer l'ajout de l'intervention
-            $formConfirmation = $this->createFormBuilder($formData)
-            ->add('confirmer', SubmitType::class, ['label' => 'Confirmer'])
-            ->getForm();
-
-            $formConfirmation->handleRequest($request);
-            var_dump($request);
-            die();
-            
-            if($formConfirmation->isSubmitted() && $formConfirmation->isValid()) {
-                $entityManager->persist($intervention);
-                $entityManager->flush();
-                return $this->redirectToRoute('app_intervention', [
-                    'show' => 'photos',
-                    'idInter' => $intervention->getId()]);
+                 ]);
+            } 
+            else {
+            //appel de la page provisoire
+            return $this->render('/intervention/nouvelleInter.html.twig', [
+                'controller_name' => 'InterventionController',
+                'titrePage' => $titrePage,
+                'vue' => $vue,
+                'titreSideBar' => 'Informations client',
+                'email' => $this->getUser()->getEmail(),
+                'date' => (new \DateTime())->format('d-m-Y'),
+                'client' => $client,
+                
+                ]);
             }
-            // Enregistre les données dans la base de données
-            // $entityManager->persist($intervention);
-            // $entityManager->flush();
+        
+    }
 
-            // return $this->redirectToRoute('app_intervention', [
-            //     'show' => 'photos',
-            //     'idInter' => $intervention->getId()]);
-        } 
+    #[Route('confirmeInter/{idClient}/{dateDebut}/{dateFin}/{description}/{note}/{statut}', name: 'app_confirmeInter')]
+    public function ajoutIntervention(string $dateDebut, string $dateFin, string $description, string $statut, string $note, int $idClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response{
+        
+        $client = $clientRepository->findOneBy(['id'=> $idClient]);
 
-        //appel de la page provisoire
-        return $this->render('/intervention/nouvelleInter.html.twig', [
-            'controller_name' => 'InterventionController',
-            'titrePage' => 'Création d\'une nouvelle intervention',
-            'titreSideBar' => 'Informations client',
-            'email' => $this->getUser()->getEmail(),
-            'date' => (new \DateTime())->format('d-m-Y'),
-            'client' => $client,
-            'formInter' => $ajoutTacheForm->createView()
-             ]);
-        }
-    
-    
+        $intervention = new Intervention();
+        $intervention->setIdClient($client);
+        $intervention->setDateCreation(new DateTimeImmutable());
+        $intervention->setDateDebut(new DateTimeImmutable($dateDebut));
+        $intervention->setDateFin(new DateTimeImmutable($dateFin));
+        $intervention->setStatut($statut);
+        $intervention->setDescription($description);
+        $intervention->setNote($note);
+        $intervention->setRueInter($client->getRueClient());
+        $intervention->setVilleInter($client->getVilleClient());
+        $intervention->setZipInter($client->getZipClient());
+
+
+        $entityManager->persist($intervention);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_intervention', [
+            'show' => 'photos',
+            'idInter' => $intervention->getId()]);
+    } 
+             
 }
