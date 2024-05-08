@@ -21,11 +21,11 @@
             <!-- FIN section infos -->
             
             <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
-            <span class="ms-2">Créer une nouvelle intervention</span>
+            <span class="ms-2">{{ titrePage }}</span>
             <div class="bg-white p-3 rounded-1 mt-2 mb-3">
-              {{ form_start(formInter) }}
-              {% include "partials/form/interForm.html.twig" %}
-              {{ form_end(formInter) }}
+
+              {% include { vue } %}
+
             </div>
         </div>
     </div>

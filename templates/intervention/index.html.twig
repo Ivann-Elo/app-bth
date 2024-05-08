@@ -55,13 +55,33 @@
               <div class="col-6 d-flex flex-column">
                 <strong>devis</strong>
                 <div class="m-1 p-3 rounded-1 document_zone">
-                  <a href="#">Télécharger</a>
+                  <!-- Début modal -->
+                  <input type="File"
+                      <!-- Modal -->
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un devis</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                              <input type="File"> 
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                              <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  <!-- Début modal -->
                 </div>
               </div>
               <div class="col-6 d-flex flex-column">
                 <strong>factures</strong>
                 <div class="m-1 p-3 rounded-1 document_zone">
-                  <a href="#">Télécharger</a>
+                  <input type="File">
                 </div>
               </div>
             </div>

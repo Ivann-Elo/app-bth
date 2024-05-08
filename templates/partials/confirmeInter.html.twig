@@ -1,0 +1,50 @@
+
+<div class="row d-flex justify-content-between mb-3">
+    <!-- Debut adresse intervention -->
+    <div class="col-6">
+    <span class="i_inter roboto-medium">Adresse d'intervention</span><br>
+        {{ client.rueClient }}<br>
+        {{ client.villeClient }}<br>
+        {{ client.ZipClient }}<br>
+    </div>
+    <!-- Fin adresse intervention -->
+    <div class="col-6">
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <span>Date de début</span>
+                <span>{{ dateDebut }}</span>
+            </div>
+            <div class="col-sm-6 text-center">
+                <span>Date de fin estimée</span>
+                <span>{{ dateFin }}</span>
+            </div>  
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="mb-3">
+            <span>Description</span><br>
+            <span>{{ description }}</span>
+        </div>
+        <div class="mb-3">
+            <span>Note</span><br>
+            <span>{{ note }}</span>
+        </div>
+        <div class="mb-3">
+           <span>Statut</span><br>
+           <span>{{ statut }}</span>
+        </div>
+        <a href="{{ path('app_confirmeInter' , {
+            'idClient': client.id,
+            'dateDebut': dateDebut,
+            'dateFin': dateFin,
+            'description': description,
+            'note': note,
+            'statut': statut,
+            }) }}" class="btn btn-primary">Valider
+        </a>
+    </div>
+    
+</div>
+</form>
