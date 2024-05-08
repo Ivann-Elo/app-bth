@@ -5,10 +5,10 @@ namespace App\Entity;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
+#[Vich\Uploadable]
 class Photo
 {
     #[ORM\Id]
@@ -16,46 +16,50 @@ class Photo
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Vich\UploadableField(mapping: 'photos', FileNameProperty: 'image.name', size: 'image.size')]
+    #[Vich\UploadableField(mapping: 'photos', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
-    #[ORM\Embedded(class: 'Vich\UploaderBundle\Entity\File')]
-    private ?EmbeddedFile $image = null;
+    #[ORM\column(nullable: true)]
+    private ?string $imageName = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Intervention $idInter = null;
 
+
+    // ID --  Getter and Setter 
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
     public function setId(string $id): static
     {
         $this->id = $id;
-
+        
         return $this;
+    }
+    
+    // File --  Getter and Setter 
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
     }
 
     public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
-
-    public function setImageFile(?File $imageFile = null): void
+    
+    // ImageName --  Getter and Setter
+    public function setImageName(string $imageName): void
     {
-        $this->imageFile = $imageFile;
+        $this->imageName = $imageName;
     }
 
-    public function setImage(EmbeddedFile $image): void
+    public function getImageName(): ?string
     {
-        $this->image = $image;
-    }
-
-    public function getImage(): ?EmbeddedFile
-    {
-        return $this->image;
+        return $this->imageName;
     }
 
     public function getIdInter(): ?Intervention

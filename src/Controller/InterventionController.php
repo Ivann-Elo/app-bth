@@ -4,16 +4,11 @@ namespace App\Controller;
 
 use DateTimeImmutable;
 use App\Entity\Intervention;
-use Doctrine\ORM\EntityManager;
-use App\Form\InterventionFormType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
-use Doctrine\DBAL\Types\DateImmutableType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InterventionController extends AbstractController
@@ -43,7 +38,7 @@ class InterventionController extends AbstractController
     }  
 
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
-    public function nouvelleIntervention( int $idClient, Request $request,  ClientRepository $clientRepository , EntityManagerInterface $entityManager): Response
+    public function nouvelleIntervention( int $idClient,  ClientRepository $clientRepository ): Response
     {   
         // Si l'utilisateut n'est pas connecté retour à la page login
         if(!$this->getUser()) {
