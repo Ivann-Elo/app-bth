@@ -16,7 +16,7 @@ class Facture
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Vich\UploadableField(mapping: 'facture', fileNameProperty: 'factureName')]
+    #[Vich\UploadableField(mapping: 'factures', fileNameProperty: 'factureName')]
     private ?File $factureFile = null;
 
     #[ORM\Column(nullable:false)]

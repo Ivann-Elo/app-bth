@@ -16,6 +16,7 @@ vich_uploader:
            delete_on_remove: true
 
        factures: 
+
            uri_prefix: /media/factures
            upload_destination: '%kernel.project_dir%/public/media/factures'
            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
@@ -25,6 +26,7 @@ vich_uploader:
            delete_on_remove: true
 
        devis: 
+       
            uri_prefix: /media/devis
            upload_destination: '%kernel.project_dir%/public/media/devis'
            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
