@@ -40,7 +40,8 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
             'email' => 'none',
-            'date' => (new \DateTime())->format('d-m-Y')
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'visibility' => 'd-none'
         ]);
     }
 }

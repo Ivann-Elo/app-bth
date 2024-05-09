@@ -25,7 +25,8 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
             'date' => (new \DateTime())->format('d-m-Y'),
-            'email' => 'none'
+            'email' => 'none',
+            'visibility' => 'd-none'
         ]);
     }
 

@@ -66,6 +66,7 @@ class InterventionController extends AbstractController
             'intervention' => $intervention,
             'photoInter' => $photoInter,
             'uploadPhotoForm' => $uploadPhotoForm->createView()
+
         ]);
     }  
 
@@ -108,7 +109,8 @@ class InterventionController extends AbstractController
                 'dateFin' => $dateFin,
                 'description' => $description,
                 'note' => $note,
-                'statut' => $statut
+                'statut' => $statut,
+                'visibility' => 'd-block'
 
                  ]);
             } 
@@ -122,6 +124,7 @@ class InterventionController extends AbstractController
                 'email' => $this->getUser()->getEmail(),
                 'date' => (new \DateTime())->format('d-m-Y'),
                 'client' => $client,
+                'visibility' => 'd-block'
                 
                 ]);
             }
