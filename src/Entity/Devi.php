@@ -70,7 +70,7 @@ class Devi
         return $this->idInter;
     }
 
-    public function setIdInter(Intervention $idInter): static
+    public function setIdInter(?Intervention $idInter): static
     {
         $this->idInter = $idInter;
 

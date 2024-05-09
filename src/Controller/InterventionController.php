@@ -5,8 +5,10 @@ namespace App\Controller;
 use DateTimeImmutable;
 use App\Entity\Intervention;
 use App\Form\UploadPhotoType;
+use App\Form\UploadDeviType;
 use App\Repository\PhotoRepository;
 use App\Repository\ClientRepository;
+use App\Repository\DeviRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +25,7 @@ class InterventionController extends AbstractController
         EntityManagerInterface $entityManager,
         string $idInter, string $show,
         ClientRepository $clients,
+        DeviRepository $deviRepository,
         InterventionRepository $interventionRepository,
         PhotoRepository $photoRepository): Response
     {   
@@ -33,18 +36,31 @@ class InterventionController extends AbstractController
         
         $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
         $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
+        $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
         $idClient = $intervention->getIdClient();
         $client = $clients->findOneBy(['id'=> $idClient]);
 
         $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
+        $uploadDeviForm = $this->createForm(UploadDeviType::class);
 
         $uploadPhotoForm->handleRequest($request);
+        $uploadDeviForm->handleRequest($request);
        
         if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() )
         {
                     $photo = $uploadPhotoForm->getData();
                     $photo->setIdInter($intervention);
                     $entityManager->persist($photo);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
+
+        }
+
+        if($request->isMethod('POST') && $uploadDeviForm->isSubmitted() && $uploadDeviForm->isValid() )
+        {
+                    $devi = $uploadDeviForm->getData();
+                    $devi->setIdInter($intervention);
+                    $entityManager->persist($devi);
                     $entityManager->flush();
                     return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
 
@@ -60,7 +76,9 @@ class InterventionController extends AbstractController
             'client' => $client,
             'intervention' => $intervention,
             'photoInter' => $photoInter,
+            'deviInter' => $deviInter,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
+            'uploadDeviForm' => $uploadDeviForm->createView(),
             'visibility' => 'd-block']);
     }  
    

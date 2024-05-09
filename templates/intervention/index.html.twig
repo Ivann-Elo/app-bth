@@ -55,7 +55,16 @@
               <div class="col-6 d-flex flex-column">
                 <strong>devis</strong>
                 <div class="m-1 p-3 rounded-1 document_zone">
-                  Ajouter un devis
+                  {% if deviInter|length == 0 %}
+                    {{form_errors(uploadDeviForm)}}
+                    {{form_start(uploadDeviForm)}}
+                    <button type="submit" class="btn btn-primary">Ajouter un devis</button>
+                    {{form_end(uploadDeviForm)}}
+                  {% else %}  
+                    {% for devi in deviInter %}
+                    <a href="{{ vich_uploader_asset(devi, 'deviFile') }}" target="_blank" class="text-decoration-none">Voir le devis</a>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
               <div class="col-6 d-flex flex-column">
