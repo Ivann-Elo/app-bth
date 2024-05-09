@@ -26,8 +26,8 @@ class InterventionController extends AbstractController
         InterventionRepository $interventionRepository,
         PhotoRepository $photoRepository): Response
     {   
-
-        if(!$this->getUser()) {
+        if(!$this->getUser()) 
+        {
             return $this->redirectToRoute('app_login');
         }
         
@@ -37,22 +37,17 @@ class InterventionController extends AbstractController
         $client = $clients->findOneBy(['id'=> $idClient]);
 
         $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
+
         $uploadPhotoForm->handleRequest($request);
+       
+        if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() )
+        {
+                    $photo = $uploadPhotoForm->getData();
+                    $photo->setIdInter($intervention);
+                    $entityManager->persist($photo);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
 
-        if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() ){
-
-            $photo = $uploadPhotoForm->getData();
-            dump($photo);
-            $photo->setIdInter($intervention);
-
-            try {
-                $entityManager->persist($photo);
-                $entityManager->flush();
-            } catch (FileException $e) {
-                error_log('File upload failed: ' . $e->getMessage());
-                echo 'Cette photo n\'a pas pu être enregistrée. Veuillez réessayer.';
-            }
-         
         }
 
         return $this->render('intervention/index.html.twig', [
@@ -66,11 +61,10 @@ class InterventionController extends AbstractController
             'intervention' => $intervention,
             'photoInter' => $photoInter,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
-            'visibility' => 'd-block'
-
-        ]);
+            'visibility' => 'd-block']);
     }  
-
+   
+    // Ajout d'une nouvelle intervention
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
     public function nouvelleIntervention( int $idClient,  ClientRepository $clientRepository ): Response
     {   
@@ -79,7 +73,7 @@ class InterventionController extends AbstractController
             return $this->redirectToRoute('app_login');
         } 
 
-        //Les vairables necessaires pour l'affichage de la page
+        //Les variables nécessaires pour l'affichage de la page
         $vue = "partials/form/interForm.html.twig";
         $titrePage = "Création d'une nouvelle intervention";
 
@@ -87,7 +81,8 @@ class InterventionController extends AbstractController
         $client = $clientRepository->findOneBy(['id'=> $idClient]);
         
         // Création du formulaire de contact
-        if( isset($_GET['dateFin'])){
+        if( isset($_GET['dateFin']))
+        {
             $vue = "partials/confirmeInter.html.twig";
             $titrePage = "Confirmation de l'intervention"; 
             $choixAdresse = $_GET['choixAdresse'];
@@ -111,31 +106,28 @@ class InterventionController extends AbstractController
                 'description' => $description,
                 'note' => $note,
                 'statut' => $statut,
-                'visibility' => 'd-block'
-
-                 ]);
-            } 
-            else {
-            //appel de la page provisoire
-            return $this->render('/intervention/nouvelleInter.html.twig', [
-                'controller_name' => 'InterventionController',
-                'titrePage' => $titrePage,
-                'vue' => $vue,
-                'titreSideBar' => 'Informations client',
-                'email' => $this->getUser()->getEmail(),
-                'date' => (new \DateTime())->format('d-m-Y'),
-                'client' => $client,
-                'visibility' => 'd-block'
-                
-                ]);
-            }
-        
+                'visibility' => 'd-block']);
+        } 
+        else 
+        {
+        //appel de la page provisoire
+        return $this->render('/intervention/nouvelleInter.html.twig', [
+            'controller_name' => 'InterventionController',
+            'titrePage' => $titrePage,
+            'vue' => $vue,
+            'titreSideBar' => 'Informations client',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'client' => $client,
+            'visibility' => 'd-block']);
+        }
     }
 
     #[Route('confirmeInter/{idClient}/{dateDebut}/{dateFin}/{description}/{note}/{statut}', name: 'app_confirmeInter')]
-    public function ajoutIntervention(string $dateDebut, string $dateFin, string $description, string $statut, string $note, int $idClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response{
-        
-         if(!$this->getUser()) {
+    public function ajoutIntervention(string $dateDebut, string $dateFin, string $description, string $statut, string $note, int $idClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
+    {   
+        if(!$this->getUser()) 
+        {
             return $this->redirectToRoute('app_login');
         } 
         $client = $clientRepository->findOneBy(['id'=> $idClient]);
@@ -152,13 +144,11 @@ class InterventionController extends AbstractController
         $intervention->setVilleInter($client->getVilleClient());
         $intervention->setZipInter($client->getZipClient());
 
-
         $entityManager->persist($intervention);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_intervention', [
             'show' => 'photos',
             'idInter' => $intervention->getId()]);
-    } 
-             
+    }       
 }

@@ -26,7 +26,6 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Intervention $idInter = null;
 
-
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 

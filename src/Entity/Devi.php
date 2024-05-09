@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use App\Repository\DeviRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: DeviRepository::class)]
+#[Vich\Uploadable]
 class Devi
 {
     #[ORM\Id]
@@ -13,12 +16,19 @@ class Devi
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $nomFichier = null;
+    #[Vich\UploadableField(mapping: 'devis', fileNameProperty: 'deviName')]
+    private ?File $deviFile = null;
+
+    #[ORM\Column(nullable:false)]
+    private ?string $deviName = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Intervention $idInter = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
 
     public function getId(): ?int
     {
@@ -32,18 +42,29 @@ class Devi
         return $this;
     }
 
-    public function getNomFichier(): ?string
+    public function setDeviFile(?File $deviFile = null): void
     {
-        return $this->nomFichier;
+        $this->deviFile = $deviFile;
+        if (null !== $deviFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function setNomFichier(string $nomFichier): static
+    public function getDeviFile(): ?File
     {
-        $this->nomFichier = $nomFichier;
-
-        return $this;
+        return $this->deviFile;
     }
 
+    public function setDeviName(string $deviName): void
+    {
+        $this->deviName = $deviName;
+    }
+
+    public function getDeviName(): ?string
+    {
+        return $this->deviName;
+    }
+    
     public function getIdInter(): ?Intervention
     {
         return $this->idInter;
