@@ -4,17 +4,27 @@ namespace App\Controller;
 
 use DateTimeImmutable;
 use App\Entity\Intervention;
+use App\Form\UploadPhotoType;
+use App\Repository\PhotoRepository;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class InterventionController extends AbstractController
 {
     #[Route('/intervention/{show}/{idInter}', name: 'app_intervention')]
-    public function index(string $idInter, string $show , ClientRepository $clients, InterventionRepository $interventionRepository): Response
+    public function index(
+        Request $request ,
+        EntityManagerInterface $entityManager,
+        string $idInter, string $show,
+        ClientRepository $clients,
+        InterventionRepository $interventionRepository,
+        PhotoRepository $photoRepository): Response
     {   
 
         if(!$this->getUser()) {
@@ -22,8 +32,28 @@ class InterventionController extends AbstractController
         }
         
         $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
+        $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
         $idClient = $intervention->getIdClient();
         $client = $clients->findOneBy(['id'=> $idClient]);
+
+        $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
+        $uploadPhotoForm->handleRequest($request);
+
+        if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() ){
+
+            $photo = $uploadPhotoForm->getData();
+            dump($photo);
+            $photo->setIdInter($intervention);
+
+            try {
+                $entityManager->persist($photo);
+                $entityManager->flush();
+            } catch (FileException $e) {
+                error_log('File upload failed: ' . $e->getMessage());
+                echo 'Cette photo n\'a pas pu être enregistrée. Veuillez réessayer.';
+            }
+         
+        }
 
         return $this->render('intervention/index.html.twig', [
             'controller_name' => 'InterventionController',
@@ -34,7 +64,9 @@ class InterventionController extends AbstractController
             'date' => (new \DateTime())->format('d-m-Y'),
             'client' => $client,
             'intervention' => $intervention,
-            'visibility' => 'd-block'
+            'photoInter' => $photoInter,
+            'uploadPhotoForm' => $uploadPhotoForm->createView()
+
         ]);
     }  
 
