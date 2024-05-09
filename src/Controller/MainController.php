@@ -31,6 +31,7 @@ class MainController extends AbstractController
                     'date' => (new \DateTime())->format('d-m-Y'),
                     'Clients' => $clients,
                     'interventions' => $interventionsEncours,
+                    'visibility' => 'd-block'
                 ]);
         
         // Sinon redirection vers la page d'accueil
@@ -78,6 +79,7 @@ class MainController extends AbstractController
                     'date' => (new \DateTime())->format('d-m-Y'),
                     'Clients' => $clients,
                     'interventions' => $interList,
+                    'visibility' => 'd-block'
                 ]);
         
         // Sinon redirection vers la page d'accueil

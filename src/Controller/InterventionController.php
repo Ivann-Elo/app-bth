@@ -33,7 +33,8 @@ class InterventionController extends AbstractController
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('d-m-Y'),
             'client' => $client,
-            'intervention' => $intervention
+            'intervention' => $intervention,
+            'visibility' => 'd-block'
         ]);
     }  
 
@@ -76,7 +77,8 @@ class InterventionController extends AbstractController
                 'dateFin' => $dateFin,
                 'description' => $description,
                 'note' => $note,
-                'statut' => $statut
+                'statut' => $statut,
+                'visibility' => 'd-block'
 
                  ]);
             } 
@@ -90,6 +92,7 @@ class InterventionController extends AbstractController
                 'email' => $this->getUser()->getEmail(),
                 'date' => (new \DateTime())->format('d-m-Y'),
                 'client' => $client,
+                'visibility' => 'd-block'
                 
                 ]);
             }

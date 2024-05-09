@@ -1,7 +1,7 @@
 {% block stylesheet %}  
 <link rel="stylesheet" href="{{ asset('css/header.css') }}">
 {% endblock %}
-<div class="position-fixed" style="width:100vw">
+<div class="position-fixed {{ visibility }}" style="width:100vw">
     <div class="row text-white bg-white p-3 justify-content-end">
         <div class="d-none d-sm-block col-6 text-center">
             <span id="date_time" >{{ date }}</span>
