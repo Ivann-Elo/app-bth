@@ -70,7 +70,16 @@
               <div class="col-6 d-flex flex-column">
                 <strong>factures</strong>
                 <div class="m-1 p-3 rounded-1 document_zone">
-                  Ajouter une facture
+                  {% if factureInter|length == 0 %}
+                    {{form_errors(uploadFactureForm)}}
+                    {{form_start(uploadFactureForm)}}
+                    <button type="submit" class="btn btn-primary">Ajouter un devis</button>
+                    {{form_end(uploadFactureForm)}}
+                  {% else %}  
+                    {% for facture in factureInter %}
+                    <a href="{{ vich_uploader_asset(facture, 'factureFile') }}" target="_blank" class="text-decoration-none">Voir la facture</a>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
             </div>

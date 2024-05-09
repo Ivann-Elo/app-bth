@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use DateTimeImmutable;
 use App\Entity\Intervention;
-use App\Form\UploadPhotoType;
 use App\Form\UploadDeviType;
+use App\Form\UploadPhotoType;
+use App\Form\UploadFactureType;
+use App\Repository\DeviRepository;
 use App\Repository\PhotoRepository;
 use App\Repository\ClientRepository;
-use App\Repository\DeviRepository;
+use App\Repository\FactureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +28,7 @@ class InterventionController extends AbstractController
         string $idInter, string $show,
         ClientRepository $clients,
         DeviRepository $deviRepository,
+        FactureRepository $factureRepository,
         InterventionRepository $interventionRepository,
         PhotoRepository $photoRepository): Response
     {   
@@ -37,14 +40,17 @@ class InterventionController extends AbstractController
         $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
         $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
         $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
+        $factureInter = $factureRepository->findBy(['idInter'=> $idInter]);
         $idClient = $intervention->getIdClient();
         $client = $clients->findOneBy(['id'=> $idClient]);
 
         $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
         $uploadDeviForm = $this->createForm(UploadDeviType::class);
+        $uploadFactureForm = $this->createForm(UploadFactureType::class);
 
         $uploadPhotoForm->handleRequest($request);
         $uploadDeviForm->handleRequest($request);
+        $uploadFactureForm->handleRequest($request);
        
         if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() )
         {
@@ -66,6 +72,16 @@ class InterventionController extends AbstractController
 
         }
 
+        if($request->isMethod('POST') && $uploadFactureForm->isSubmitted() && $uploadFactureForm->isValid() )
+        {
+                    $facture = $uploadFactureForm->getData();
+                    $facture->setIdInter($intervention);
+                    $entityManager->persist($facture);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
+
+        }
+
         return $this->render('intervention/index.html.twig', [
             'controller_name' => 'InterventionController',
             'titrePage' => 'Fiche d\'intervention',
@@ -77,8 +93,10 @@ class InterventionController extends AbstractController
             'intervention' => $intervention,
             'photoInter' => $photoInter,
             'deviInter' => $deviInter,
+            'factureInter' => $factureInter,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
             'uploadDeviForm' => $uploadDeviForm->createView(),
+            'uploadFactureForm' => $uploadFactureForm->createView(),
             'visibility' => 'd-block']);
     }  
    
