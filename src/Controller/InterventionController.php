@@ -4,16 +4,19 @@ namespace App\Controller;
 
 use DateTimeImmutable;
 use App\Entity\Intervention;
+use App\Form\UploadDeviType;
 use App\Form\UploadPhotoType;
+use App\Form\UploadFactureType;
+use App\Repository\DeviRepository;
 use App\Repository\PhotoRepository;
 use App\Repository\ClientRepository;
+use App\Repository\FactureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class InterventionController extends AbstractController
 {
@@ -23,36 +26,59 @@ class InterventionController extends AbstractController
         EntityManagerInterface $entityManager,
         string $idInter, string $show,
         ClientRepository $clients,
+        DeviRepository $deviRepository,
+        FactureRepository $factureRepository,
         InterventionRepository $interventionRepository,
         PhotoRepository $photoRepository): Response
     {   
-
-        if(!$this->getUser()) {
+        if(!$this->getUser()) 
+        {
             return $this->redirectToRoute('app_login');
         }
         
         $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
         $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
+        $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
+        $factureInter = $factureRepository->findBy(['idInter'=> $idInter]);
         $idClient = $intervention->getIdClient();
         $client = $clients->findOneBy(['id'=> $idClient]);
 
         $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
+        $uploadDeviForm = $this->createForm(UploadDeviType::class);
+        $uploadFactureForm = $this->createForm(UploadFactureType::class);
+
         $uploadPhotoForm->handleRequest($request);
+        $uploadDeviForm->handleRequest($request);
+        $uploadFactureForm->handleRequest($request);
+       
+        if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() )
+        {
+                    $photo = $uploadPhotoForm->getData();
+                    $photo->setIdInter($intervention);
+                    $entityManager->persist($photo);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
 
-        if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() ){
+        }
 
-            $photo = $uploadPhotoForm->getData();
-            dump($photo);
-            $photo->setIdInter($intervention);
+        if($request->isMethod('POST') && $uploadDeviForm->isSubmitted() && $uploadDeviForm->isValid() )
+        {
+                    $devi = $uploadDeviForm->getData();
+                    $devi->setIdInter($intervention);
+                    $entityManager->persist($devi);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
 
-            try {
-                $entityManager->persist($photo);
-                $entityManager->flush();
-            } catch (FileException $e) {
-                error_log('File upload failed: ' . $e->getMessage());
-                echo 'Cette photo n\'a pas pu être enregistrée. Veuillez réessayer.';
-            }
-         
+        }
+
+        if($request->isMethod('POST') && $uploadFactureForm->isSubmitted() && $uploadFactureForm->isValid() )
+        {
+                    $facture = $uploadFactureForm->getData();
+                    $facture->setIdInter($intervention);
+                    $entityManager->persist($facture);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
+
         }
 
         return $this->render('intervention/index.html.twig', [
@@ -65,12 +91,15 @@ class InterventionController extends AbstractController
             'client' => $client,
             'intervention' => $intervention,
             'photoInter' => $photoInter,
+            'deviInter' => $deviInter,
+            'factureInter' => $factureInter,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
-            'visibility' => 'd-block'
-
-        ]);
+            'uploadDeviForm' => $uploadDeviForm->createView(),
+            'uploadFactureForm' => $uploadFactureForm->createView(),
+            'visibility' => 'd-block']);
     }  
-
+   
+    // Ajout d'une nouvelle intervention
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
     public function nouvelleIntervention( int $idClient,  ClientRepository $clientRepository ): Response
     {   
@@ -79,7 +108,7 @@ class InterventionController extends AbstractController
             return $this->redirectToRoute('app_login');
         } 
 
-        //Les vairables necessaires pour l'affichage de la page
+        //Les variables nécessaires pour l'affichage de la page
         $vue = "partials/form/interForm.html.twig";
         $titrePage = "Création d'une nouvelle intervention";
 
@@ -87,7 +116,8 @@ class InterventionController extends AbstractController
         $client = $clientRepository->findOneBy(['id'=> $idClient]);
         
         // Création du formulaire de contact
-        if( isset($_GET['dateFin'])){
+        if( isset($_GET['dateFin']))
+        {
             $vue = "partials/confirmeInter.html.twig";
             $titrePage = "Confirmation de l'intervention"; 
             $choixAdresse = $_GET['choixAdresse'];
@@ -111,31 +141,28 @@ class InterventionController extends AbstractController
                 'description' => $description,
                 'note' => $note,
                 'statut' => $statut,
-                'visibility' => 'd-block'
-
-                 ]);
-            } 
-            else {
-            //appel de la page provisoire
-            return $this->render('/intervention/nouvelleInter.html.twig', [
-                'controller_name' => 'InterventionController',
-                'titrePage' => $titrePage,
-                'vue' => $vue,
-                'titreSideBar' => 'Informations client',
-                'email' => $this->getUser()->getEmail(),
-                'date' => (new \DateTime())->format('d-m-Y'),
-                'client' => $client,
-                'visibility' => 'd-block'
-                
-                ]);
-            }
-        
+                'visibility' => 'd-block']);
+        } 
+        else 
+        {
+        //appel de la page provisoire
+        return $this->render('/intervention/nouvelleInter.html.twig', [
+            'controller_name' => 'InterventionController',
+            'titrePage' => $titrePage,
+            'vue' => $vue,
+            'titreSideBar' => 'Informations client',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'client' => $client,
+            'visibility' => 'd-block']);
+        }
     }
 
     #[Route('confirmeInter/{idClient}/{dateDebut}/{dateFin}/{description}/{note}/{statut}', name: 'app_confirmeInter')]
-    public function ajoutIntervention(string $dateDebut, string $dateFin, string $description, string $statut, string $note, int $idClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response{
-        
-         if(!$this->getUser()) {
+    public function ajoutIntervention(string $dateDebut, string $dateFin, string $description, string $statut, string $note, int $idClient, ClientRepository $clientRepository, EntityManagerInterface $entityManager): Response
+    {   
+        if(!$this->getUser()) 
+        {
             return $this->redirectToRoute('app_login');
         } 
         $client = $clientRepository->findOneBy(['id'=> $idClient]);
@@ -152,13 +179,11 @@ class InterventionController extends AbstractController
         $intervention->setVilleInter($client->getVilleClient());
         $intervention->setZipInter($client->getZipClient());
 
-
         $entityManager->persist($intervention);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_intervention', [
             'show' => 'photos',
             'idInter' => $intervention->getId()]);
-    } 
-             
+    }       
 }

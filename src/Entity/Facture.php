@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use App\Repository\FactureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: FactureRepository::class)]
+#[Vich\Uploadable]
 class Facture
 {
     #[ORM\Id]
@@ -13,12 +16,19 @@ class Facture
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $nomFichier = null;
+    #[Vich\UploadableField(mapping: 'factures', fileNameProperty: 'factureName')]
+    private ?File $factureFile = null;
+
+    #[ORM\Column(nullable:false)]
+    private ?string $factureName = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Intervention $idInter = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
 
     public function getId(): ?int
     {
@@ -32,24 +42,35 @@ class Facture
         return $this;
     }
 
-    public function getNomFichier(): ?string
+    public function setFactureFile(?File $factureFile = null): void
     {
-        return $this->nomFichier;
+        $this->factureFile = $factureFile;
+        if (null !== $factureFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function setNomFichier(string $nomFichier): static
+    public function getFactureFile(): ?File
     {
-        $this->nomFichier = $nomFichier;
-
-        return $this;
+        return $this->factureFile;
     }
 
+    public function setFactureName(string $factureName): void
+    {
+        $this->factureName = $factureName;
+    }
+
+    public function getFactureName(): ?string
+    {
+        return $this->factureName;
+    }
+    
     public function getIdInter(): ?Intervention
     {
         return $this->idInter;
     }
 
-    public function setIdInter(Intervention $idInter): static
+    public function setIdInter(?Intervention $idInter): static
     {
         $this->idInter = $idInter;
 
