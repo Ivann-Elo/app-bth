@@ -65,7 +65,8 @@ class InterventionController extends AbstractController
             'client' => $client,
             'intervention' => $intervention,
             'photoInter' => $photoInter,
-            'uploadPhotoForm' => $uploadPhotoForm->createView()
+            'uploadPhotoForm' => $uploadPhotoForm->createView(),
+            'visibility' => 'd-block'
 
         ]);
     }  

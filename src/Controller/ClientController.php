@@ -24,6 +24,7 @@ class ClientController extends AbstractController
             'date' => (new \DateTime())->format('d-m-Y'),
             'client' => $client,
             'interventions' => $interventions,
+            'visibility' => 'd-block'
         ]);
     }
 }
