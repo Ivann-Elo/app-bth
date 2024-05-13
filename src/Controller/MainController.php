@@ -28,7 +28,7 @@ class MainController extends AbstractController
                     'titrePage' => 'Tableau de bord',
                     'titreSideBar' => 'Nouveau client',
                     'email' => $this->getUser()->getEmail(),
-                    'date' => (new \DateTime())->format('d-m-Y'),
+                    'date' => (new \DateTime())->format('l j F Y'),
                     'Clients' => $clients,
                     'interventions' => $interventionsEncours,
                     'visibility' => 'd-block'
@@ -76,7 +76,7 @@ class MainController extends AbstractController
                     'titrePage' => 'Tableau de bord',
                     'titreSideBar' => 'Nouveau client',
                     'email' => $this->getUser()->getEmail(),
-                    'date' => (new \DateTime())->format('d-m-Y'),
+                    'date' => (new \DateTime())->format('l j F Y'),
                     'Clients' => $clients,
                     'interventions' => $interList,
                     'visibility' => 'd-block'

@@ -87,7 +87,7 @@ class InterventionController extends AbstractController
             'titreSideBar' => 'Informations client',
             'show' => $show,
             'email' => $this->getUser()->getEmail(),
-            'date' => (new \DateTime())->format('d-m-Y'),
+            'date' => (new \DateTime())->format('l j F Y'),
             'client' => $client,
             'intervention' => $intervention,
             'photoInter' => $photoInter,
@@ -133,7 +133,7 @@ class InterventionController extends AbstractController
                 'vue' => $vue,
                 'titreSideBar' => 'Informations client',
                 'email' => $this->getUser()->getEmail(),
-                'date' => (new \DateTime())->format('d-m-Y'),
+                'date' => (new \DateTime())->format('l j F Y'),
                 'client' => $client,
                 'choixAdresse' => $choixAdresse,
                 'dateDebut' => $dateDebut,
@@ -152,7 +152,7 @@ class InterventionController extends AbstractController
             'vue' => $vue,
             'titreSideBar' => 'Informations client',
             'email' => $this->getUser()->getEmail(),
-            'date' => (new \DateTime())->format('d-m-Y'),
+            'date' => (new \DateTime())->format('l j F Y'),
             'client' => $client,
             'visibility' => 'd-block']);
         }

@@ -1,14 +1,28 @@
  <div class="col-lg-3 py-3 sidebar position-fixed">
         <div class="bg-white text-center px-2 rounded-2 overflow-auto" style="height:90vh">
+            <div class="row justify-content-around pt-3">
+                <div class="col-2 border-bottom py-2">
+                    <i class="fa-solid fa-house fa-lg"></i>
+                </div>
+                <div class="col-2 border-bottom py-2">
+                    <a data-bs-toggle="modal" data-bs-target="#modalCalendar">
+                        <i class="fa-solid fa-calendar fa-lg"></i>
+                    </a>
+                </div>
+                <div class="col-2 border-bottom py-2">
+                    <i class="fa-solid fa-user-plus fa-lg"></i>
+                </div>
+                <div class="col-2 border-bottom border-success py-2">
+                    <i class="fa-solid fa-magnifying-glass fa-lg" ></i></a>
+                </div>
+                  
+            </div>
             <div class="my-3">
-                <span class="text-center">{{ titreSideBar }}</span>
+                <span class="text-center roboto-medium">{{ titreSideBar }}</span>
             </div>
             <div>
                 {% if (titreSideBar == 'Nouveau client') %}
                     {% include "partials/form/clientForm.html.twig" %}
-                    <div>
-                        <iframe src="https://calendar.google.com/calendar/embed?src=ivann-elore%40hotmail.fr&ctz=Europe%2FParis" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-                    </div>
                 {% else %} 
                     {% include "partials/sideBar/infoClient.html.twig" %}
                 {% endif %}    
