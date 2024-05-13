@@ -185,5 +185,15 @@ class InterventionController extends AbstractController
         return $this->redirectToRoute('app_intervention', [
             'show' => 'photos',
             'idInter' => $intervention->getId()]);
-    }       
+    }  
+    
+    #[Route('/supprimer/{idInter}', name: 'supprimer_inter')]    
+    public function supprimerInter(int $idInter, EntityManagerInterface $EntityManager, InterventionRepository $intervention): Response
+    {   
+        $intervention = $intervention->find($idInter);
+        $EntityManager->remove($intervention);
+        //dd($intervention);
+        $EntityManager->flush();
+        return $this->redirectToRoute('main');
+    }
 }
