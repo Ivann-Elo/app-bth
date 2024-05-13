@@ -16,7 +16,7 @@
       <nav aria-label="breadcrumb" class="navigation">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Tableau de Bord</a></li>
-          <li class="breadcrumb-item"><a href="/client">Client</a></li>
+          <li class="breadcrumb-item"><a href="/client{{client.id}}">Client</a></li>
           <li class="breadcrumb-item active" aria-current="page">Intervention</li>
         </ol>
     </nav>
@@ -32,7 +32,7 @@
           </span>
           <ul class="dropdown-menu text-center">
           <li><a class="dropdown-item roboto-regular " href="{{ path('app_logout') }}">Modifier</a></li>
-          <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('app_logout') }}">Supprimer</a></li>
+          <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_inter' , {'idInter': intervention.id}) }}">Supprimer</a></li>
           </ul>
       </div>
     </div>
