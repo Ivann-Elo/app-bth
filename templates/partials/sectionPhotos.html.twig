@@ -8,34 +8,26 @@
       </ul>
     </nav>
     <div class="col-3 text-center">
-      <i class="fa-solid fa-camera"  data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i>
+      <i class="fa-solid fa-camera" id="showAddPhoto"></i>
     </div>
   </div>
-
-<!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter une photo</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-
-         {{ form_start(uploadPhotoForm) }}
-            {{ form_row(uploadPhotoForm.imageFile) }}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-          <button type="submit" class="btn btn-primary">Ajouter</button>
-          {{ form_end(uploadPhotoForm) }}
-        </div>
-      </div>
-    </div>
-  </div>
-<!-- Fin MODAL -->
-
   <!-- Fin Nav -->
+  <div class="text-center bg-white rounded-3 py-3 mb-3 d-none" id="sectionAddPhoto">
+    <div class="d-flex justify-content-end px-3">
+      <i class="fa-solid fa-xmark" id="closeAddPhoto"></i> 
+    </div>
+    <div id="sectionAddPhoto">
+      <span class="fs-5 i_inter roboto-medium">Ajouter une photo</span>
+      {{ form_start(uploadPhotoForm) }}
+      <div class="mt-3" >{{ form_row(uploadPhotoForm.imageFile) }}</div>
+      <div class="mt-3">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </div>
+      {{ form_end(uploadPhotoForm) }}
+    </div>
+  </div>
+
   <!-- Début Photos -->
   {% if (photoInter|length > 0) %}
   <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false">

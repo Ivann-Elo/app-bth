@@ -1,10 +1,8 @@
-
 <div class="row d-flex justify-content-between mb-3">
     <!-- Debut adresse intervention -->
     <div class="col-6">
     <span class="i_inter roboto-medium">Adresse d'intervention</span><br>
     <form action="" method="GET">
-
         <div>
             <select name="choixAdresse" id="choixAdresse">
                 <option value="adresseClient">Adresse du client</option>
@@ -17,11 +15,11 @@
         <div class="row">
             <div class="col-sm-6 text-center">
                 <label for="dateDebut">Date de début</label>
-                <input type="date" class="date form-control" id="dateDebut" name="dateDebut">
+                <input type="date" class="date form-control" id="dateDebut" name="dateDebut" required>
             </div>
             <div class="col-sm-6 text-center">
                 <label for="dateFin">Date de fin estimée</label>
-                <input type="date" class="date form-control" id="dateFin" name="dateFin">
+                <input type="date" class="date form-control" id="dateFin" name="dateFin" required>
             </div>  
         </div>
     </div>
@@ -30,11 +28,11 @@
     <div class="col-md-5">
         <div class="mb-3">
             <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" name="description">
+            <input type="text" class="form-control" id="description" name="description" minlength="20" required>
         </div>
         <div class="mb-3">
             <label for="note">Note</label>
-            <input type="text" class="form-control" id="note" name="note">
+            <input type="text" class="form-control" id="note" name="note"  minlength="5" required>
         </div>
         <div class="mb-3">
             <label for="statut">Statut</label>
@@ -45,7 +43,6 @@
             </select>
         </div>
         <button type="submit">valider</button>
-    </div>
-    
+    </div>   
 </div>
-</form>
+    </form>
