@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use DateTimeImmutable;
 use App\Entity\Intervention;
+use App\Form\ModifInterType;
 use App\Form\UploadDeviType;
 use App\Form\UploadPhotoType;
 use App\Form\UploadFactureType;
@@ -29,7 +30,8 @@ class InterventionController extends AbstractController
         DeviRepository $deviRepository,
         FactureRepository $factureRepository,
         InterventionRepository $interventionRepository,
-        PhotoRepository $photoRepository): Response
+        PhotoRepository $photoRepository
+        ): Response
     {   
         if(!$this->getUser()) 
         {
@@ -185,8 +187,58 @@ class InterventionController extends AbstractController
         return $this->redirectToRoute('app_intervention', [
             'show' => 'photos',
             'idInter' => $intervention->getId()]);
-    }  
-    
+    } 
+
+    // Modification d'une intervention
+    #[Route('/intervention/modifier/{show}/{idInter}', name: 'modifier_inter')]
+    public function modifierInter(
+        int $idInter,
+        string $show,
+        EntityManagerInterface $entityManager,
+        InterventionRepository $interventionRepository,
+        ClientRepository $clients,
+        DeviRepository $deviRepository,
+        FactureRepository $factureRepository,
+        PhotoRepository $photoRepository,
+        Request $request
+        ): Response
+    {   
+        $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
+        $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
+        $factureInter = $factureRepository->findBy(['idInter'=> $idInter]);
+        $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
+        $idClient = $intervention->getIdClient();
+        $client = $clients->findOneBy(['id'=> $idClient]);
+
+        $modifInterForm = $this->createForm(ModifInterType::class, $intervention);
+        $modifInterForm->handleRequest($request);
+
+        if($modifInterForm->isSubmitted() && $modifInterForm->isValid())
+        {
+            $entityManager->persist($intervention);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);
+        }
+
+
+        return $this->render('intervention/modifInter.html.twig', [
+            'controller_name' => 'InterventionController',
+            'titrePage' => 'Modification d\'une intervention',
+            'titreSideBar' => 'Informations client',
+            'show' => $show,
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('l j F Y'),
+            'client' => $client,
+            'intervention' => $intervention,
+            'photoInter' => $photoInter,
+            'deviInter' => $deviInter,
+            'factureInter' => $factureInter,
+            'modifInterForm' => $modifInterForm->createView(),
+            'visibility' => 'd-block']);
+    }
+
+
+    // Suppression d'une intervention
     #[Route('/supprimer/{idInter}', name: 'supprimer_inter')]    
     public function supprimerInter(int $idInter, EntityManagerInterface $EntityManager, InterventionRepository $intervention): Response
     {   

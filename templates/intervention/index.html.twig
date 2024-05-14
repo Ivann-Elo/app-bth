@@ -32,7 +32,7 @@
             <i class="fa-solid fa-gear text-end "></i>
           </span>
           <ul class="dropdown-menu text-center">
-          <li><a class="dropdown-item roboto-regular " href="{{ path('app_logout') }}">Modifier</a></li>
+          <li><a class="dropdown-item roboto-regular " href="{{ path('modifier_inter', {'show': 'photos' , 'idInter': intervention.id}) }}">Modifier</a></li>
           <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_inter' , {'idInter': intervention.id}) }}">Supprimer</a></li>
           </ul>
       </div>
@@ -116,13 +116,6 @@
     </div>
     
     <!-- Fin de la colonne de droite -->
-  </div>
-  <div class="modal fade" id="modalModification" tabindex="-1" aria-labelledby="modalModificationLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          Ma modal est la
-        </div>
-    </div>
   </div>
  </main> 
   

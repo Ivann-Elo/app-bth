@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detail intervention{% endblock %}
+
+{% block body %} 
+<main class="container-fluid">
+  <div class="row">
+    <!-- Début de la colonne de gauche -->
+    {% include 'partials/sidebar/sidebar.html.twig' %}
+    <!-- Fin de la colonne de gauche -->
+    
+    <!-- Début de la colonne de droite -->
+    <div class="col-lg-9 py-3 offset-lg-3">
+
+      {% include "partials/info_dropdown.html.twig" %}
+      <nav aria-label="breadcrumb" class="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Tableau de Bord</a></li>
+          <li class="breadcrumb-item"><a href="/client{{client.id}}">Client</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Intervention</li>
+        </ol>
+      </nav>
+      {% include "partials/modal/modalCalendar.html.twig" %}
+      <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1> 
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="col-6">
+            <span class="ms-2">Modification de l'intervention</span>
+            <span class="ms-2 roboto-bold">N°{{ intervention.id }}</span>
+        </div>
+        <div class="col-sm-6 col-md-3 text-end dropdown" id="profileConnect">
+          <span class=" dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-gear text-end "></i>
+          </span>
+          <ul class="dropdown-menu text-center">
+          <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_inter' , {'idInter': intervention.id}) }}">Supprimer</a></li>
+          </ul>
+      </div>
+    </div>
+    {{ form_errors(modifInterForm) }}
+    {{ form_start(modifInterForm) }}
+    <div class="bg-white p-3 border-1 border border-warning rounded-3 mt-2 mb-3">
+      <div class="row d-flex justify-content-between mb-3">
+        <div class="col-4 ">
+          <span class="i_inter roboto-medium">Statut</span><br>
+          {{ form_widget(modifInterForm.statut) }}
+        </div>
+        <div class="col-4 text-center">
+          <span class="i_inter roboto-medium">Date de début</span><br>
+          <span>{{ form_widget(modifInterForm.dateDebut) }}</span>
+        </div>
+        <div class="col-4 text-end">
+          <span class="i_inter roboto-medium">Date de Fin</span><br>
+          <span>{{ form_widget(modifInterForm.dateFin) }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="mb-3">
+            <span class="i_inter roboto-medium">Description</span><br>
+            <span>{{ form_widget(modifInterForm.description) }}</span>
+          </div>
+          <div>
+            <span class="i_inter roboto-medium">Note intervention</span><br>
+            <span>{{ form_widget(modifInterForm.note) }}</span>
+          </div>
+        </div>
+        <!-- Section documents -->
+        <div class="col-md-7 opacity-50  ">
+          <p class="p-1 titre_document text-center mt-2">Documents</p>
+          <div class="row ps-1">
+            <div class="col-6 d-flex flex-column">
+              <strong>devis</strong>
+              <div class="m-1 p-3 rounded-1 document_zone overflow-hidden">
+                {% if deviInter|length == 0 %}
+                <span>Pas de devi</span>
+                {% else %}  
+                {% for devi in deviInter %}
+                <a href="{{ vich_uploader_asset(devi, 'deviFile') }}" target="_blank" class="text-decoration-none">Voir le devis</a>
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-6 d-flex flex-column">
+              <strong>factures</strong>
+              <div class="m-1 p-3 rounded-1 document_zone overflow-hidden">
+                {% if factureInter|length == 0 %}
+                <span>Pas de facture</span>
+                {% else %}  
+                {% for facture in factureInter %}
+                <a href="{{ vich_uploader_asset(facture, 'factureFile') }}" target="_blank" class="text-decoration-none">Voir la facture</a>
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin Section documents -->
+      </div>
+      <div class="text-center">
+        <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id} ) }}"><input type="button" class="btn btn-secondary mt-3"  value="Annuler"></input></a>
+        <input type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" value="Valider"></input>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade text-center" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Confirmer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Êtes-vous sur de vouloir modifier cette intervention ? 
+        </div>
+        <div class="modal-footer mx-auto">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Non | Annuler</button>
+          <button type="submit" class="btn btn-primary">Oui | Enregister</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ form_end(modifInterForm) }}
+
+  
+  <!-- Fin de la colonne de droite -->
+</div>
+
+ </main> 
+  
+  {% endblock %}
+  {% block javascripts %}
+  <script src="{{ asset('js/intervention.js') }}" defer></script>
+  {% endblock %}
