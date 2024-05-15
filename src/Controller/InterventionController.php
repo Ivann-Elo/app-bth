@@ -8,6 +8,7 @@ use App\Form\ModifInterType;
 use App\Form\UploadDeviType;
 use App\Form\UploadPhotoType;
 use App\Form\UploadFactureType;
+use App\Form\AjoutCategorieType;
 use App\Repository\DeviRepository;
 use App\Repository\PhotoRepository;
 use App\Repository\ClientRepository;
@@ -36,69 +37,11 @@ class InterventionController extends AbstractController
         if(!$this->getUser()) 
         {
             return $this->redirectToRoute('app_login');
-        }
-        
-        $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
-        $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
-        $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
-        $factureInter = $factureRepository->findBy(['idInter'=> $idInter]);
-        $idClient = $intervention->getIdClient();
-        $client = $clients->findOneBy(['id'=> $idClient]);
+        } 
 
-        $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
-        $uploadDeviForm = $this->createForm(UploadDeviType::class);
-        $uploadFactureForm = $this->createForm(UploadFactureType::class);
+        $indexData = $this->dataCommunes($idInter, $show, $entityManager, $request, $interventionRepository, $photoRepository, $deviRepository, $factureRepository, $clients);
 
-        $uploadPhotoForm->handleRequest($request);
-        $uploadDeviForm->handleRequest($request);
-        $uploadFactureForm->handleRequest($request);
-       
-        if($request->isMethod('POST') && $uploadPhotoForm->isSubmitted() && $uploadPhotoForm->isValid() )
-        {
-                    $photo = $uploadPhotoForm->getData();
-                    $photo->setIdInter($intervention);
-                    $entityManager->persist($photo);
-                    $entityManager->flush();
-                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
-
-        }
-
-        if($request->isMethod('POST') && $uploadDeviForm->isSubmitted() && $uploadDeviForm->isValid() )
-        {
-                    $devi = $uploadDeviForm->getData();
-                    $devi->setIdInter($intervention);
-                    $entityManager->persist($devi);
-                    $entityManager->flush();
-                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
-
-        }
-
-        if($request->isMethod('POST') && $uploadFactureForm->isSubmitted() && $uploadFactureForm->isValid() )
-        {
-                    $facture = $uploadFactureForm->getData();
-                    $facture->setIdInter($intervention);
-                    $entityManager->persist($facture);
-                    $entityManager->flush();
-                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
-
-        }
-
-        return $this->render('intervention/index.html.twig', [
-            'controller_name' => 'InterventionController',
-            'titrePage' => 'Fiche d\'intervention',
-            'titreSideBar' => 'Informations client',
-            'show' => $show,
-            'email' => $this->getUser()->getEmail(),
-            'date' => (new \DateTime())->format('l j F Y'),
-            'client' => $client,
-            'intervention' => $intervention,
-            'photoInter' => $photoInter,
-            'deviInter' => $deviInter,
-            'factureInter' => $factureInter,
-            'uploadPhotoForm' => $uploadPhotoForm->createView(),
-            'uploadDeviForm' => $uploadDeviForm->createView(),
-            'uploadFactureForm' => $uploadFactureForm->createView(),
-            'visibility' => 'd-block']);
+        return $this->render('intervention/index.html.twig', $indexData);
     }  
    
     // Ajout d'une nouvelle intervention
@@ -196,22 +139,86 @@ class InterventionController extends AbstractController
         string $show,
         EntityManagerInterface $entityManager,
         InterventionRepository $interventionRepository,
-        ClientRepository $clients,
+        ClientRepository $client,
         DeviRepository $deviRepository,
         FactureRepository $factureRepository,
         PhotoRepository $photoRepository,
         Request $request
         ): Response
     {   
+        // $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
+        // $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
+        // $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
+        // $factureInter = $factureRepository->findBy(['idInter'=> $idInter]);
+        // $idClient = $intervention->getIdClient();
+        // $client = $clients->findOneBy(['id'=> $idClient]);
+
+        //$modifInterForm = $this->createForm(ModifInterType::class, $intervention);
+        //$modifInterForm->handleRequest($request);
+        
+        $indexData = $this->dataCommunes($idInter, $show, $entityManager, $request, $interventionRepository, $photoRepository, $deviRepository, $factureRepository, $client );
+
+
+        return $this->render('intervention/modifInter.html.twig', $indexData);
+            // 'controller_name' => 'InterventionController',
+            // 'titrePage' => 'Modification d\'une intervention',
+            // 'titreSideBar' => 'Informations client',
+            // 'show' => $show,
+            // 'email' => $this->getUser()->getEmail(),
+            // 'date' => (new \DateTime())->format('l j F Y'),
+            // 'client' => $client,
+            // 'intervention' => $intervention,
+            // 'photoInter' => $photoInter,
+            // 'deviInter' => $deviInter,
+            // 'factureInter' => $factureInter,
+            // //'modifInterForm' => $modifInterForm->createView(),
+            // 'visibility' => 'd-block']);
+    }
+
+    // Suppression d'une intervention
+    #[Route('/supprimer/{idInter}', name: 'supprimer_inter')]    
+    public function supprimerInter(int $idInter, EntityManagerInterface $EntityManager, InterventionRepository $intervention): Response
+    {   
+        $intervention = $intervention->find($idInter);
+        $EntityManager->remove($intervention);
+        $EntityManager->flush();
+        return $this->redirectToRoute('main');
+    }
+
+    // Fonction data communes
+    private function dataCommunes($idInter, $show, $entityManager, $request, $interventionRepository, $photoRepository, $deviRepository, $factureRepository, $clients)
+    {
+        //Récupération des données
+        $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
         $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
         $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
         $factureInter = $factureRepository->findBy(['idInter'=> $idInter]);
-        $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
         $idClient = $intervention->getIdClient();
         $client = $clients->findOneBy(['id'=> $idClient]);
 
+        //Création des formulaires
+        $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
+        $uploadDeviForm = $this->createForm(UploadDeviType::class);
+        $uploadFactureForm = $this->createForm(UploadFactureType::class);
+        $ajoutCategorieForm = $this->createForm(AjoutCategorieType::class);
         $modifInterForm = $this->createForm(ModifInterType::class, $intervention);
+
+        //Traitement des formulaires
+        $uploadPhotoForm->handleRequest($request);
+        $uploadDeviForm->handleRequest($request);
+        $uploadFactureForm->handleRequest($request);
+        $ajoutCategorieForm->handleRequest($request);
         $modifInterForm->handleRequest($request);
+        
+        //Déclaration des variables pour la persistance des données
+        $persistPhoto = $this->persist($idInter, $request, $intervention, $entityManager, $uploadPhotoForm);
+        $persitDevi = $this->persist($idInter, $request, $intervention, $entityManager, $uploadDeviForm);
+        $persistFacture = $this->persist($idInter, $request, $intervention, $entityManager, $uploadFactureForm);
+
+        //Persistance des données
+        $persistPhoto;
+        $persitDevi;
+        $persistFacture;
 
         if($modifInterForm->isSubmitted() && $modifInterForm->isValid())
         {
@@ -220,32 +227,37 @@ class InterventionController extends AbstractController
             return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);
         }
 
-
-        return $this->render('intervention/modifInter.html.twig', [
+        return [
             'controller_name' => 'InterventionController',
-            'titrePage' => 'Modification d\'une intervention',
+            'titrePage' => 'Fiche d\'intervention',
             'titreSideBar' => 'Informations client',
             'show' => $show,
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('l j F Y'),
-            'client' => $client,
             'intervention' => $intervention,
+            'client' => $client,
             'photoInter' => $photoInter,
             'deviInter' => $deviInter,
             'factureInter' => $factureInter,
+            'uploadPhotoForm' => $uploadPhotoForm->createView(),
+            'uploadDeviForm' => $uploadDeviForm->createView(),
+            'uploadFactureForm' => $uploadFactureForm->createView(),
             'modifInterForm' => $modifInterForm->createView(),
-            'visibility' => 'd-block']);
+            'visibility' => 'd-block'
+        ];   
     }
 
+    // Fonction pour la persistance des données
+    private function persist($idInter, $request, $intervention, $entityManager, $form){
 
-    // Suppression d'une intervention
-    #[Route('/supprimer/{idInter}', name: 'supprimer_inter')]    
-    public function supprimerInter(int $idInter, EntityManagerInterface $EntityManager, InterventionRepository $intervention): Response
-    {   
-        $intervention = $intervention->find($idInter);
-        $EntityManager->remove($intervention);
-        //dd($intervention);
-        $EntityManager->flush();
-        return $this->redirectToRoute('main');
+        if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid() )
+        {
+                    $entity = $form->getData();
+                    $entity->setIdInter($intervention);
+                    $entityManager->persist($entity);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
+
+        }
     }
 }
