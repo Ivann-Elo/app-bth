@@ -20,7 +20,7 @@ class Categorie
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $createdBy = null;
+    private ?User $createdBy = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -50,12 +50,12 @@ class Categorie
         return $this;
     }
 
-    public function getCreatedBy(): ?user
+    public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }
 
-    public function setCreatedBy(?user $createdBy): static
+    public function setCreatedBy(?User $createdBy): static
     {
         $this->createdBy = $createdBy;
 

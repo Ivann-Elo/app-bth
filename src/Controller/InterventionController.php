@@ -10,11 +10,12 @@ use App\Form\UploadDeviType;
 use App\Form\UploadPhotoType;
 use App\Form\UploadFactureType;
 use App\Form\AjoutCategorieType;
-use App\Repository\CategorieRepository;
 use App\Repository\DeviRepository;
 use App\Repository\PhotoRepository;
+use App\Repository\TacheRepository;
 use App\Repository\ClientRepository;
 use App\Repository\FactureRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,8 @@ class InterventionController extends AbstractController
         FactureRepository $factureRepository,
         InterventionRepository $interventionRepository,
         PhotoRepository $photoRepository,
-        CategorieRepository $categorieRepository
+        CategorieRepository $categorieRepository,
+        TacheRepository $TacheRepository
         ): Response
     {   
         if(!$this->getUser()) 
@@ -246,6 +248,16 @@ class InterventionController extends AbstractController
             'visibility' => 'd-block']);
     }
 
+
+    // Supprimer une tache 
+    #[Route('/supprimerTache/{idTache}/{idInter}', name: 'supprimer_tache')]
+    public function supprimerTache(int $idInter,int $idTache, EntityManagerInterface $entityManager, TacheRepository $tacheRepository): Response
+    {   
+        $tache = $tacheRepository->findOneBy(['id'=> $idTache]);
+        $entityManager->remove($tache);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_intervention', ['show' => 'taches', 'idInter' => $idInter]);
+    }
 
     // Suppression d'une intervention
     #[Route('/supprimer/{idInter}', name: 'supprimer_inter')]    

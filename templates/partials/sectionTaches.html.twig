@@ -18,7 +18,7 @@
       <span class="roboto-medium">{{ categorieTache.nomCat }} </span> 
       <div class="bg-white rounded-2 mt-1 p-3" style="height:490px">
         <div class="text-center my-2 py-2 taches rounded-2">
-          <span class="kalam-regular">Tache à faire</span>
+          <a href="{{path('supprimer_tache', {'idInter': intervention.id, 'idTache': 1})}}"><span class="kalam-regular">Suppimer tache</span></a>
         </div>
         <div class="text-center my-2 py-2 taches rounded-2">
           <span class="kalam-regular">Autre tache à faire</span>
