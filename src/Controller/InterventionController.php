@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use DateTimeImmutable;
 use App\Entity\Intervention;
+use App\Form\AjoutTacheType;
 use App\Form\ModifInterType;
 use App\Form\UploadDeviType;
 use App\Form\UploadPhotoType;
 use App\Form\UploadFactureType;
+use App\Form\AjoutCategorieType;
+use App\Repository\CategorieRepository;
 use App\Repository\DeviRepository;
 use App\Repository\PhotoRepository;
 use App\Repository\ClientRepository;
@@ -30,7 +33,8 @@ class InterventionController extends AbstractController
         DeviRepository $deviRepository,
         FactureRepository $factureRepository,
         InterventionRepository $interventionRepository,
-        PhotoRepository $photoRepository
+        PhotoRepository $photoRepository,
+        CategorieRepository $categorieRepository
         ): Response
     {   
         if(!$this->getUser()) 
@@ -43,6 +47,7 @@ class InterventionController extends AbstractController
         $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
         $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);
         $factureInter = $factureRepository->findBy(['idInter'=> $idInter]);
+        $categorieTache = $categorieRepository->findBy(['idInter'=> $idInter]);
         $idClient = $intervention->getIdClient();
         $client = $clients->findOneBy(['id'=> $idClient]);
 
@@ -50,11 +55,25 @@ class InterventionController extends AbstractController
         $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
         $uploadDeviForm = $this->createForm(UploadDeviType::class);
         $uploadFactureForm = $this->createForm(UploadFactureType::class);
+        $ajoutCategorieForm = $this->createForm(AjoutCategorieType::class);
+        $ajoutTacheForm = $this->createForm(AjoutTacheType::class);
 
         //Traitement des formulaires
         $uploadPhotoForm->handleRequest($request);
         $uploadDeviForm->handleRequest($request);
         $uploadFactureForm->handleRequest($request);
+        $ajoutCategorieForm->handleRequest($request);
+        $ajoutTacheForm->handleRequest($request);
+
+        if($ajoutCategorieForm->isSubmitted() && $ajoutCategorieForm->isValid())
+        {
+            $entity = $ajoutCategorieForm->getData();
+            $entity->setIdInter($intervention);
+            $entity->setCreatedBy($this->getUser());
+            $entityManager->persist($entity);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_intervention', ['show' => 'taches', 'idInter' => $idInter]);
+        }
         
         //Déclaration des variables pour la persistance des données
         $persistPhoto = $this->persist($idInter, $request, $intervention, $entityManager, $uploadPhotoForm);
@@ -65,6 +84,7 @@ class InterventionController extends AbstractController
         $persistPhoto;
         $persitDevi;
         $persistFacture;
+
 
         return $this->render('intervention/index.html.twig', [
             'controller_name' => 'InterventionController',
@@ -78,10 +98,12 @@ class InterventionController extends AbstractController
             'photoInter' => $photoInter,
             'deviInter' => $deviInter,
             'factureInter' => $factureInter,
-            //'getInterInfos' => $getInterInfos,
+            'categorieTaches' => $categorieTache,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
             'uploadDeviForm' => $uploadDeviForm->createView(),
             'uploadFactureForm' => $uploadFactureForm->createView(),
+            'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
+            'ajoutTacheForm' => $ajoutTacheForm->createView(),
             'visibility' => 'd-block']);
     }  
    
@@ -176,6 +198,7 @@ class InterventionController extends AbstractController
     // Modification d'une intervention
     #[Route('/intervention/modifier/{show}/{idInter}', name: 'modifier_inter')]
     public function modifierInter(
+        
         int $idInter,
         string $show,
         EntityManagerInterface $entityManager,
@@ -187,6 +210,8 @@ class InterventionController extends AbstractController
         Request $request
         ): Response
     {   
+        if(!$this->getUser()) { return $this->redirectToRoute('app_login'); } 
+
         $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
         $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
         $deviInter = $deviRepository->findBy(['idInter'=> $idInter]);

@@ -12,8 +12,10 @@
 
   <!-- Début Taches -->
   <div class="grap d-flex  overflow-auto">
+    <!-- Début section catégories existante-->
+    {% for categorieTache in categorieTaches %}
     <div class="p-2 text-center col-11 col-md-4 mx-3">
-      <span class="roboto-medium">A faire</span> 
+      <span class="roboto-medium">{{ categorieTache.nomCat }} </span> 
       <div class="bg-white rounded-2 mt-1 p-3" style="height:490px">
         <div class="text-center my-2 py-2 taches rounded-2">
           <span class="kalam-regular">Tache à faire</span>
@@ -26,15 +28,21 @@
         </div>
       </div>
     </div>
+    {% endfor %}
+    <!-- Fin section catégories existante-->
+
+    <!-- Début formulaire ajout catégorie-->
     <div class="p-2 text-center col-11 col-md-4 mx-3">
-      <span class="roboto-medium">...</span>
+      {{ form_start(ajoutCategorieForm) }}
+      <span class="roboto-medium">Nouvelle catégorie</span>
       <div class="bg-white bg-opacity-50 border border-2 border-white rounded-2 d-flex align-items-center justify-content-center mt-1" style="height:490px">
         <div class="d-flex flex-column text-center py-2 ">
-            <i class="fa-solid fa-plus"></i>
-            <span>Ajouter une catégorie</span>
-          </div>
+          {{ form_row(ajoutCategorieForm.nomCat) }}
+          <button type="submit" class="btn btn-primary ">Créer</button>
         </div>
       </div>
+      {{ form_end(ajoutCategorieForm) }}
     </div>
-  </div> 
+    <!-- Fin formulaire ajout catégorie-->
+  </div>
   <!-- Fin Taches  -->
