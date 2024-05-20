@@ -21,6 +21,11 @@
         <div class="text-center my-2 py-2 taches rounded-2">
           <a href="{{path('supprimer_tache', {'idInter': intervention.id, 'idTache': 1})}}"><span class="kalam-regular">Suppimer tache</span></a>
         </div>
+        {# {% for tache in categorieTache.taches %}
+        <div class="text-center my-2 py-2 taches rounded-2">
+          <span class="kalam-regular"{{ tache.description}}></span>
+        </div>
+        {% endfor %} #}
         <!-- Fin A travailler pour la suppression d'une tache -->
 
         <!-- Début section ajout d'une tâche -->
@@ -34,9 +39,9 @@
             {{ form_end(ajoutTacheForm) }}
           </div>
           {% else %}
-          <div class="text-center my-2 py-2 taches rounded-2">
-            <a href="{{path('app_intervention', {'show':'taches','idInter':intervention.id, 'action':'ajoutTache', 'addCategorieTache':categorieTache.nomCat})}}"> <i class="fa-solid fa-plus"></i></a>
-          </div>
+            <div class="text-center my-2 py-2 taches rounded-2">
+          <a href="{{path('app_intervention', {'show':'taches','idInter':intervention.id, 'action':'ajoutTache', 'addCategorieTache':categorieTache.nomCat})}}"> <i class="fa-solid fa-plus"></i></a>
+        </div>
 
         {% endif %}
         <!-- Fin Section formulaire caché -->

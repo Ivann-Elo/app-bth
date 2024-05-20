@@ -131,7 +131,7 @@ class InterventionController extends AbstractController
             'ajoutTacheForm' => $ajoutTacheForm->createView(),
             'visibility' => 'd-block',
             'action' => $action,
-            'addCategorieTache' => $addCategorieTache
+            'addCategorieTache' => $addCategorieTache,
             ]);
     }
     
