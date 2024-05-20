@@ -25,11 +25,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InterventionController extends AbstractController
 {
-    #[Route('/intervention/{show}/{idInter}', name: 'app_intervention')]
+    #[Route('/intervention/{show}/{idInter}/{action}/{addCategorieTache}', name: 'app_intervention')]
     public function index(
         Request $request ,
         EntityManagerInterface $entityManager,
-        string $idInter, string $show,
+        string $idInter, string $show, string $action, string $addCategorieTache,
         ClientRepository $clients,
         DeviRepository $deviRepository,
         FactureRepository $factureRepository,
@@ -67,6 +67,24 @@ class InterventionController extends AbstractController
         $ajoutCategorieForm->handleRequest($request);
         $ajoutTacheForm->handleRequest($request);
 
+        //Traitement du formulaire d'ajout de tache
+        if($ajoutTacheForm->isSubmitted() && $ajoutTacheForm->isValid())
+        {   
+            $Cat = $categorieRepository->findOneBy(['nomCat'=> $addCategorieTache]);
+            $entity = $ajoutTacheForm->getData();
+            $entity->setIdCat($Cat);
+            $entity->setStatutTache('ouvert');
+            $entityManager->persist($entity);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_intervention', [
+                'show' => 'taches',
+                'idInter' => $idInter,
+                'action' => 'intervention',
+                'addCategorieTache' => 'null',
+            ]);
+        }
+
+
         if($ajoutCategorieForm->isSubmitted() && $ajoutCategorieForm->isValid())
         {
             $entity = $ajoutCategorieForm->getData();
@@ -74,7 +92,12 @@ class InterventionController extends AbstractController
             $entity->setCreatedBy($this->getUser());
             $entityManager->persist($entity);
             $entityManager->flush();
-            return $this->redirectToRoute('app_intervention', ['show' => 'taches', 'idInter' => $idInter]);
+            return $this->redirectToRoute('app_intervention', [
+                'show' => 'taches', 
+                'idInter' => $idInter,
+                'action' => 'intervention',
+                'addCategorieTache' => 'null',
+            ]);
         }
         
         //Déclaration des variables pour la persistance des données
@@ -106,9 +129,12 @@ class InterventionController extends AbstractController
             'uploadFactureForm' => $uploadFactureForm->createView(),
             'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
             'ajoutTacheForm' => $ajoutTacheForm->createView(),
-            'visibility' => 'd-block']);
-    }  
-   
+            'visibility' => 'd-block',
+            'action' => $action,
+            'addCategorieTache' => $addCategorieTache
+            ]);
+    }
+    
     // Ajout d'une nouvelle intervention
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
     public function nouvelleIntervention( int $idClient,  ClientRepository $clientRepository ): Response
