@@ -3,8 +3,8 @@
     <div class="col-3"></div>
     <nav class="d-flex justify-content-center col-6">
       <ul class="list-unstyled d-flex">
-          <li><a href="{{ path('app_intervention', {'show':'photos','idInter': intervention.id, 'action':'show', 'addCategorieTache':'null'})}}" class="text-black text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Photos</a></li>
-          <li><a href="{{ path('app_intervention', {'show':'taches','idInter': intervention.id, 'action':'show', 'addCategorieTache':'null'})}}" class="text-white text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Tâches</a></li>
+          <li><a href="{{ path('app_intervention', {'show':'photos','idInter': intervention.id })}}" class="text-black text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Photos</a></li>
+          <li><a href="{{ path('app_intervention', {'show':'taches','idInter': intervention.id })}}" class="text-white text-decoration-none fw-semibold p-2 nav-liens rounded-pill">Tâches</a></li>
       </ul>
     </nav>
   </div>
@@ -29,7 +29,7 @@
         <!-- Fin A travailler pour la suppression d'une tache -->
 
         <!-- Début section ajout d'une tâche -->
-        {% if (action == 'ajoutTache' and addCategorieTache == categorieTache.nomCat) %}
+        {# {% if (action == 'ajoutTache' and addCategorieTache == categorieTache.nomCat) %}
         <!-- Début Section formulaire caché -->
           <div class="text-center my-2 py-2 taches rounded-2">
             {{ form_start(ajoutTacheForm) }}
@@ -40,10 +40,10 @@
           </div>
           {% else %}
             <div class="text-center my-2 py-2 taches rounded-2">
-          <a href="{{path('app_intervention', {'show':'taches','idInter':intervention.id, 'action':'ajoutTache', 'addCategorieTache':categorieTache.nomCat})}}"> <i class="fa-solid fa-plus"></i></a>
+          <a href="{{path('app_intervention', {'show':'taches','idInter':intervention.id})}}"> <i class="fa-solid fa-plus"></i></a>
         </div>
 
-        {% endif %}
+        {% endif %} #}
         <!-- Fin Section formulaire caché -->
         
         <!-- Fin section ajout d'une tâche -->

@@ -25,7 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InterventionController extends AbstractController
 {
-    #[Route('/intervention/{show}/{idInter}/{action}/{addCategorieTache}', name: 'app_intervention')]
+    #[Route('/intervention/{show}/{idInter}', name: 'app_intervention')]
     public function index(
         CategorieRepository $categorieRepository,
         ClientRepository $clients,
@@ -35,7 +35,7 @@ class InterventionController extends AbstractController
         InterventionRepository $interventionRepository,
         PhotoRepository $photoRepository,
         Request $request ,
-        string $idInter, string $show, string $action, string $addCategorieTache,
+        string $idInter, string $show,
         TacheRepository $tacheRepository
         ): Response
     {   
@@ -79,8 +79,7 @@ class InterventionController extends AbstractController
             $entityManager->persist($entity);
             $entityManager->flush();
             return $this->redirectToRoute('app_intervention', [
-                'action' => 'intervention',
-                'addCategorieTache' => 'null',
+    
                 'idInter' => $idInter,
                 'show' => 'taches',
             ]);
@@ -95,8 +94,6 @@ class InterventionController extends AbstractController
             $entityManager->persist($entity);
             $entityManager->flush();
             return $this->redirectToRoute('app_intervention', [
-                'action' => 'intervention',
-                'addCategorieTache' => 'null',
                 'show' => 'taches', 
                 'idInter' => $idInter,
             ]);
@@ -114,8 +111,6 @@ class InterventionController extends AbstractController
 
 
         return $this->render('intervention/index.html.twig', [
-            'action' => $action,
-            'addCategorieTache' => $addCategorieTache,
             'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
             'ajoutTacheForm' => $ajoutTacheForm->createView(),
             'categorieTaches' => $categorieTache,
@@ -258,8 +253,6 @@ class InterventionController extends AbstractController
             $entityManager->persist($intervention);
             $entityManager->flush();
             return $this->redirectToRoute('app_intervention', [
-                'action' => 'intervention',
-                'addCategorieTache' => 'null',
                 'idInter' => $idInter,
                 'show' => 'taches',
             ]);
@@ -279,8 +272,7 @@ class InterventionController extends AbstractController
             'titreSideBar' => 'Informations client',
             'show' => $show,
             'visibility' => 'd-block',
-            'action' => 'intervention',
-            'addCategorieTache' => 'null',]);
+        ]);
     }
 
 
@@ -292,8 +284,6 @@ class InterventionController extends AbstractController
         $entityManager->remove($tache);
         $entityManager->flush();
         return $this->redirectToRoute('app_intervention', [
-            'action' => 'intervention',
-            'addCategorieTache' => 'null',
             'idInter' => $idInter,
             'show' => 'taches',
         ]);
@@ -319,8 +309,6 @@ class InterventionController extends AbstractController
                     $entityManager->persist($entity);
                     $entityManager->flush();
                     return $this->redirectToRoute('app_intervention', [
-                        'action' => 'intervention',
-                        'addCategorieTache' => 'null',
                         'idInter' => $idInter,
                         'show' => 'photos',
                     ]);   
