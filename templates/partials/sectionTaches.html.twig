@@ -29,21 +29,20 @@
         <!-- Fin A travailler pour la suppression d'une tache -->
 
         <!-- Début section ajout d'une tâche -->
-        {# {% if (action == 'ajoutTache' and addCategorieTache == categorieTache.nomCat) %}
+       
         <!-- Début Section formulaire caché -->
           <div class="text-center my-2 py-2 taches rounded-2">
-            {{ form_start(ajoutTacheForm) }}
-            {{ form_row(ajoutTacheForm.description) }}
+          
             <button type="submit"> ajouter </button>
             <input name="idCat" type="hidden" value="categorie.id">
-            {{ form_end(ajoutTacheForm) }}
+           
           </div>
-          {% else %}
+        
             <div class="text-center my-2 py-2 taches rounded-2">
           <a href="{{path('app_intervention', {'show':'taches','idInter':intervention.id})}}"> <i class="fa-solid fa-plus"></i></a>
         </div>
 
-        {% endif %} #}
+       
         <!-- Fin Section formulaire caché -->
         
         <!-- Fin section ajout d'une tâche -->
