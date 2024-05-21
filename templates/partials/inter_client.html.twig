@@ -29,7 +29,7 @@
                 </div>
             {% else %}
                 {% for intervention in interventions %}
-                    <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id, 'action':'show','addCategorieTache':'null'}) }}" class="text-decoration-none text-black ">
+                    <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black ">
                         <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
                             <div class="d-flex justify-content-between  border-bottom py-1 ">
                                 <span>{{ intervention.idClient.nom }}</span>

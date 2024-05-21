@@ -25,18 +25,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InterventionController extends AbstractController
 {
-    #[Route('/intervention/{show}/{idInter}/{action}/{addCategorieTache}', name: 'app_intervention')]
+    #[Route('/intervention/{show}/{idInter}', name: 'app_intervention')]
     public function index(
-        Request $request ,
-        EntityManagerInterface $entityManager,
-        string $idInter, string $show, string $action, string $addCategorieTache,
+        CategorieRepository $categorieRepository,
         ClientRepository $clients,
         DeviRepository $deviRepository,
+        EntityManagerInterface $entityManager,
         FactureRepository $factureRepository,
         InterventionRepository $interventionRepository,
         PhotoRepository $photoRepository,
-        CategorieRepository $categorieRepository,
-        TacheRepository $TacheRepository
+        Request $request ,
+        string $idInter, string $show,
+        TacheRepository $tacheRepository
         ): Response
     {   
         if(!$this->getUser()) 
@@ -52,6 +52,7 @@ class InterventionController extends AbstractController
         $categorieTache = $categorieRepository->findBy(['idInter'=> $idInter]);
         $idClient = $intervention->getIdClient();
         $client = $clients->findOneBy(['id'=> $idClient]);
+        $tache = $tacheRepository->findAll();
 
         //Création des formulaires
         $uploadPhotoForm = $this->createForm(UploadPhotoType::class);
@@ -67,6 +68,7 @@ class InterventionController extends AbstractController
         $ajoutCategorieForm->handleRequest($request);
         $ajoutTacheForm->handleRequest($request);
 
+
         //Traitement du formulaire d'ajout de tache
         if($ajoutTacheForm->isSubmitted() && $ajoutTacheForm->isValid())
         {   
@@ -77,10 +79,9 @@ class InterventionController extends AbstractController
             $entityManager->persist($entity);
             $entityManager->flush();
             return $this->redirectToRoute('app_intervention', [
-                'show' => 'taches',
+    
                 'idInter' => $idInter,
-                'action' => 'intervention',
-                'addCategorieTache' => 'null',
+                'show' => 'taches',
             ]);
         }
 
@@ -95,8 +96,6 @@ class InterventionController extends AbstractController
             return $this->redirectToRoute('app_intervention', [
                 'show' => 'taches', 
                 'idInter' => $idInter,
-                'action' => 'intervention',
-                'addCategorieTache' => 'null',
             ]);
         }
         
@@ -112,26 +111,25 @@ class InterventionController extends AbstractController
 
 
         return $this->render('intervention/index.html.twig', [
+            'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
+            'ajoutTacheForm' => $ajoutTacheForm->createView(),
+            'categorieTaches' => $categorieTache,
+            'client' => $client,
             'controller_name' => 'InterventionController',
+            'date' => (new \DateTime())->format('l j F Y'),
+            'deviInter' => $deviInter,
+            'email' => $this->getUser()->getEmail(),
+            'factureInter' => $factureInter,
+            'intervention' => $intervention,
+            'photoInter' => $photoInter,
+            'show' => $show,
             'titrePage' => 'Fiche d\'intervention',
             'titreSideBar' => 'Informations client',
-            'show' => $show,
-            'email' => $this->getUser()->getEmail(),
-            'date' => (new \DateTime())->format('l j F Y'),
-            'intervention' => $intervention,
-            'client' => $client,
-            'photoInter' => $photoInter,
-            'deviInter' => $deviInter,
-            'factureInter' => $factureInter,
-            'categorieTaches' => $categorieTache,
+            'taches' => $tache,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
             'uploadDeviForm' => $uploadDeviForm->createView(),
             'uploadFactureForm' => $uploadFactureForm->createView(),
-            'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
-            'ajoutTacheForm' => $ajoutTacheForm->createView(),
             'visibility' => 'd-block',
-            'action' => $action,
-            'addCategorieTache' => $addCategorieTache
             ]);
     }
     
@@ -254,24 +252,27 @@ class InterventionController extends AbstractController
         {
             $entityManager->persist($intervention);
             $entityManager->flush();
-            return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);
+            return $this->redirectToRoute('app_intervention', [
+                'idInter' => $idInter,
+                'show' => 'taches',
+            ]);
         }
-
 
         return $this->render('intervention/modifInter.html.twig', [
             'controller_name' => 'InterventionController',
+            'client' => $client,
+            'date' => (new \DateTime())->format('l j F Y'),
+            'deviInter' => $deviInter,
+            'email' => $this->getUser()->getEmail(),
+            'factureInter' => $factureInter,
+            'intervention' => $intervention,
+            'photoInter' => $photoInter,
+            'modifInterForm' => $modifInterForm->createView(),
             'titrePage' => 'Modification d\'une intervention',
             'titreSideBar' => 'Informations client',
             'show' => $show,
-            'email' => $this->getUser()->getEmail(),
-            'date' => (new \DateTime())->format('l j F Y'),
-            'client' => $client,
-            'intervention' => $intervention,
-            'photoInter' => $photoInter,
-            'deviInter' => $deviInter,
-            'factureInter' => $factureInter,
-            'modifInterForm' => $modifInterForm->createView(),
-            'visibility' => 'd-block']);
+            'visibility' => 'd-block',
+        ]);
     }
 
 
@@ -282,7 +283,10 @@ class InterventionController extends AbstractController
         $tache = $tacheRepository->findOneBy(['id'=> $idTache]);
         $entityManager->remove($tache);
         $entityManager->flush();
-        return $this->redirectToRoute('app_intervention', ['show' => 'taches', 'idInter' => $idInter]);
+        return $this->redirectToRoute('app_intervention', [
+            'idInter' => $idInter,
+            'show' => 'taches',
+        ]);
     }
 
     // Suppression d'une intervention
@@ -294,7 +298,8 @@ class InterventionController extends AbstractController
         $EntityManager->flush();
         return $this->redirectToRoute('main');
     }
-
+    
+    // Fonction de persistance des données  
     private function persist($idInter, $request, $intervention, $entityManager, $form){
 
         if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid() )
@@ -303,7 +308,10 @@ class InterventionController extends AbstractController
                     $entity->setIdInter($intervention);
                     $entityManager->persist($entity);
                     $entityManager->flush();
-                    return $this->redirectToRoute('app_intervention', ['show' => 'photos', 'idInter' => $idInter]);   
+                    return $this->redirectToRoute('app_intervention', [
+                        'idInter' => $idInter,
+                        'show' => 'photos',
+                    ]);   
 
         }
     }
