@@ -32,7 +32,7 @@
             <i class="fa-solid fa-gear text-end "></i>
           </span>
           <ul class="dropdown-menu text-center">
-          <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_inter' , {'idInter': intervention.id}) }}">Supprimer</a></li>
+          <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_inter' , {'idInter': intervention.id , 'action': 'intervention', 'addCategorieTache': 'null' }) }}">Supprimer</a></li>
           </ul>
       </div>
     </div>
@@ -97,7 +97,7 @@
         <!-- Fin Section documents -->
       </div>
       <div class="text-center">
-        <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id} ) }}"><input type="button" class="btn btn-secondary mt-3"  value="Annuler"></input></a>
+        <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id ,  'action': 'intervention', 'addCategorieTache': 'null'} ) }}"><input type="button" class="btn btn-secondary mt-3"  value="Annuler"></input></a>
         <input type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal" value="Valider"></input>
       </div>
     </div>
