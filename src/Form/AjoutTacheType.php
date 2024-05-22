@@ -2,13 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Categorie;
 use App\Entity\Tache;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
 
 class AjoutTacheType extends AbstractType
 {
@@ -16,14 +17,17 @@ class AjoutTacheType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('id_cat', HiddenType::class)
-        ;
+            ->add('idCat', HiddenType::class, [
+                'data' => $options['categorie']->getId(),
+                'mapped' => false, 
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Tache::class,
+            'categorie' => null,
         ]);
     }
 }

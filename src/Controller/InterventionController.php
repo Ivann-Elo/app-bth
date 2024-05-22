@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Form\AjoutTacheType;
 use App\Form\ModifInterType;
 use App\Form\UploadDeviType;
@@ -41,6 +42,9 @@ class InterventionController extends AbstractController
         if(!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
+
+        //Déclaration des variables
+        $tabFormTache = [];
         
         //Récupération des données
         $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
@@ -57,14 +61,41 @@ class InterventionController extends AbstractController
         $uploadDeviForm = $this->createForm(UploadDeviType::class);
         $uploadFactureForm = $this->createForm(UploadFactureType::class);
         $ajoutCategorieForm = $this->createForm(AjoutCategorieType::class);
-        $ajoutTacheForm = $this->createForm(AjoutTacheType::class);
-
+        
         //Traitement des formulaires
         $uploadPhotoForm->handleRequest($request);
         $uploadDeviForm->handleRequest($request);
         $uploadFactureForm->handleRequest($request);
         $ajoutCategorieForm->handleRequest($request);
-        $ajoutTacheForm->handleRequest($request);
+        
+        // Gérer les requêtes de chaque formulaire
+        foreach ($categorieTache as $categorie) {
+            $form = $this->createForm(AjoutTacheType::class, null, [
+                'categorie' => $categorie,
+            ]);
+            $form->handleRequest($request);
+
+            // Si le formulaire est soumis et valide, traiter les données
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entity = $form->getData();
+                $categorieId = $form->get('idCat')->getData();
+                $categorieEntity = $entityManager->getRepository(Categorie::class)->find($categorieId);
+                $entity->setIdCat($categorieEntity);
+                $entity->setStatutTache('En cours');
+                $entityManager->persist($entity);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_intervention', [
+                    'show' => 'taches',
+                    'idInter' => $idInter,
+                ]);
+            }
+
+            // Ajouter la vue du formulaire au tableau après traitement de la requête
+            $tabFormTache[$categorie->getNomCat()] = $form->createView();
+        }
+
+
 
         //Traitement du formulaire d'ajout de catégorie
         if($ajoutCategorieForm->isSubmitted() && $ajoutCategorieForm->isValid())
@@ -88,9 +119,10 @@ class InterventionController extends AbstractController
         //Persistance des données
         $persistPhoto; $persitDevi; $persistFacture;
 
+
         return $this->render('intervention/index.html.twig', [
             'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
-            'ajoutTacheForm' => $ajoutTacheForm->createView(),
+
             'categorieTaches' => $categorieTache,
             'client' => $client,
             'controller_name' => 'InterventionController',
@@ -104,6 +136,7 @@ class InterventionController extends AbstractController
             'titrePage' => 'Fiche d\'intervention',
             'titreSideBar' => 'Informations client',
             'taches' => $tache,
+            'tacheForms' => $tabFormTache,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
             'uploadDeviForm' => $uploadDeviForm->createView(),
             'uploadFactureForm' => $uploadFactureForm->createView(),
@@ -221,7 +254,7 @@ class InterventionController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('app_intervention', [
             'idInter' => $idInter,
-            'show' => 'photos',
+            'show' => 'taches',
         ]);
     }
 

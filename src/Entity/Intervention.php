@@ -52,6 +52,9 @@ class Intervention
     #[ORM\OneToMany(mappedBy: 'idInter', targetEntity: Photo::class, cascade: ['persist', 'remove'])]
     private ?Collection $photos;
 
+    #[ORM\OneToMany(mappedBy: 'idInter', targetEntity: Categorie::class, cascade: ['persist', 'remove'])]
+    private ?Collection $categories;
+
     #[ORM\OneToOne(mappedBy: 'idInter', targetEntity: Devi::class, cascade: ['persist', 'remove'])]
     private ?Devi $devi;
 
