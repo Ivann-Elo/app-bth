@@ -20,7 +20,7 @@ class Tache
     private ?string $statut_tache = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Categorie $id_cat = null;
 
     public function getId(): ?int

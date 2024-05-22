@@ -2,7 +2,7 @@
     <!-- Debut adresse intervention -->
     <div class="col-6">
     <span class="i_inter roboto-medium">Adresse d'intervention</span><br>
-    <form action="" method="GET">
+    {{ form_start(interventionForm) }}
         <div>
             <select name="choixAdresse" id="choixAdresse">
                 <option value="adresseClient">Adresse du client</option>
@@ -14,12 +14,10 @@
     <div class="col-6">
         <div class="row">
             <div class="col-sm-6 text-center">
-                <label for="dateDebut" class="roboto-medium">Date de début</label>
-                <input type="date" class="date form-control" id="dateDebut" name="dateDebut" required>
+                {{ form_row(interventionForm.dateDebut) }}
             </div>
             <div class="col-sm-6 text-center">
-                <label for="dateFin">Date de fin estimée</label>
-                <input type="date" class="date form-control" id="dateFin" name="dateFin" required>
+                {{ form_row(interventionForm.dateFin) }}
             </div>  
         </div>
     </div>
@@ -27,22 +25,15 @@
 <div class="row">
     <div class="col-md-5">
         <div class="mb-3">
-            <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" name="description" minlength="20" required>
+         {{ form_row(interventionForm.description) }}
         </div>
         <div class="mb-3">
-            <label for="note">Note</label>
-            <input type="text" class="form-control" id="note" name="note"  minlength="5" required>
+           {{ form_row(interventionForm.note) }}
         </div>
         <div class="mb-3">
-            <label for="statut">Statut</label>
-            <select name="statut" id="statut" class="'form-select ">
-                <option value="En cours">En cours</option>
-                <option value="Terminée">Terminé</option>
-                <option value="annule">Annulé</option>
-            </select>
+            {{ form_row(interventionForm.statut) }}
         </div>
         <button type="submit">valider</button>
     </div>   
 </div>
-    </form>
+    {{ form_end(interventionForm) }}

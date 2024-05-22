@@ -6,8 +6,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\InterventionRepository;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: InterventionRepository::class)]
 #[ApiResource]
@@ -49,14 +47,6 @@ class Intervention
     #[ORM\Column(length: 10)]
     private ?string $statut = null;
 
-    #[ORM\OneToMany(mappedBy: 'idInter', targetEntity: Photo::class, cascade: ['persist', 'remove'])]
-    private ?Collection $photos;
-
-    #[ORM\OneToOne(mappedBy: 'idInter', targetEntity: Devi::class, cascade: ['persist', 'remove'])]
-    private ?Devi $devi;
-
-    #[ORM\OneToOne(mappedBy: 'idInter', targetEntity: Facture::class, cascade: ['persist', 'remove'])]
-    private ?Facture $facture;
 
     public function getId(): ?int
     {

@@ -23,7 +23,7 @@ class Facture
     private ?string $factureName = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE' )]
     private ?Intervention $idInter = null;
 
     #[ORM\Column(nullable: true)]
