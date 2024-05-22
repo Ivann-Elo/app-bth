@@ -95,8 +95,6 @@ class InterventionController extends AbstractController
             $tabFormTache[$categorie->getNomCat()] = $form->createView();
         }
 
-
-
         //Traitement du formulaire d'ajout de catégorie
         if($ajoutCategorieForm->isSubmitted() && $ajoutCategorieForm->isValid())
         {
@@ -118,7 +116,6 @@ class InterventionController extends AbstractController
 
         //Persistance des données
         $persistPhoto; $persitDevi; $persistFacture;
-
 
         return $this->render('intervention/index.html.twig', [
             'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
@@ -251,6 +248,19 @@ class InterventionController extends AbstractController
     {   
         $tache = $tacheRepository->findOneBy(['id'=> $idTache]);
         $entityManager->remove($tache);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_intervention', [
+            'idInter' => $idInter,
+            'show' => 'taches',
+        ]);
+    }
+
+    // Suppression d'une catégorie
+    #[Route('/supprimerCategorie/{idCat}/{idInter}', name: 'supprimer_categorie')]
+    public function supprimerCategorie(int $idInter, int $idCat, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository): Response
+    {   
+        $categorie = $categorieRepository->findOneBy(['id'=> $idCat]);
+        $entityManager->remove($categorie);
         $entityManager->flush();
         return $this->redirectToRoute('app_intervention', [
             'idInter' => $idInter,

@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategorieRepository;
-use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Collection;
+use App\Entity\Tache;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 #[ApiResource]

@@ -16,6 +16,9 @@
     {% for categorieTache in categorieTaches %}
     <div class="p-2 text-center col-11 col-md-4 mx-3">
       <span class="roboto-medium">{{ categorieTache.nomCat }} </span> 
+      <a href="{{ path('supprimer_categorie', {'idInter': intervention.id, 'idCat': categorieTache.id}) }}">   
+        <i class=" fa fa-trash"></i>
+      </a>
       <div class="bg-white rounded-2 mt-1 p-3" style="height:490px">
         <!-- Début suppression d'une tache -->
          {% for tache in taches %}
@@ -34,19 +37,16 @@
         {% for key, tacheForm in tacheForms %}
           {% if (key == categorieTache.nomCat) %}
           <!-- ici j'aimerai controler si c'est bien un formulaire unique qui est créer et pas le même a chaque boucle -->
-           <div class="text-center my-2 py-2 taches rounded-2">
+           <div class="text-center my-2 p-2 taches rounded-2">
               {{ form_start(tacheForm) }}
               {{ form_row(tacheForm.description) }}
               {{ form_row(tacheForm.idCat) }}
-              <button type="submit" class="btn btn-primary ">Créer</button>
+              <button type="submit" class="btn btn-primary ">Ajouter</button>
               {{ form_end(tacheForm) }}
            </div>
         
            {% endif %}
            {% endfor %}
-           <div class="text-center my-2 py-2 taches rounded-2">
-             <i class="fa-solid fa-plus"></i>
-           </div>
 
        
         <!-- Fin Section formulaire caché -->
