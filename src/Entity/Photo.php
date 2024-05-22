@@ -19,11 +19,11 @@ class Photo
     #[Vich\UploadableField(mapping: 'photos', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(nullable:false)]
+    #[ORM\Column(nullable:true)]
     private ?string $imageName = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Intervention $idInter = null;
 
     #[ORM\Column(nullable: true)]

@@ -5,8 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategorieRepository;
-use phpDocumentor\Reflection\Types\Collection;
-use App\Entity\Tache;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 #[ApiResource]
@@ -25,7 +23,7 @@ class Categorie
     private ?User $createdBy = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Intervention $idInter = null;
 
     public function getId(): ?int
