@@ -150,10 +150,6 @@ class InterventionController extends AbstractController
             return $this->redirectToRoute('app_login');
         } 
 
-        //Les variables nécessaires pour l'affichage de la page
-        $vue = "partials/form/interForm.html.twig";
-        $titrePage = "Création d'une nouvelle intervention";
-
         // Récupere le client grace à son id
         $client = $clientRepository->findOneBy(['id'=> $idClient]);
         
@@ -180,8 +176,7 @@ class InterventionController extends AbstractController
         //appel de la page provisoire
         return $this->render('/intervention/nouvelleInter.html.twig', [
             'controller_name' => 'InterventionController',
-            'titrePage' => $titrePage,
-            'vue' => $vue,
+            'titrePage' => 'Création d\'une nouvelle intervention',
             'interventionForm' => $interventionForm->createView(),
             'titreSideBar' => 'Informations client',
             'email' => $this->getUser()->getEmail(),
@@ -289,7 +284,6 @@ class InterventionController extends AbstractController
                         'idInter' => $idInter,
                         'show' => 'photos',
                     ]);   
-
         }
     }
 }

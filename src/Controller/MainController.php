@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\CategorieRepository;
 use App\Repository\ClientRepository;
 use App\Repository\InterventionRepository;
+use App\Repository\CategorieTacheRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +15,7 @@ class MainController extends AbstractController
 {
     #[Route('/', name: 'main')]
 
-    public function index(ClientRepository $ClientRepository, InterventionRepository $InterventionRepository): Response
+    public function index(ClientRepository $ClientRepository, InterventionRepository $InterventionRepository, CategorieRepository $categorieTacheRepository): Response
     {   
         // Si l'utilisateur est connecté
         if ($this->getUser()) { 
@@ -21,6 +23,7 @@ class MainController extends AbstractController
             // Récupération des clients et des interventions
                 $clients = $ClientRepository->findAll();
                 $interventionsEncours = $InterventionRepository->findby(['statut' => 'En cours']);
+                $categorieTaches = $categorieTacheRepository->findAll();
 
                 // Affichage de la page d'accueil
                 return $this->render('main/index.html.twig', [
@@ -30,6 +33,7 @@ class MainController extends AbstractController
                     'email' => $this->getUser()->getEmail(),
                     'date' => (new \DateTime())->format('l j F Y'),
                     'Clients' => $clients,
+                    'categorieTaches' => $categorieTaches,
                     'interventions' => $interventionsEncours,
                     'visibility' => 'd-block'
                 ]);

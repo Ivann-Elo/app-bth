@@ -12,11 +12,7 @@
                     <li><a href="{{ path('interList' , {'list' : 'Toutes'} )}}" class="text-decoration-none fw-semibold p-2 nav-liens rounded-pill" id="btn-tous">Tous</a></li>
                 </ul>
                 <!-- Fin block nav -->
-            </nav>
-            <div>
-                <!-- Début Recherche Filtre version mobile-->
-                <!-- Fin Recherche Filtre version mobile-->
-            </div>
+            </nav>  
 
          <!-- Début Block avec scroll -->
          <div class="overflow-auto" style="max-height: 40vh";>
@@ -30,7 +26,19 @@
             {% else %}
                 {% for intervention in interventions %}
                     <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black ">
-                        <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
+                        {% set nombreTache = 0 %}
+                            {% for categorieTache in categorieTaches  %}
+                                {% if categorieTache.idInter == intervention %}
+                                    {% set nombreTache = nombreTache +1 %}
+                                    {% endif %}
+                            {% endfor %}
+                        <div class="lign_inter border border-solid rounded-2 p-2 mx-3 border-warning my-3 position-relative ">
+                            {% if nombreTache != 0%}
+                            <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-warning p-2">
+                                {{ nombreTache }}<span class="ms-1">Listes de tâches</span>
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                            {% endif %}
                             <div class="d-flex justify-content-between  border-bottom py-1 ">
                                 <span>{{ intervention.idClient.nom }}</span>
                                 <span>{{ intervention.idClient.prenom }}</span>
