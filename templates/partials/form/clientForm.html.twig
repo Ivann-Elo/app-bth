@@ -1,42 +1,54 @@
 <div class="formNewClient py-4 col-12 px-3 rounded-2">
-    <form action="" method="GET">
-        <div class="row">
-            <div class="col-6 mb-2">
-                <label class="text-white" for="nom">Nom</label>
-                <input name="nom" type="text" class="form-control" id="nom" placeholder="Nom du client">
-            </div>
-            <div class="col-6 mb-2">
-                <label class="text-white" for="prenom">Prénom</label>
-                <input name="prenom"  type="text" class="form-control" id="prenom" placeholder="Prénom du client">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6 mb-2">
-                <label class="text-white" for="telephone">Téléphone</label>
-                <input name="telephone" type="tel" class="form-control" id="telelphone" placeholder="00-00-00-00-00">
-            </div>
-            <div class="col-6 mb-2">
-                <label class="text-white" for="mail">Email</label>
-                <input name="mail" type="mail" class="form-control" id="mail" placeholder="Adresse mail">
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div>
-                <label class="text-white" for="adresse">Adresse postale</label>
-                <input name="adresse" type="text" class="form-control" id="adresse" placeholder="adresse postal">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6 mb-2">
-                <label class="text-white" for="ville">Ville</label>
-                <input name="ville" type="text" class="form-control" id="ville" placeholder="Ville du client">
-            </div>
-            <div class="col-6 mb-2">
-                <label class="text-white" for="codePostal">Code postal</label>
-                <input name="codePostal" type="zip" class="form-control" id="codePostal" placeholder="Code postal">
-            </div>
-        </div>
-        <button type="submit" class="btn btn-success ">Créer</button>
-    </form>
+    <!-- Affichage des erreurs du formulaire -->
+    {{ form_errors(formAjoutClient) }}
+
+    <!-- Début du formulaire -->
+    {{ form_start(formAjoutClient) }}
     
+    <!-- Information client -->
+    <span class="text-white roboto-medium">Informations client</span>
+    <p class="text-white fs-6 roboto-thin mb-0">Ces informations ne sont pas nécessaires si le client est une entreprise</p>
+    <div class="row">
+        <div class="my-2 col-3 ">
+            {{form_row(formAjoutClient.civilite)}}
+        </div>
+        <div class="col-5 my-2">
+            {{form_row(formAjoutClient.nom)}}
+        </div>
+        <div class="col-4 my-2">
+            {{form_row(formAjoutClient.prenom)}}
+        </div>
+    </div>
+
+    <!-- Information entreprise -->
+    <span class="text-white roboto-medium">Informations entreprise</span>
+    <div class="row">
+        <div class="my-2 ">
+            {{form_row(formAjoutClient.ent)}}
+        </div>
+    </div>
+    <!-- Coordonnées client -->
+    <span class="text-white roboto-medium">Coordonnées client</span>
+    <div class="row">
+        <div class="col-6 my-2">
+            {{form_row(formAjoutClient.telephone)}}
+        </div>
+        <div class="col-6 my-2">
+            {{form_row(formAjoutClient.mail)}}
+        </div>
+    </div>
+
+    <!-- Adresse client -->
+    <span class="text-white roboto-medium">Addresse client</span>
+    <div class="row my-2">
+            {{form_row(formAjoutClient.rueClient)}}
+        <div class="col-6 my-2">
+            {{form_row(formAjoutClient.villeClient)}}
+        </div>
+        <div class="col-6 my-2">
+            {{form_row(formAjoutClient.zipClient)}}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success ">Créer</button>
+    {{form_end(formAjoutClient)}}
 </div>
