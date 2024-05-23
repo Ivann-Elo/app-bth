@@ -62,7 +62,7 @@ class MainController extends AbstractController
     }   
 
     #[Route('/interList/{list}', name: 'interList')]
-    public function afficheSelectInter(string $list, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository): Response
+    public function afficheSelectInter(CategorieRepository $categorieTacheRepository,Request $request, string $list, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository): Response
     {    
        
         // Si l'utilisateur est connecté
@@ -74,6 +74,14 @@ class MainController extends AbstractController
                 $interventionsEncours = $InterventionRepository->findby(['statut' => 'En cours']);
                 $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Terminee']);
                 $interventionsAvenir = $InterventionRepository->findby(['statut' => 'A venir']);
+                $categorieTaches = $categorieTacheRepository->findAll();
+
+
+                // Création du formulaire d'ajout de client
+                $formAjoutClient = $this->createForm(AjoutClientType::class);
+
+                // Traitement du formulaire d'ajout de client
+                $formAjoutClient->handleRequest($request);
 
                 switch ($list) {
                     case 'Encours':
@@ -99,7 +107,9 @@ class MainController extends AbstractController
                     'date' => (new \DateTime())->format('l j F Y'),
                     'Clients' => $clients,
                     'interventions' => $interList,
-                    'visibility' => 'd-block'
+                    'visibility' => 'd-block',
+                    'formAjoutClient' => $formAjoutClient->createView(),
+                    'categorieTaches' => $categorieTaches,
                 ]);
         
         // Sinon redirection vers la page d'accueil
