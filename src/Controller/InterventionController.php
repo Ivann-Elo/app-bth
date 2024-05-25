@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Google\Client;
 use App\Entity\Categorie;
 use App\Form\AjoutTacheType;
 use App\Form\ModifInterType;
@@ -15,6 +16,7 @@ use App\Repository\PhotoRepository;
 use App\Repository\TacheRepository;
 use App\Repository\ClientRepository;
 use App\Repository\FactureRepository;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
@@ -22,6 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class InterventionController extends AbstractController
 {
@@ -143,7 +146,7 @@ class InterventionController extends AbstractController
     
     // Ajout d'une nouvelle intervention
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
-    public function nouvelleIntervention( int $idClient,  ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
+    public function nouvelleIntervention( int $idClient, ClientRegistry $clientRegistry,  ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
     {   
         // Si l'utilisateut n'est pas connecté retour à la page login
         if(!$this->getUser()) {
@@ -166,7 +169,36 @@ class InterventionController extends AbstractController
             $entity->setZipInter($client->getZipClient());
             $entity->setDateCreation(new \DateTimeImmutable());
             $entityManager->persist($entity);
+
+            // // Créer un event google calendar
+            // $clientAuth = $clientRegistry->getClient('google');
+            // $clientGoogle = new \Google\Client();
+            
+            // $clientGoogle->setPrompt('select_account consent');
+            // $clientGoogle->setAccessType('offline');
+            // $clientGoogle->setAuthConfig(__DIR__ . '/../../config/google/credentials.json');
+            // $clientGoogle->setApplicationName('Bth plomberie');
+
+            // //set the access toke
+            // $service = new \Google\Service\Calendar($clientGoogle);
+            // $event = new \Google\Service\Calendar\Event(array(
+            //     'summary' => 'Google I/O 2015',
+            //     'location' => '800 Howard St., San Francisco, CA 94103',
+            //     'description' => 'A chance to hear more about Google\'s developer products.',
+            //     'start' => array(
+            //       'dateTime' => '2015-05-28T09:00:00-07:00',
+            //       'timeZone' => 'America/Los_Angeles',
+            //     ),
+            //     'end' => array(
+            //       'dateTime' => '2015-05-28T17:00:00-07:00',
+            //       'timeZone' => 'America/Los_Angeles',
+            // )));
+
+            // $calendarId = 'primary';
+            // $event = $service->events->insert($calendarId, $event);
+
             $entityManager->flush();
+
             return $this->redirectToRoute('app_intervention', [
                 'idInter' => $entity->getId(),
                 'show' => 'taches',
