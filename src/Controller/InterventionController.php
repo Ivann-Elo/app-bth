@@ -15,6 +15,7 @@ use App\Repository\PhotoRepository;
 use App\Repository\TacheRepository;
 use App\Repository\ClientRepository;
 use App\Repository\FactureRepository;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
@@ -22,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class InterventionController extends AbstractController
 {
@@ -67,6 +69,33 @@ class InterventionController extends AbstractController
         $uploadDeviForm->handleRequest($request);
         $uploadFactureForm->handleRequest($request);
         $ajoutCategorieForm->handleRequest($request);
+
+        //Tableau de formulaire d'Upload 
+        $tabFormUpload = [ $uploadPhotoForm, $uploadDeviForm, $uploadFactureForm ];
+
+        for ($i=0; $i < count($tabFormUpload); $i++) { 
+            if($tabFormUpload[$i]->isSubmitted() && $tabFormUpload[$i]->isValid())
+            {
+                $entity = $tabFormUpload[$i]->getData();
+                $entity->setIdInter($intervention);
+                $entityManager->persist($entity);
+                
+                try {
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Fichier envoyé avec succès');
+                    return $this->redirectToRoute('app_intervention', [
+                        'show' => $show,
+                        'idInter' => $idInter,
+                    ]);
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                    return $this->redirectToRoute('app_intervention', [
+                        'show' => 'photos',
+                        'idInter' => $idInter,
+                    ]);
+                }
+            }
+        }
         
         // Gérer les requêtes de chaque formulaire
         foreach ($categorieTache as $categorie) {
@@ -108,18 +137,9 @@ class InterventionController extends AbstractController
                 'idInter' => $idInter,
             ]);
         }
-        
-        //Déclaration des variables pour la persistance des données
-        $persistPhoto = $this->persist($idInter, $request, $intervention, $entityManager, $uploadPhotoForm);
-        $persitDevi = $this->persist($idInter, $request, $intervention, $entityManager, $uploadDeviForm);
-        $persistFacture = $this->persist($idInter, $request, $intervention, $entityManager, $uploadFactureForm);
-
-        //Persistance des données
-        $persistPhoto; $persitDevi; $persistFacture;
-
+    
         return $this->render('intervention/index.html.twig', [
             'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
-
             'categorieTaches' => $categorieTache,
             'client' => $client,
             'controller_name' => 'InterventionController',
@@ -143,7 +163,7 @@ class InterventionController extends AbstractController
     
     // Ajout d'une nouvelle intervention
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
-    public function nouvelleIntervention( int $idClient,  ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
+    public function nouvelleIntervention( int $idClient, ClientRegistry $clientRegistry,  ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
     {   
         // Si l'utilisateut n'est pas connecté retour à la page login
         if(!$this->getUser()) {
@@ -167,6 +187,7 @@ class InterventionController extends AbstractController
             $entity->setDateCreation(new \DateTimeImmutable());
             $entityManager->persist($entity);
             $entityManager->flush();
+
             return $this->redirectToRoute('app_intervention', [
                 'idInter' => $entity->getId(),
                 'show' => 'taches',
@@ -270,20 +291,5 @@ class InterventionController extends AbstractController
         $EntityManager->remove($intervention);
         $EntityManager->flush();
         return $this->redirectToRoute('main');
-    }
-    
-    // Fonction de persistance des données  
-    private function persist($idInter, $request, $intervention, $entityManager, $form){
-        if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid() )
-        {
-                    $entity = $form->getData();
-                    $entity->setIdInter($intervention);
-                    $entityManager->persist($entity);
-                    $entityManager->flush();
-                    return $this->redirectToRoute('app_intervention', [
-                        'idInter' => $idInter,
-                        'show' => 'photos',
-                    ]);   
-        }
     }
 }

@@ -2,7 +2,7 @@
     <span>Mes interventions</span>
     <!-- Début Recherche filtre version desktop / tablet -->
     <!-- Fin Recherche filtre version desktop / tablet -->
-    <div class="bg-white px-2 py-3 mt-1 rounded-2 " >
+    <div class="bg-white py-3 mt-1 rounded-2 " >
             <nav class="d-flex justify-content-center">
                 <!-- début block nav -->
                 <ul class="list-unstyled d-flex">
@@ -32,7 +32,12 @@
                                     {% set nombreTache = nombreTache +1 %}
                                     {% endif %}
                             {% endfor %}
-                        <div class="lign_inter border border-solid rounded-2 p-2 mx-3 border-warning my-3 position-relative ">
+                            {% if nombreTache > 0 %}
+                                {% set border = 'border-warning' %}
+                            {% else %}
+                                {% set border = '' %}
+                            {% endif %}
+                        <div class="lign_inter border border-solid rounded-2 p-2 mx-2 {{ border }} my-3 position-relative ">
                             {% if nombreTache != 0%}
                             <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-warning p-2">
                                 {{ nombreTache }}<span class="ms-1">Listes de tâches</span>
