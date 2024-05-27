@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Google\Client;
 use App\Entity\Categorie;
 use App\Form\AjoutTacheType;
 use App\Form\ModifInterType;
@@ -70,6 +69,33 @@ class InterventionController extends AbstractController
         $uploadDeviForm->handleRequest($request);
         $uploadFactureForm->handleRequest($request);
         $ajoutCategorieForm->handleRequest($request);
+
+        //Tableau de formulaire d'Upload 
+        $tabFormUpload = [ $uploadPhotoForm, $uploadDeviForm, $uploadFactureForm ];
+
+        for ($i=0; $i < count($tabFormUpload); $i++) { 
+            if($tabFormUpload[$i]->isSubmitted() && $tabFormUpload[$i]->isValid())
+            {
+                $entity = $tabFormUpload[$i]->getData();
+                $entity->setIdInter($intervention);
+                $entityManager->persist($entity);
+                
+                try {
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Fichier envoyé avec succès');
+                    return $this->redirectToRoute('app_intervention', [
+                        'show' => $show,
+                        'idInter' => $idInter,
+                    ]);
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                    return $this->redirectToRoute('app_intervention', [
+                        'show' => 'photos',
+                        'idInter' => $idInter,
+                    ]);
+                }
+            }
+        }
         
         // Gérer les requêtes de chaque formulaire
         foreach ($categorieTache as $categorie) {
@@ -111,18 +137,9 @@ class InterventionController extends AbstractController
                 'idInter' => $idInter,
             ]);
         }
-        
-        //Déclaration des variables pour la persistance des données
-        $persistPhoto = $this->persist($idInter, $request, $intervention, $entityManager, $uploadPhotoForm);
-        $persitDevi = $this->persist($idInter, $request, $intervention, $entityManager, $uploadDeviForm);
-        $persistFacture = $this->persist($idInter, $request, $intervention, $entityManager, $uploadFactureForm);
-
-        //Persistance des données
-        $persistPhoto; $persitDevi; $persistFacture;
-
+    
         return $this->render('intervention/index.html.twig', [
             'ajoutCategorieForm' => $ajoutCategorieForm->createView(),
-
             'categorieTaches' => $categorieTache,
             'client' => $client,
             'controller_name' => 'InterventionController',
@@ -169,34 +186,6 @@ class InterventionController extends AbstractController
             $entity->setZipInter($client->getZipClient());
             $entity->setDateCreation(new \DateTimeImmutable());
             $entityManager->persist($entity);
-
-            // // Créer un event google calendar
-            // $clientAuth = $clientRegistry->getClient('google');
-            // $clientGoogle = new \Google\Client();
-            
-            // $clientGoogle->setPrompt('select_account consent');
-            // $clientGoogle->setAccessType('offline');
-            // $clientGoogle->setAuthConfig(__DIR__ . '/../../config/google/credentials.json');
-            // $clientGoogle->setApplicationName('Bth plomberie');
-
-            // //set the access toke
-            // $service = new \Google\Service\Calendar($clientGoogle);
-            // $event = new \Google\Service\Calendar\Event(array(
-            //     'summary' => 'Google I/O 2015',
-            //     'location' => '800 Howard St., San Francisco, CA 94103',
-            //     'description' => 'A chance to hear more about Google\'s developer products.',
-            //     'start' => array(
-            //       'dateTime' => '2015-05-28T09:00:00-07:00',
-            //       'timeZone' => 'America/Los_Angeles',
-            //     ),
-            //     'end' => array(
-            //       'dateTime' => '2015-05-28T17:00:00-07:00',
-            //       'timeZone' => 'America/Los_Angeles',
-            // )));
-
-            // $calendarId = 'primary';
-            // $event = $service->events->insert($calendarId, $event);
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_intervention', [
@@ -302,20 +291,5 @@ class InterventionController extends AbstractController
         $EntityManager->remove($intervention);
         $EntityManager->flush();
         return $this->redirectToRoute('main');
-    }
-    
-    // Fonction de persistance des données  
-    private function persist($idInter, $request, $intervention, $entityManager, $form){
-        if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid() )
-        {
-                    $entity = $form->getData();
-                    $entity->setIdInter($intervention);
-                    $entityManager->persist($entity);
-                    $entityManager->flush();
-                    return $this->redirectToRoute('app_intervention', [
-                        'idInter' => $idInter,
-                        'show' => 'photos',
-                    ]);   
-        }
     }
 }

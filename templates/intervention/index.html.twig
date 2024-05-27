@@ -20,7 +20,7 @@
           <li class="breadcrumb-item active" aria-current="page">Intervention</li>
         </ol>
       </nav>
-      {% include "partials/modal/modalCalendar.html.twig" %}
+
       <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1> 
       <div class="d-flex justify-content-between align-items-center">
         <div class="col-6">
@@ -67,6 +67,11 @@
           <!-- Section documents -->
           <div class="col-md-7">
             <p class="p-1 titre_document text-center mt-2">Documents</p>
+              {% for messageSuccess in app.flashes('success') %}
+                <div class="text-center bg-success border border-success-subtle border-2 p-3 bg-opacity-50 rounded-3">
+                  {{ messageSuccess }}
+                </div>
+              {% endfor %}  
             <div class="row ps-1">
               <div class="col-6 d-flex flex-column">
                 <strong>devis</strong>
@@ -74,9 +79,9 @@
                   {% if deviInter|length == 0 %}
                   {{form_errors(uploadDeviForm)}}
                   {{form_start(uploadDeviForm)}}
-                  {{ form_row(uploadDeviForm.deviFile) }}
-                  <button type="submit" class="btn btn-primary">Ajouter</button>
-                  {{form_end(uploadDeviForm)}}
+                    {{ form_row(uploadDeviForm.deviFile) }}
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    {{form_end(uploadDeviForm)}}
                   {% else %}  
                   {% for devi in deviInter %}
                   <a href="{{ vich_uploader_asset(devi, 'deviFile') }}" target="_blank" class="text-decoration-none">Voir le devis</a>
@@ -89,8 +94,8 @@
                 <div class="m-1 p-3 rounded-1 document_zone overflow-hidden">
                   {% if factureInter|length == 0 %}
                   {{form_errors(uploadFactureForm)}}
-                  {{form_start(uploadFactureForm)}}
-                  {{ form_row(uploadFactureForm.factureFile) }}
+                    {{form_start(uploadFactureForm)}}
+                    {{ form_row(uploadFactureForm.factureFile) }}
                   <button type="submit" class="btn btn-primary">Ajouter</button>
                   {{form_end(uploadFactureForm)}}
                   {% else %}  
@@ -113,10 +118,13 @@
          {% include "partials/sectionTaches.html.twig" %}
       {% endif %}  
       <!-- FIN Section PHOTOS ou TÂCHES -->
+
     </div>
     
     <!-- Fin de la colonne de droite -->
   </div>
+   <!-- Toast ajout élément -->
+
  </main> 
   
   {% endblock %}

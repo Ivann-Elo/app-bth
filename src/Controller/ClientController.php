@@ -16,6 +16,7 @@ class ClientController extends AbstractController
         $client = $clientRepository->findOneBy(['id'=> $id ]);
         $interventions = $InterventionRepository->findBy(['idClient'=> $client->getId()]);
 
+
         return $this->render('client/index.html.twig', [
             'titrePage' => 'Détails du client',
             'titreSideBar' => 'Informations client',

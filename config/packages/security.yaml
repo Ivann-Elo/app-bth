@@ -6,7 +6,7 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        oauth:
+        oauth2:
             id: knpu.oauth2.user_provider        
         app_user_provider:
             entity:
