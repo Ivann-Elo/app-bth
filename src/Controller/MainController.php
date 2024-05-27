@@ -37,7 +37,13 @@ class MainController extends AbstractController
                 if ($formAjoutClient->isSubmitted() && $formAjoutClient->isValid()) {
                     $client = $formAjoutClient->getData();
                     $entityManager->persist($client);
-                    $entityManager->flush();
+                    try {
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $this->addFlash('danger', 'Erreur lors de l\'ajout du client');
+                        die($e->getMessage());
+                    }
+                    
                     return $this->redirectToRoute('main');
                 }
 
