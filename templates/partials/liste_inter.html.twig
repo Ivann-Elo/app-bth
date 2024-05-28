@@ -21,7 +21,6 @@
             <table id="interventionTable" class="display">
                 <thead>
                     <tr>
-                        <th>id</th>
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Début </th>
@@ -32,11 +31,22 @@
                 </thead>
                 <tbody>
                     {% for intervention in interventions %}
+
+                       <!-- Si le champ prénom n'est pas renseigné -->
+                        {% set nom = intervention.idClient.nom %} 
+                        {% if intervention.idClient.nom == null or intervention.idClient.nom == "Null" or intervention.idClient.nom == "null"%}
+                            {% set nom = "Non renseigné" %}
+                        {% endif %}
+
+                        <!-- Si le champ prénom n'est pas renseigné -->
+                        {% set prenom = intervention.idClient.prenom %} 
+                        {% if intervention.idClient.prenom == null or intervention.idClient.prenom == "Null" or intervention.idClient.prenom == "null"%}
+                            {% set prenom = "Non renseigné" %}
+                        {% endif %}
                 
                     <tr data-url="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}">
-                        <td>{{ intervention.id }}</td>
-                        <td>{{ intervention.idClient.nom }}</td>
-                        <td>{{ intervention.idClient.prenom }}</td>
+                        <td>{{ nom }}</td>
+                        <td>{{ prenom }}</td>
                         <td>{{ intervention.dateDebut|date('Y-m-d') }}</td>
                         <td>{{ intervention.dateFin|date('Y-m-d') }}</td>
                         <td>{{ intervention.description }}</td>

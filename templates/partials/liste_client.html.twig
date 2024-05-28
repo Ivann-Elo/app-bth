@@ -4,6 +4,7 @@
         <table id="clientTable" class="display">
             <thead>
                 <tr>
+                    <th>Entreprise</th>
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Ville</th>
@@ -11,23 +12,33 @@
                 </tr>
             </thead>
             <tbody>
-                {% for client in Clients %}
-                {% if client.nom != "Null" and client.nom != "null" %} 
-                    {% set valuesNom = client.nom %}
-                {% else %}
-                        {% set valuesNom = "inconnu" %}
-                {% endif %}    
-                {% if client.prenom != "Null" and client.prenom != "null" %} 
-                    {% set valuesPrenom = client.prenom %}
-                {% else %}
-                        {% set valuesPrenom = "inconnu" %}
-                {% endif %}    
-                <tr data-url="{{ path('app_client', {'id': client.id }) }}">
-                    <td>{{ valuesNom }}</td>
-                    <td>{{ valuesPrenom }}</td> 
-                    <td>{{ client.villeClient }}</td>
-                    <td>{{ client.mail }}</td>
-                </tr>
+                {% for client in Clients %} 
+
+                    <!-- Si le champ prénom n'est pas renseigné -->
+                    {% set nom = client.nom %} 
+                    {% if client.nom == null or client.nom == "Null" or client.nom == "null"%}
+                        {% set nom = "Non renseigné" %}
+                    {% endif %}
+
+                    <!-- Si le champ prénom n'est pas renseigné -->
+                    {% set prenom = client.prenom %} 
+                    {% if client.prenom == null or client.prenom == "Null" or client.prenom == "null"%}
+                        {% set prenom = "Non renseigné" %}
+                    {% endif %}
+
+                    <!-- Si le champ prénom n'est pas renseigné -->
+                    {% set entreprise = client.ent %} 
+                    {% if client.ent == null or client.ent == "Null" or client.ent == "null"%}
+                        {% set entreprise = "" %}
+                    {% endif %}
+
+                    <tr data-url="{{ path('app_client', {'id': client.id }) }}">
+                        <td>{{ entreprise }}</td>
+                        <td>{{ nom }}</td>
+                        <td>{{ prenom }}</td> 
+                        <td>{{ client.villeClient }}</td>
+                        <td>{{ client.mail }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

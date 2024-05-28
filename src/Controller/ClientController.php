@@ -15,7 +15,8 @@ class ClientController extends AbstractController
     {      
         $client = $clientRepository->findOneBy(['id'=> $id ]);
         $interventions = $InterventionRepository->findBy(['idClient'=> $client->getId()]);
-
+        $interventionsTerminees = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'Terminée']);
+        $interventionsEnCours = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'En cours']);
 
         return $this->render('client/index.html.twig', [
             'titrePage' => 'Détails du client',
@@ -24,6 +25,8 @@ class ClientController extends AbstractController
             'date' => (new \DateTime())->format('d-m-Y'),
             'client' => $client,
             'interventions' => $interventions,
+            'interventionsTerminees' => $interventionsTerminees,
+            'interventionsEnCours' => $interventionsEnCours,
             'visibility' => 'd-block'
         ]);
     } 
