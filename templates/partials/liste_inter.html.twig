@@ -16,7 +16,7 @@
          <!-- Début Block avec scroll -->
          <div class="overflow-auto px-3" style="max-height: 80vh";>
             <!-- Début de ma ligne -->
-            {# <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black "> #}
+            {# <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black ">  #}
             
             <table id="interventionTable" class="display">
                 <thead>
@@ -32,17 +32,17 @@
                 </thead>
                 <tbody>
                     {% for intervention in interventions %}
-                    <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black ">
-                    <tr>
+                
+                    <tr data-url="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}">
                         <td>{{ intervention.id }}</td>
                         <td>{{ intervention.idClient.nom }}</td>
                         <td>{{ intervention.idClient.prenom }}</td>
                         <td>{{ intervention.dateDebut|date('Y-m-d') }}</td>
                         <td>{{ intervention.dateFin|date('Y-m-d') }}</td>
-                            <td>{{ intervention.description }}</td>
-                            <td>{{ intervention.villeInter }}</td>
-                        </tr>
-                    </a>    
+                        <td>{{ intervention.description }}</td>
+                        <td>{{ intervention.villeInter }}</td>
+                    </tr>
+                     
                     {% endfor %}
                 </tbody>
             </table>

@@ -22,7 +22,7 @@
                 {% else %}
                         {% set valuesPrenom = "inconnu" %}
                 {% endif %}    
-                <tr>
+                <tr data-url="{{ path('app_client', {'id': client.id }) }}">
                     <td>{{ valuesNom }}</td>
                     <td>{{ valuesPrenom }}</td> 
                     <td>{{ client.villeClient }}</td>
