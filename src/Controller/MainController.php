@@ -18,7 +18,7 @@ class MainController extends AbstractController
 {
     #[Route('/', name: 'main')]
 
-    public function index(EntityManagerInterface $entityManager ,Request $request, AjoutTacheType $ClientForm, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository, CategorieRepository $categorieTacheRepository): Response
+    public function index(EntityManagerInterface $entityManager ,Request $request, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository, CategorieRepository $categorieTacheRepository): Response
     {   
         // Si l'utilisateur est connecté
         if ($this->getUser()) { 
