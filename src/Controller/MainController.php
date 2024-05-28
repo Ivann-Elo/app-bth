@@ -18,7 +18,7 @@ class MainController extends AbstractController
 {
     #[Route('/', name: 'main')]
 
-    public function index(EntityManagerInterface $entityManager ,Request $request, AjoutTacheType $ClientForm, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository, CategorieRepository $categorieTacheRepository): Response
+    public function index(EntityManagerInterface $entityManager ,Request $request, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository, CategorieRepository $categorieTacheRepository): Response
     {   
         // Si l'utilisateur est connecté
         if ($this->getUser()) { 
@@ -37,7 +37,13 @@ class MainController extends AbstractController
                 if ($formAjoutClient->isSubmitted() && $formAjoutClient->isValid()) {
                     $client = $formAjoutClient->getData();
                     $entityManager->persist($client);
-                    $entityManager->flush();
+                    try {
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $this->addFlash('danger', 'Erreur lors de l\'ajout du client');
+                        die($e->getMessage());
+                    }
+                    
                     return $this->redirectToRoute('main');
                 }
 

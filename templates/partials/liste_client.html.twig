@@ -1,0 +1,35 @@
+<div class="bg-white rounded-2 px-2 py-3 mt-1 overflow-auto ">
+    <div class="overflow-auto" style="max-height: 80vh">
+        <!-- Mon tableau -->
+        <table id="clientTable" class="display">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Ville</th>
+                    <th>Mail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in Clients %}
+                {% if client.nom != "Null" and client.nom != "null" %} 
+                    {% set valuesNom = client.nom %}
+                {% else %}
+                        {% set valuesNom = "inconnu" %}
+                {% endif %}    
+                {% if client.prenom != "Null" and client.prenom != "null" %} 
+                    {% set valuesPrenom = client.prenom %}
+                {% else %}
+                        {% set valuesPrenom = "inconnu" %}
+                {% endif %}    
+                <tr data-url="{{ path('app_client', {'id': client.id }) }}">
+                    <td>{{ valuesNom }}</td>
+                    <td>{{ valuesPrenom }}</td> 
+                    <td>{{ client.villeClient }}</td>
+                    <td>{{ client.mail }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

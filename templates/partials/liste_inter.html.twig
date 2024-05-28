@@ -1,5 +1,4 @@
 <div class="mb-2 ">
-    <span>Mes interventions</span>
     <!-- Début Recherche filtre version desktop / tablet -->
     <!-- Fin Recherche filtre version desktop / tablet -->
     <div class="bg-white py-3 mt-1 rounded-2 " >
@@ -15,49 +14,38 @@
             </nav>  
             
          <!-- Début Block avec scroll -->
-         <div class="overflow-auto" style="max-height: 40vh";>
+         <div class="overflow-auto px-3" style="max-height: 80vh";>
             <!-- Début de ma ligne -->
-            {% if interventions|length < 1 %} 
-                <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
-                    <div class="d-flex justify-content-center border-bottom py-1 ">
-                        <span>Aucune intervention enregistrée</span>
-                    </div>
-                </div>
-            {% else %}
-                {% for intervention in interventions %}
-                    <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black ">
-                        {% set nombreTache = 0 %}
-                            {% for categorieTache in categorieTaches  %}
-                                {% if categorieTache.idInter == intervention %}
-                                    {% set nombreTache = nombreTache +1 %}
-                                    {% endif %}
-                            {% endfor %}
-                            {% if nombreTache > 0 %}
-                                {% set border = 'border-warning' %}
-                            {% else %}
-                                {% set border = '' %}
-                            {% endif %}
-                        <div class="lign_inter border border-solid rounded-2 p-2 mx-2 {{ border }} my-3 position-relative ">
-                            {% if nombreTache != 0%}
-                            <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-warning p-2">
-                                {{ nombreTache }}<span class="ms-1">Listes de tâches</span>
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
-                            {% endif %}
-                            <div class="d-flex justify-content-between  border-bottom py-1 ">
-                                <span>{{ intervention.idClient.nom }}</span>
-                                <span>{{ intervention.idClient.prenom }}</span>
-                                <span>{{ intervention.dateDebut|date('Y-m-d') }}</span>
-                                <span>{{ intervention.dateFin|date('Y-m-d') }}</span>
-                            </div>
-                            <div class="d-flex justify-content-between py-1">
-                                <span class="text-center" >{{ intervention.description }}</span>
-                                <span class="text-center" >{{ intervention.villeInter }}</span>
-                            </div>
-                        </div>
-                    </a>
-                {% endfor %}
-            {% endif %}
+            {# <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black ">  #}
+            
+            <table id="interventionTable" class="display">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Début </th>
+                        <th>Fin </th>
+                        <th>Description</th>
+                        <th>Ville </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for intervention in interventions %}
+                
+                    <tr data-url="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}">
+                        <td>{{ intervention.id }}</td>
+                        <td>{{ intervention.idClient.nom }}</td>
+                        <td>{{ intervention.idClient.prenom }}</td>
+                        <td>{{ intervention.dateDebut|date('Y-m-d') }}</td>
+                        <td>{{ intervention.dateFin|date('Y-m-d') }}</td>
+                        <td>{{ intervention.description }}</td>
+                        <td>{{ intervention.villeInter }}</td>
+                    </tr>
+                     
+                    {% endfor %}
+                </tbody>
+            </table>
             <!-- Fin de ma ligne-->
         </div>
          <!-- Fin Block avec scroll -->
