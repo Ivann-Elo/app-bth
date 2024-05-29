@@ -15,7 +15,6 @@ use App\Repository\PhotoRepository;
 use App\Repository\TacheRepository;
 use App\Repository\ClientRepository;
 use App\Repository\FactureRepository;
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
@@ -45,9 +44,6 @@ class InterventionController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        //Déclaration des variables
-        $tabFormTache = [];
-        
         //Récupération des données
         $intervention = $interventionRepository->findOneBy(['id'=> $idInter]);
         $photoInter = $photoRepository->findBy(['idInter'=> $idInter]);
@@ -153,7 +149,6 @@ class InterventionController extends AbstractController
             'titrePage' => 'Fiche d\'intervention',
             'titreSideBar' => 'Informations client',
             'taches' => $tache,
-            'tacheForms' => $tabFormTache,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
             'uploadDeviForm' => $uploadDeviForm->createView(),
             'uploadFactureForm' => $uploadFactureForm->createView(),
@@ -163,7 +158,7 @@ class InterventionController extends AbstractController
     
     // Ajout d'une nouvelle intervention
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
-    public function nouvelleIntervention( int $idClient, ClientRegistry $clientRegistry,  ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
+    public function nouvelleIntervention( int $idClient,  ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
     {   
         // Si l'utilisateut n'est pas connecté retour à la page login
         if(!$this->getUser()) {
