@@ -9,7 +9,7 @@
         </nav>
     
         <!-- Début Block avec scroll -->
-        <div class="overflow-auto" style="max-height: 40vh";>
+        <div class="overflow-auto" style="max-height: 80vh";>
             <div id="main-interventions">
             {% if interventions|length < 1 %} 
                 <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
@@ -26,11 +26,17 @@
                         <th>Statut</th>
                         <th>Description</th>
                         <th>Ville </th>
+                        <th>Liste tâches</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for intervention in interventions %}
-
+                        {% set count = 0 %}
+                            {% for categorieTache in categorieTaches %}
+                                {% if categorieTache.idInter == intervention %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
+                            {% endfor %}
                        <!-- Si le champ prénom n'est pas renseigné -->
                         {% set nom = intervention.idClient.nom %} 
                         {% if intervention.idClient.nom == null or intervention.idClient.nom == "Null" or intervention.idClient.nom == "null"%}
@@ -49,6 +55,7 @@
                         <td>{{ intervention.statut }}</td>
                         <td>{{ intervention.description }}</td>
                         <td>{{ intervention.villeInter }}</td>
+                        <td>{{ count }}</td>
                     </tr>  
                     {% endfor %}
                 </tbody>
@@ -71,11 +78,12 @@
                             <th>Statut</th>
                             <th>Description</th>
                             <th>Ville </th>
+                            <th>Liste tâches</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for intervention in interventionsTerminee %}
-    
+
                            <!-- Si le champ prénom n'est pas renseigné -->
                             {% set nom = intervention.idClient.nom %} 
                             {% if intervention.idClient.nom == null or intervention.idClient.nom == "Null" or intervention.idClient.nom == "null"%}
@@ -94,6 +102,7 @@
                             <td>{{ intervention.statut }}</td>
                             <td>{{ intervention.description }}</td>
                             <td>{{ intervention.villeInter }}</td>
+                            <td></td>
                         </tr>  
                         {% endfor %}
                     </tbody>
@@ -116,6 +125,7 @@
                                 <th>Statut</th>
                                 <th>Description</th>
                                 <th>Ville </th>
+                                <th>Liste tâches</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -139,6 +149,7 @@
                                 <td>{{ intervention.statut }}</td>
                                 <td>{{ intervention.description }}</td>
                                 <td>{{ intervention.villeInter }}</td>
+                                <td></td>
                             </tr>  
                             {% endfor %}
                         </tbody>
