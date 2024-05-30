@@ -1,37 +1,42 @@
 <div class="mb-2 ">
-    <!-- Début Recherche filtre version desktop / tablet -->
-    <!-- Fin Recherche filtre version desktop / tablet -->
-    <div class="bg-white py-3 mt-1 rounded-2 " >
-            <nav class="d-flex justify-content-center">
-                <!-- début block nav -->
-                <ul class="list-unstyled d-flex">
-                    <li><a href="{{ path('interList' , {'list' : 'Encours'} )}}" class="text-decoration-none fw-semibold p-2 nav-liens rounded-pill" id="btn-encours">En cours</a></li>
-                    <li><a href="{{ path('interList' , {'list' : 'Avenir'} )}}" class="text-decoration-none fw-semibold p-2 nav-liens rounded-pill" id="btn-avenir">A venir</a></li>
-                    <li><a href="{{ path('interList' , {'list' : 'Terminee'} )}}" class="text-decoration-none fw-semibold p-2 nav-liens rounded-pill" id="btn-terminee">Terminée</a></li>
-                    <li><a href="{{ path('interList' , {'list' : 'Toutes'} )}}" class="text-decoration-none fw-semibold p-2 nav-liens rounded-pill" id="btn-tous">Tous</a></li>
-                </ul>
-                <!-- Fin block nav -->
-            </nav>  
-            
-         <!-- Début Block avec scroll -->
-         <div class="overflow-auto px-3" style="max-height: 80vh";>
-            <!-- Début de ma ligne -->
-            {# <a href="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}" class="text-decoration-none text-black ">  #}
-            
+    <div class="bg-white px-2 py-3 mt-1 rounded-2 " >
+        <nav class="d-flex justify-content-center">
+            <ul class="list-unstyled d-flex">
+                <li class="text-decoration-none fw-semibold p-2 border-bottom mx-3 border-success" id="main-btn-toutes">Toutes</li>
+                <li class="text-decoration-none fw-semibold p-2 border-bottom mx-3" id="main-btn-encours">En cours</li>
+                <li class="text-decoration-none fw-semibold p-2 border-bottom mx-3" id="main-btn-terminee">Terminée</li>
+            </ul>
+        </nav>
+    
+        <!-- Début Block avec scroll -->
+        <div class="overflow-auto" style="max-height: 80vh";>
+            <div id="main-interventions">
+            {% if interventions|length < 1 %} 
+                <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
+                    <div class="d-flex justify-content-center border-bottom py-1 ">
+                        <span>Aucune intervention enregistrée</span>
+                    </div>
+                </div>
+            {% else %}
             <table id="interventionTable" class="display">
                 <thead>
                     <tr>
                         <th>Nom</th>
                         <th>Prénom</th>
-                        <th>Début </th>
-                        <th>Fin </th>
+                        <th>Statut</th>
                         <th>Description</th>
                         <th>Ville </th>
+                        <th>Liste tâches</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for intervention in interventions %}
-
+                        {% set count = 0 %}
+                            {% for categorieTache in categorieTaches %}
+                                {% if categorieTache.idInter == intervention %}
+                                    {% set count = count + 1 %}
+                                {% endif %}
+                            {% endfor %}
                        <!-- Si le champ prénom n'est pas renseigné -->
                         {% set nom = intervention.idClient.nom %} 
                         {% if intervention.idClient.nom == null or intervention.idClient.nom == "Null" or intervention.idClient.nom == "null"%}
@@ -47,17 +52,114 @@
                     <tr data-url="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}">
                         <td>{{ nom }}</td>
                         <td>{{ prenom }}</td>
-                        <td>{{ intervention.dateDebut|date('Y-m-d') }}</td>
-                        <td>{{ intervention.dateFin|date('Y-m-d') }}</td>
+                        <td>{{ intervention.statut }}</td>
                         <td>{{ intervention.description }}</td>
                         <td>{{ intervention.villeInter }}</td>
-                    </tr>
-                     
+                        <td>{{ count }}</td>
+                    </tr>  
                     {% endfor %}
                 </tbody>
             </table>
-            <!-- Fin de ma ligne-->
+            {% endif %}
+            </div>
+            <div id="main-interventionTerminee" class="d-none">
+                {% if interventions|length < 1 %} 
+                    <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
+                        <div class="d-flex justify-content-center border-bottom py-1 ">
+                            <span>Aucune intervention enregistrée</span>
+                        </div>
+                    </div>
+                {% else %}
+                <table id="interventionTableTerminee" class="display">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Statut</th>
+                            <th>Description</th>
+                            <th>Ville </th>
+                            <th>Liste tâches</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for intervention in interventionsTerminee %}
+
+                           <!-- Si le champ prénom n'est pas renseigné -->
+                            {% set nom = intervention.idClient.nom %} 
+                            {% if intervention.idClient.nom == null or intervention.idClient.nom == "Null" or intervention.idClient.nom == "null"%}
+                                {% set nom = "Non renseigné" %}
+                            {% endif %}
+    
+                            <!-- Si le champ prénom n'est pas renseigné -->
+                            {% set prenom = intervention.idClient.prenom %} 
+                            {% if intervention.idClient.prenom == null or intervention.idClient.prenom == "Null" or intervention.idClient.prenom == "null"%}
+                                {% set prenom = "Non renseigné" %}
+                            {% endif %}
+                    
+                        <tr data-url="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}">
+                            <td>{{ nom }}</td>
+                            <td>{{ prenom }}</td>
+                            <td>{{ intervention.statut }}</td>
+                            <td>{{ intervention.description }}</td>
+                            <td>{{ intervention.villeInter }}</td>
+                            <td></td>
+                        </tr>  
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+                </div>
+                <div id="main-interventionEnCours" class="d-none">
+                    {% if interventionsEnCours|length < 1 %} 
+                        <div class="lign_inter border border-solid rounded-2 p-2 border-warning my-2">
+                            <div class="d-flex justify-content-center border-bottom py-1 ">
+                                <span>Aucune intervention enregistrée</span>
+                            </div>
+                        </div>
+                    {% else %}
+                    <table id="interventionTableEnCours" class="display">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Statut</th>
+                                <th>Description</th>
+                                <th>Ville </th>
+                                <th>Liste tâches</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for intervention in interventionsEnCours %}
+        
+                               <!-- Si le champ prénom n'est pas renseigné -->
+                                {% set nom = intervention.idClient.nom %} 
+                                {% if intervention.idClient.nom == null or intervention.idClient.nom == "Null" or intervention.idClient.nom == "null"%}
+                                    {% set nom = "Non renseigné" %}
+                                {% endif %}
+        
+                                <!-- Si le champ prénom n'est pas renseigné -->
+                                {% set prenom = intervention.idClient.prenom %} 
+                                {% if intervention.idClient.prenom == null or intervention.idClient.prenom == "Null" or intervention.idClient.prenom == "null"%}
+                                    {% set prenom = "Non renseigné" %}
+                                {% endif %}
+                        
+                            <tr data-url="{{ path('app_intervention', {'show': 'photos', 'idInter': intervention.id }) }}">
+                                <td>{{ nom }}</td>
+                                <td>{{ prenom }}</td>
+                                <td>{{ intervention.statut }}</td>
+                                <td>{{ intervention.description }}</td>
+                                <td>{{ intervention.villeInter }}</td>
+                                <td></td>
+                            </tr>  
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    </div>
         </div>
          <!-- Fin Block avec scroll -->
     </div>
 </div>
+{% block javascripts %}
+    <script src="{{ asset('js/main.js') }}"></script>
+{% endblock %}

@@ -25,7 +25,9 @@ class MainController extends AbstractController
         
                 // Récupération des clients et des interventions
                 $clients = $ClientRepository->findAll();
-                $interventionsEncours = $InterventionRepository->findby(['statut' => 'En cours']);
+                $interventions = $InterventionRepository->findAll();
+                $interventionsEnCours = $InterventionRepository->findby(['statut' => 'En cours']);
+                $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Terminee']);
                 $categorieTaches = $categorieTacheRepository->findAll();
 
                 // Création du formulaire d'ajout de client
@@ -39,9 +41,12 @@ class MainController extends AbstractController
                     $entityManager->persist($client);
                     try {
                         $entityManager->flush();
+                        $this->addFlash('success', 'Client ajouté avec succès');
+                        sleep(1);
                     } catch (\Exception $e) {
                         $this->addFlash('danger', 'Erreur lors de l\'ajout du client');
-                        die($e->getMessage());
+                        $this->addFlash('danger', $e->getMessage());
+                        sleep(1);
                     }
                     
                     return $this->redirectToRoute('main');
@@ -55,10 +60,12 @@ class MainController extends AbstractController
                     'email' => $this->getUser()->getEmail(),
                     'date' => (new \DateTime())->format('l j F Y'),
                     'Clients' => $clients,
+                    'interventions' => $interventions,
+                    'interventionsEnCours' => $interventionsEnCours,
+                    'interventionsTerminee' => $interventionsTerminee,
                     'categorieTaches' => $categorieTaches,
-                    'interventions' => $interventionsEncours,
+                    'formAjoutClient' => $formAjoutClient->createView(),
                     'visibility' => 'd-block',
-                    'formAjoutClient' => $formAjoutClient->createView()
                 ]);
         
         // Sinon redirection vers la page d'accueil
@@ -66,62 +73,5 @@ class MainController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     }   
-
-    #[Route('/interList/{list}', name: 'interList')]
-    public function afficheSelectInter(CategorieRepository $categorieTacheRepository,Request $request, string $list, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository): Response
-    {    
-       
-        // Si l'utilisateur est connecté
-        if ($this->getUser()) { 
-        
-            // Récupération des clients et des interventions
-                $clients = $ClientRepository->findAll();
-                $interventions = $InterventionRepository->findAll();
-                $interventionsEncours = $InterventionRepository->findby(['statut' => 'En cours']);
-                $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Terminee']);
-                $interventionsAvenir = $InterventionRepository->findby(['statut' => 'A venir']);
-                $categorieTaches = $categorieTacheRepository->findAll();
-
-
-                // Création du formulaire d'ajout de client
-                $formAjoutClient = $this->createForm(AjoutClientType::class);
-
-                // Traitement du formulaire d'ajout de client
-                $formAjoutClient->handleRequest($request);
-
-                switch ($list) {
-                    case 'Encours':
-                        $interList = $interventionsEncours;
-                        break;
-                    case 'Terminee':
-                        $interList = $interventionsTerminee;
-                        break;
-                    case 'Avenir':
-                        $interList = $interventionsAvenir;
-                        break;
-                    default:
-                        $interList = $interventions;
-                        break;
-                }
-
-                // Affichage de la page d'accueil
-                return $this->render('main/index.html.twig', [
-                    'controller_name' => 'MainController',
-                    'titrePage' => 'Tableau de bord',
-                    'titreSideBar' => 'Nouveau client',
-                    'email' => $this->getUser()->getEmail(),
-                    'date' => (new \DateTime())->format('l j F Y'),
-                    'Clients' => $clients,
-                    'interventions' => $interList,
-                    'visibility' => 'd-block',
-                    'formAjoutClient' => $formAjoutClient->createView(),
-                    'categorieTaches' => $categorieTaches,
-                ]);
-        
-        // Sinon redirection vers la page d'accueil
-        } else {
-            return $this->redirectToRoute('app_login');
-        }
-    }
 }
 

@@ -20,16 +20,14 @@
         {% endblock %}
         
         <!-- Début des fichiers js-->
+        <script src="{{ asset('js/scripts.js') }}" defer></script>
+        <script src="{{ asset('js/datatable.js') }}" defer></script>
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}" defer></script>
         <script src="https://kit.fontawesome.com/7c195b2a60.js" crossorigin="anonymous"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        <script src="{{ asset('js/scripts.js') }}" defer></script>
-        <script src="{{ asset('js/datatable.js') }}" defer></script>
-
         <!-- Fin des fichiers js-->
-
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
