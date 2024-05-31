@@ -31,4 +31,17 @@ class ClientController extends AbstractController
         ]);
     } 
 
+    #[Route('/listeClients' , name: 'liste_clients')]
+    public function searchClient(ClientRepository $clientRepository): Response 
+    {
+        $client = $clientRepository->findAll(); 
+        return $this->render('client/searchClient.html.twig', [
+            'titrePage' => 'Mes clients',
+            'titreSideBar' => 'Informations client',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'Clients' => $client,
+            'visibility' => 'd-block'
+        ]);
+    }
 }

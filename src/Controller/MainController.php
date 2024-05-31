@@ -15,9 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class MainController extends AbstractController
-{
-    #[Route('/', name: 'main')]
 
+{    
+    #[Route('/', name: 'main')]
     public function index(EntityManagerInterface $entityManager ,Request $request, ClientRepository $ClientRepository, InterventionRepository $InterventionRepository, CategorieRepository $categorieTacheRepository): Response
     {   
         // Si l'utilisateur est connecté

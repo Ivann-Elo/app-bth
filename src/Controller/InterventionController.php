@@ -26,7 +26,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class InterventionController extends AbstractController
-{
+{  
+    #[Route('/listeInter' , name: 'liste_interventions')]
+    public function searchInter(ClientRepository $ClientRepository, InterventionRepository $InterventionRepository, CategorieRepository $categorieRepository): Response 
+    {   
+        $clients = $ClientRepository->findAll();
+        $interventions = $InterventionRepository->findAll();
+        $interventionsEnCours = $InterventionRepository->findby(['statut' => 'En cours']);
+        $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Terminee']);
+        $categorieTaches = $categorieRepository->findAll(); 
+
+        return $this->render('intervention/searchInter.html.twig', [
+            'titrePage' => 'Mes interventions',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'interventions' => $interventions,
+            'interventionsEnCours' => $interventionsEnCours,
+            'interventionsTerminee' => $interventionsTerminee,
+            'categorieTaches' => $categorieTaches,
+            'visibility' => 'd-block'
+        ]);
+    }
+
     #[Route('/intervention/{show}/{idInter}', name: 'app_intervention')]
     public function index(
         CategorieRepository $categorieRepository,
