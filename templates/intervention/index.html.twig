@@ -10,19 +10,19 @@
     <!-- Fin de la colonne de gauche -->
     
     <!-- Début de la colonne de droite -->
-    <div class="col-lg-10 py-3 offset-lg-2" >
-      <nav aria-label="breadcrumb" class="navigation">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="/">Tableau de Bord</a></li>
-          <li class="breadcrumb-item"><a href="/client{{client.id}}">Client</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Intervention</li>
-        </ol>
-      </nav>
-    </div>
     <div class="col-lg-10 py-3 offset-lg-2">
+    <div class="bg-white py-3 mb-4 rounded-2">
+   
+        <div class="row mx-auto d-flex justify-content-between">
+          <div class="col-2 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Nom: </span>{{ client.nom}}</div>
+          <div class="col-2 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Prénom: </span>{{ client.prenom }}</div>
+          <div class="col-3 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Email: </span>{{ client.mail }}</div>
+          <div class="col-2 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Numéro: </span> {{ client.telephone }} </div>
+          <div class="col-2 justify-content-end d-flex align-items-center"><a href="/client{{client.id}}" class="btn btn-secondary">Client</a></div>
+          
+        </div>
 
-      {% include "partials/info_dropdown.html.twig" %}
-
+    </div>
       <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1> 
       <div class="d-flex justify-content-between align-items-center">
         <div class="col-6">

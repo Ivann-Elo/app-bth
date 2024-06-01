@@ -12,16 +12,7 @@
         <!-- Début de la colonne de droite -->
         <div class="col-lg-10 py-3 offset-lg-2">
             <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
-
-            {% include 'partials/info_dropdown.html.twig' %} 
-            {% include 'partials/inter_client.html.twig' %}
-
-            <a href="{{ path('app_nouvIntervention', {'idClient': client.id}) }}">
-                <div class="nouvelleIntervention text-center my-3 py-2 rounded-2">
-                   <i class="fa-solid fa-plus"></i><br>
-                    Nouvelle intervention
-                </div>
-            </a>    
+            {% include 'partials/form/clientForm.html.twig' %}    
         </div>
     </div>            
 </main>
