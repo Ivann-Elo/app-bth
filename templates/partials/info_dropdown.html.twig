@@ -1,22 +1,5 @@
-<div class="mx-1 rounded-2 text-center py-3 mb-3 information_client" id="info_client">
-    <p>Informations client</p>
-    <div class="row ">
-        <div class="col-6 text-center">
-            <span><strong>Nom</strong></span>
-            <span>{{client.nom}}</span>
-        </div>
-        <div class="col-6 text-center">
-            <span><strong>Prénom</strong></span>
-            <span>{{client.prenom}}</span>
-        </div>
-    </div>
-    <div id='more-info'>
-        <i class="fa-solid fa-info"></i>
-    </div>
-</div> 
-
 <!-- section invisible -->
-<div class="bg-white py-3 mb-3 information_client" id="section_infos">
+<div class="bg-white py-1 mb-3 rounded-2 col-lg-none">
     <p class="text-center">Informations client</p>
     <div class="row">
         <div class="col-6 text-center">
@@ -30,26 +13,23 @@
     </div>
     <!-- Coordonnées --> 
     <div class="row m-2 p-2 rounded-2" id="info_client_drop">
-        <p class="text-center">Coordonnées</p>
+        <p class="text-center roboto-bold fs-5">Coordonnées</p>
         <div class="col-5">
-            <div>
-                <span>Téléphone</span><br>
-                <span>{{client.telephone}}</span><i class="fa-solid fa-pen"></i>
+            <div class="mb-3">
+                <span class="roboto-medium">Téléphone</span><br>
+                <span >{{client.telephone}}</span>
             </div>
             <div>
-                <span>Email</span><br>
-                <span>{{client.mail}}</span><i class="fa-solid fa-pen"></i>
+                <span class="roboto-medium">Email</span><br>
+                <span>{{client.mail}}</span>
             </div>
         </div>
-        <div class="col-5">
-            <div>
-                <span>Adresse</span><br>
+        <div class="col-5 mx-auto">
+            <div class="mb-3">
+                <span class="roboto-medium">Adresse</span><br>
                 <span>{{client.rueClient}}</span><br>
-                <span>{{client.zipClient}}{{client.villeClient}}</span><i class="fa-solid fa-pen"></i>
+                <span>{{client.zipClient}}{{client.villeClient}}</span>
             </div>
         </div>
     </div>
-    <div class="text-center" id="less-info">
-        <i class="fa-solid fa-caret-down"></i>
-    </div>   
 </div>

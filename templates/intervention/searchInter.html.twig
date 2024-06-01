@@ -3,16 +3,20 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block body %} 
-    <main class="container-fluid">
+    <main>
         <div class="row">
             <!-- Début de la colonne de gauche -->
+            <div class="col-lg-2 position-relative">
             {% include "partials/sidebar/sidebar.html.twig" %} 
+            </div>
             <!-- Fin de la colonne de gauche -->
             
             <!-- Début de la colonne de droite -->
             <div class="col-lg-10 py-3 offset-lg-2">
                 <h1 class="text-center">{{ titrePage }}</h1>
-                    nouveau tableau de bord
+                    <div class="mt-3" id="showInterDiv">
+                        {% include "partials/liste_inter.html.twig" %} 
+                    </div>
             </div>
             <!-- Fin de la colonne de droite -->
         </div>

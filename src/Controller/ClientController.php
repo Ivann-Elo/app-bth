@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\AjoutClientType;
 use App\Repository\ClientRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,4 +34,104 @@ class ClientController extends AbstractController
         ]);
     } 
 
+    #[Route('/listeClients' , name: 'liste_clients')]
+    public function searchClient(ClientRepository $clientRepository): Response 
+    {
+        $client = $clientRepository->findAll(); 
+        return $this->render('client/searchClient.html.twig', [
+            'titrePage' => 'Mes clients',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'Clients' => $client,
+            'visibility' => 'd-block'
+        ]);
+    }
+
+    #[Route('/ajoutClient' , name:'ajout_client')]
+    public function ajoutClient(EntityManagerInterface $entityManager ,ClientRepository $clientRepository, Request $request): Response
+    {    
+        // Création du formulaire
+        $formAjoutClient = $this->createForm(AjoutClientType::class);
+
+        //Traitement de la requetes
+        $formAjoutClient->handleRequest($request); 
+
+        if ($formAjoutClient->isSubmitted() && $formAjoutClient->isValid()) {
+            $client = $formAjoutClient->getData();
+            $entityManager->persist($client);
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', 'Client ajouté avec succès');
+                sleep(1);
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Erreur lors de l\'ajout du client');
+                $this->addFlash('danger', $e->getMessage());
+                sleep(1);
+            }
+
+            return $this->redirectToRoute('app_client', ['id' => $client->getId()]);
+        }
+
+        $formAjoutClient = $formAjoutClient->createView();
+
+       return $this->render('client/ajoutClient.html.twig', [
+            'titrePage' => 'Ajout d\'un client',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'visibility' => 'd-block',
+            'formAjoutClient' => $formAjoutClient
+       ]);
+    }
+
+    #[Route('/modifierClient{id}', name: 'modifier_client')]
+    public function modifierClient(int $id, EntityManagerInterface $entityManager, ClientRepository $clientRepository, Request $request): Response
+    {
+        $client = $clientRepository->findOneBy(['id' => $id]);
+        $formModifierClient = $this->createForm(AjoutClientType::class, $client);
+        $formModifierClient->handleRequest($request);
+
+        if ($formModifierClient->isSubmitted() && $formModifierClient->isValid()) {
+            $client = $formModifierClient->getData();
+            $entityManager->persist($client);
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', 'Client modifié avec succès');
+                sleep(1);
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Erreur lors de la modification du client');
+                $this->addFlash('danger', $e->getMessage());
+                sleep(1);
+            }
+
+            return $this->redirectToRoute('app_client', ['id' => $client->getId()]);
+        }
+
+        $formModifierClient = $formModifierClient->createView();
+
+        return $this->render('client/modifierClient.html.twig', [
+            'titrePage' => 'Modification d\'un client',
+            'email' => $this->getUser()->getEmail(),
+            'date' => (new \DateTime())->format('d-m-Y'),
+            'visibility' => 'd-block',
+            'formModifierClient' => $formModifierClient
+        ]);
+    }
+
+    #[Route('/supprimerClient{id}', name: 'supprimer_client')]
+    public function supprimerClient(int $id, EntityManagerInterface $entityManager, ClientRepository $clientRepository): Response
+    {
+        $client = $clientRepository->findOneBy(['id' => $id]);
+        $entityManager->remove($client);
+        try {
+            $entityManager->flush();
+            $this->addFlash('success', 'Client supprimé avec succès');
+            sleep(1);
+        } catch (\Exception $e) {
+            $this->addFlash('danger', 'Erreur lors de la suppression du client');
+            $this->addFlash('danger', $e->getMessage());
+            sleep(1);
+        }
+
+        return $this->redirectToRoute('liste_clients');
+    }
 }
