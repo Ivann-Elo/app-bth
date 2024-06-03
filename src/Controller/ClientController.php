@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ModifClientType;
 use App\Form\AjoutClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,6 +53,7 @@ class ClientController extends AbstractController
     {    
         // Création du formulaire
         $formAjoutClient = $this->createForm(AjoutClientType::class);
+        $client = "";
 
         //Traitement de la requetes
         $formAjoutClient->handleRequest($request); 
@@ -61,15 +63,11 @@ class ClientController extends AbstractController
             $entityManager->persist($client);
             try {
                 $entityManager->flush();
-                $this->addFlash('success', 'Client ajouté avec succès');
-                sleep(1);
-            } catch (\Exception $e) {
-                $this->addFlash('danger', 'Erreur lors de l\'ajout du client');
-                $this->addFlash('danger', $e->getMessage());
-                sleep(1);
-            }
+                $this->addFlash('successClient', 'Client ajouté avec succès');
 
-            return $this->redirectToRoute('app_client', ['id' => $client->getId()]);
+            } catch (\Exception $e) {
+                $this->addFlash('erreurAjout', 'Cette adresse Mail est déjà utilisée');
+            }
         }
 
         $formAjoutClient = $formAjoutClient->createView();
@@ -79,15 +77,20 @@ class ClientController extends AbstractController
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('d-m-Y'),
             'visibility' => 'd-block',
-            'formAjoutClient' => $formAjoutClient
+            'formAjoutClient' => $formAjoutClient,
+            'client' => $client
        ]);
     }
 
     #[Route('/modifierClient{id}', name: 'modifier_client')]
-    public function modifierClient(int $id, EntityManagerInterface $entityManager, ClientRepository $clientRepository, Request $request): Response
+    public function modifierClient(InterventionRepository $InterventionRepository, int $id, EntityManagerInterface $entityManager, ClientRepository $clientRepository, Request $request): Response
     {
         $client = $clientRepository->findOneBy(['id' => $id]);
-        $formModifierClient = $this->createForm(AjoutClientType::class, $client);
+        $interventions = $InterventionRepository->findBy(['idClient'=> $client->getId()]);
+        $interventionsTerminees = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'Terminée']);
+        $interventionsEnCours = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'En cours']);
+
+        $formModifierClient = $this->createForm(ModifClientType::class, $client);
         $formModifierClient->handleRequest($request);
 
         if ($formModifierClient->isSubmitted() && $formModifierClient->isValid()) {
@@ -108,12 +111,16 @@ class ClientController extends AbstractController
 
         $formModifierClient = $formModifierClient->createView();
 
-        return $this->render('client/modifierClient.html.twig', [
+        return $this->render('client/modifClient.html.twig', [
             'titrePage' => 'Modification d\'un client',
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('d-m-Y'),
             'visibility' => 'd-block',
-            'formModifierClient' => $formModifierClient
+            'formModifierClient' => $formModifierClient,
+            'client' => $client,
+            'interventions' => $interventions,
+            'interventionsTerminees' => $interventionsTerminees,
+            'interventionsEnCours' => $interventionsEnCours
         ]);
     }
 

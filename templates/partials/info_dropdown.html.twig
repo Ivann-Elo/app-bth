@@ -17,18 +17,22 @@
         <div class="col-5">
             <div class="mb-3">
                 <span class="roboto-medium">Téléphone</span><br>
-                <span >{{client.telephone}}</span>
+                <a href="tel:+33{{client.telephone}}" class="text-white text-decoration-none ">
+                    {{client.telephone}}
+                </a>
             </div>
             <div>
                 <span class="roboto-medium">Email</span><br>
-                <span>{{client.mail}}</span>
+                <a href="mailto:{{client.mail}}" class="text-white text-decoration-none ">
+                    {{client.mail}}
+                </a>
             </div>
         </div>
         <div class="col-5 mx-auto">
             <div class="mb-3">
                 <span class="roboto-medium">Adresse</span><br>
                 <span>{{client.rueClient}}</span><br>
-                <span>{{client.zipClient}}{{client.villeClient}}</span>
+                <span>{{client.zipClient}}&nbsp;{{client.villeClient}}</span>
             </div>
         </div>
     </div>

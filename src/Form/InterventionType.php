@@ -47,7 +47,6 @@ class InterventionType extends AbstractType
             ])
             ->add('statut', ChoiceType::class, [
                 'choices' => [
-                    'En cours' => 'En cours',
                     'Terminée' => 'Terminée',
                     'En attente' => 'En attente'
                 ],

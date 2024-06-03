@@ -12,17 +12,32 @@
     <!-- Début de la colonne de droite -->
     <div class="col-lg-10 py-3 offset-lg-2">
     <div class="bg-white py-3 mb-4 rounded-2">
-   
         <div class="row mx-auto d-flex justify-content-between">
-          <div class="col-2 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Nom: </span>{{ client.nom}}</div>
-          <div class="col-2 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Prénom: </span>{{ client.prenom }}</div>
-          <div class="col-3 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Email: </span>{{ client.mail }}</div>
-          <div class="col-2 text-center d-flex align-items-center"><span class="roboto-bold pe-1">Numéro: </span> {{ client.telephone }} </div>
-          <div class="col-2 justify-content-end d-flex align-items-center"><a href="/client{{client.id}}" class="btn btn-secondary">Client</a></div>
-          
+          <div class="col-2 text-center d-flex align-items-center">
+            <span class="roboto-bold pe-1">Nom: </span>
+            {{ client.nom}}
+          </div>
+          <div class="col-2 text-center d-flex align-items-center">
+            <span class="roboto-bold pe-1">Prénom: </span>
+            {{ client.prenom }}
+          </div>
+          <div class="col-3 text-center d-flex align-items-center">
+            <span class="roboto-bold pe-1">Email: </span>
+               <a href="mailto:{{client.mail}}" class="text-black text-decoration-none ">
+                  {{client.mail}}
+               </a>
+         </div>
+          <div class="col-2 text-center d-flex align-items-center">
+            <span class="roboto-bold pe-1">Numéro: </span> 
+               <a href="tel:+33{{client.telephone}}" class="text-black text-decoration-none ">
+                  {{client.telephone}}
+               </a>
+          </div>
+          <div class="col-2 justify-content-end d-flex align-items-center">
+            <a href="/client{{client.id}}" class="btn btn-secondary">Client</a></div>  
         </div>
-
     </div>
+
       <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1> 
       <div class="d-flex justify-content-between align-items-center">
         <div class="col-6">
@@ -37,8 +52,8 @@
           <li><a class="dropdown-item roboto-regular " href="{{ path('modifier_inter', {'show': 'photos' , 'idInter':intervention.id}) }}">Modifier</a></li>
           <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_inter' , {'idInter': intervention.id}) }}">Supprimer</a></li>
           </ul>
+        </div>
       </div>
-    </div>
     
       <div class="bg-white p-3 rounded-1 mt-2 mb-3">
         <div class="row d-flex justify-content-between mb-3">
@@ -69,7 +84,7 @@
           <!-- Section documents -->
           <div class="col-md-7">
             <p class="p-1 titre_document text-center mt-2">Documents</p>
-              {% for messageSuccess in app.flashes('success') %}
+              {% for messageSuccess in app.flashes('successUplaod') %}
                 <div class="text-center bg-success border border-success-subtle border-2 p-3 bg-opacity-50 rounded-3">
                   {{ messageSuccess }}
                 </div>

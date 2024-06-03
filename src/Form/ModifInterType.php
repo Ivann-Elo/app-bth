@@ -41,7 +41,6 @@ class ModifInterType extends AbstractType
             ])
             ->add('statut', ChoiceType::class, [
                 'choices' => [
-                    'En attente' => 'En attente',
                     'En cours' => 'En cours',
                     'Terminée' => 'Terminée',
                 ],

@@ -12,10 +12,28 @@
         <!-- Début de la colonne de droite -->
         <div class="col-lg-10 py-3 offset-lg-2">
             <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
-            {% include 'partials/form/clientForm.html.twig' %}    
+                 {% for messageSuccess in app.flashes('successClient') %}
+                <div class="mb-3 text-center bg-success border border-success-subtle border-2 p-3 bg-opacity-50 rounded-3">
+                  {{ messageSuccess }}
+                  {% if messageSuccess %}
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "{{ path('app_client', {'id': client.id}) }}";
+                        }, 1000); // 1000 ms = 1 seconde
+                    </script>
+                {% endif %}
+                </div>
+                {% endfor %} 
+                 {% for messageErreur in app.flashes('erreurAjout') %}
+                <div class="mb-3 text-center bg-danger border border-danger-subtle border-2 p-3 bg-opacity-50 rounded-3">
+                  {{ messageErreur }}
+                </div>
+              {% endfor %} 
+            {% include 'partials/form/clientForm.html.twig' %}  
+
         </div>
     </div>            
 </main>
-
+{% include "partials/modal/modalFlash.html.twig" %}
 
 {% endblock %}

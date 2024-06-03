@@ -103,7 +103,7 @@ class InterventionController extends AbstractController
                 
                 try {
                     $entityManager->flush();
-                    $this->addFlash('success', 'Fichier envoyé avec succès');
+                    $this->addFlash('successUpload', 'Fichier envoyé avec succès');
                     return $this->redirectToRoute('app_intervention', [
                         'show' => $show,
                         'idInter' => $idInter,
@@ -211,7 +211,7 @@ class InterventionController extends AbstractController
 
             return $this->redirectToRoute('app_intervention', [
                 'idInter' => $entity->getId(),
-                'show' => 'taches',
+                'show' => 'photos',
             ]);
         }
 

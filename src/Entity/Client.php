@@ -28,8 +28,9 @@ class Client
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $ent = null;
-
-    #[ORM\Column(length: 50)]
+    
+    // Unique constraint
+    #[ORM\Column(length: 50, unique: true)]
     private ?string $mail = null;
 
     #[ORM\Column(length: 15)]
