@@ -10,9 +10,39 @@
             <!-- Fin de la colonne de gauche -->
             
             <!-- Début de la colonne de droite -->
-            <div class="col-lg-10 py-3 offset-lg-2">
-                <h1 class="text-center">{{ titrePage }}</h1>
-                    nouveau tableau de bord
+            <div class="col-lg-10 py-3 offset-lg-2 pt-5">
+                <h1 class="text-center fs-3">{{ titrePage }}</h1>
+                <div class="row justify-content-around mx-2 rounded-3 mt-4">
+                    <div class="text-center p-3 col-6 m-3 border border-white rounded bg-secondary bg-opacity-25" style="min-height: 80vh">
+                        <iframe src="https://calendar.google.com/calendar/embed?src=ivann-elore%40hotmail.fr&ctz=Europe%2FParis" style="border: 0 ; width: 100%; height: 80vh;" frameborder="0" scrolling="no"></iframe>
+                    </div>
+                    <div class="text-center col-3 m-3 border border-white rounded bg-secondary bg-opacity-25" style="min-height: 80vh">
+                        <div class="bg-primary m-1 py-3 rounded-3 mt-2 text-white"> Total interventions
+                            {% set NbrInter = 0  %}
+                            {% for inter in interventions %}
+                            {% set NbrInter = NbrInter + 1 %}
+                            {% endfor %}
+                            {{ NbrInter }}  
+                        </div>
+                        <div class="bg-primary m-1 py-3 rounded-3 mt-2 text-white"> Interventions en cours
+                            {% set NbrInter = 0  %}
+                            {% for inter in interventionsEnCours %}
+                            {% set NbrInter = NbrInter + 1 %}
+                            {% endfor %}
+                            {{ NbrInter }}  
+                        </div>
+                        <div class="bg-primary m-1 py-3 rounded-3 mt-2 text-white"> Interventions terminée
+                            {% set NbrInter = 0  %}
+                            {% for inter in interventionsTerminee %}
+                            {% set NbrInter = NbrInter + 1 %}
+                            {% endfor %}
+                            {{ NbrInter }}  
+                        </div>
+                    </div>
+                    <div class="text-center col-2 m-3 border border-white rounded bg-secondary bg-opacity-25" style="min-height: 80vh">
+
+                    </div>
+                </div>    
             </div>
             <!-- Fin de la colonne de droite -->
         </div>
