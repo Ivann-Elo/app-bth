@@ -35,7 +35,7 @@
             <i class="fa-solid fa-gear text-end "></i>
           </span>
           <ul class="dropdown-menu text-center">
-          <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_inter' , {'idInter': intervention.id  }) }}">Supprimer</a></li>
+          <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('archiver_inter' , {'idInter': intervention.id  }) }}">Archiver</a></li>
           </ul>
       </div>
     </div>
@@ -43,9 +43,9 @@
     {{ form_start(modifInterForm) }}
     <div class="bg-white p-3 border-1 border border-warning rounded-3 mt-2 mb-3">
       <div class="row d-flex justify-content-between mb-3">
-        <div class="col-4 ">
+        <div class="col-4 opacity-50">
           <span class="i_inter roboto-medium">Statut</span><br>
-          {{ form_widget(modifInterForm.statut) }}
+          {{ intervention.statut }}
         </div>
         <div class="col-4 text-center">
           <span class="i_inter roboto-medium">Date de début</span><br>
