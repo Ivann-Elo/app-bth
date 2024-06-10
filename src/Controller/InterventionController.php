@@ -33,7 +33,7 @@ class InterventionController extends AbstractController
         $clients = $ClientRepository->findAll();
         $interventions = $InterventionRepository->findAll();
         $interventionsEnCours = $InterventionRepository->findby(['statut' => 'En cours']);
-        $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Terminee']);
+        $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Archivée']);
         $categorieTaches = $categorieRepository->findAll(); 
 
         return $this->render('intervention/searchInter.html.twig', [
@@ -94,26 +94,22 @@ class InterventionController extends AbstractController
         //Tableau de formulaire d'Upload 
         $tabFormUpload = [ $uploadPhotoForm, $uploadDeviForm, $uploadFactureForm ];
 
-        for ($i=0; $i < count($tabFormUpload); $i++) { 
-            if($tabFormUpload[$i]->isSubmitted() && $tabFormUpload[$i]->isValid())
-            {
-                $entity = $tabFormUpload[$i]->getData();
-                $entity->setIdInter($intervention);
-                $entityManager->persist($entity);
-                
-                try {
-                    $entityManager->flush();
-                    $this->addFlash('successUpload', 'Fichier envoyé avec succès');
-                    return $this->redirectToRoute('app_intervention', [
-                        'show' => $show,
-                        'idInter' => $idInter,
-                    ]);
-                } catch (\Exception $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                    return $this->redirectToRoute('app_intervention', [
-                        'show' => 'photos',
-                        'idInter' => $idInter,
-                    ]);
+      
+        for ($i = 0; $i < count($tabFormUpload); $i++) { 
+            if ($tabFormUpload[$i]->isSubmitted()) {
+                if ($tabFormUpload[$i]->isValid()) {
+                    $entity = $tabFormUpload[$i]->getData();
+                    $entity->setIdInter($intervention);
+                    $entityManager->persist($entity);
+                    
+                    try {
+                        $entityManager->flush();
+                        $this->addFlash('successUploadPhoto', 'Fichier envoyé avec succès');
+                    } catch (\Exception $e) {
+                        $this->addFlash('erreurUploadPhoto', 'Erreur lors de l\'envoi du fichier : ' . $e->getMessage());
+                    }
+                } else {
+                    $this->addFlash('erreurUploadPhoto', 'Le format du document n\'est pas valide.');
                 }
             }
         }
@@ -279,12 +275,13 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    // Supprimer une tache 
-    #[Route('/supprimerTache/{idTache}/{idInter}', name: 'supprimer_tache')]
-    public function supprimerTache(int $idInter,int $idTache, EntityManagerInterface $entityManager, TacheRepository $tacheRepository): Response
+    // Archuver une tache 
+    #[Route('/archiverTache/{idTache}/{idInter}', name: 'archiver_tache')]
+    public function archiverTache(int $idInter,int $idTache, EntityManagerInterface $entityManager, TacheRepository $tacheRepository): Response
     {   
         $tache = $tacheRepository->findOneBy(['id'=> $idTache]);
-        $entityManager->remove($tache);
+        $tache->setStatutTache('Archivée');
+        $entityManager->persist($tache);
         $entityManager->flush();
         return $this->redirectToRoute('app_intervention', [
             'idInter' => $idInter,
@@ -292,20 +289,20 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    // Suppression d'une catégorie
-    #[Route('/supprimerCategorie/{idCat}/{idInter}', name: 'supprimer_categorie')]
-    public function supprimerCategorie(int $idInter, int $idCat, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository): Response
-    {   
-        $categorie = $categorieRepository->findOneBy(['id'=> $idCat]);
-        $entityManager->remove($categorie);
-        $entityManager->flush();
-        return $this->redirectToRoute('app_intervention', [
-            'idInter' => $idInter,
-            'show' => 'taches',
-        ]);
-    }
+    // // Suppression d'une catégorie
+    // #[Route('/supprimerCategorie/{idCat}/{idInter}', name: 'supprimer_categorie')]
+    // public function supprimerCategorie(int $idInter, int $idCat, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository): Response
+    // {   
+    //     $categorie = $categorieRepository->findOneBy(['id'=> $idCat]);
+    //     $entityManager->remove($categorie);
+    //     $entityManager->flush();
+    //     return $this->redirectToRoute('app_intervention', [
+    //         'idInter' => $idInter,
+    //         'show' => 'taches',
+    //     ]);
+    // }
 
-    // Suppression d'une intervention
+    // Archiver une intervention
     #[Route('/archiver/{idInter}', name: 'archiver_inter')]    
     public function archiverInter(int $idInter, EntityManagerInterface $EntityManager, InterventionRepository $intervention): Response {   
         $intervention = $intervention->find($idInter);

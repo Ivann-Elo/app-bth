@@ -19,7 +19,7 @@ class ClientController extends AbstractController
     {      
         $client = $clientRepository->findOneBy(['id'=> $id ]);
         $interventions = $InterventionRepository->findBy(['idClient'=> $client->getId()]);
-        $interventionsTerminees = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'Terminée']);
+        $interventionsTerminees = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'Archivée']);
         $interventionsEnCours = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'En cours']);
 
         return $this->render('client/index.html.twig', [
@@ -87,7 +87,7 @@ class ClientController extends AbstractController
     {
         $client = $clientRepository->findOneBy(['id' => $id]);
         $interventions = $InterventionRepository->findBy(['idClient'=> $client->getId()]);
-        $interventionsTerminees = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'Terminée']);
+        $interventionsTerminees = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'Archivée']);
         $interventionsEnCours = $InterventionRepository->findBy(['idClient'=> $client->getId(), 'statut' => 'En cours']);
 
         $formModifierClient = $this->createForm(ModifClientType::class, $client);

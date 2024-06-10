@@ -22,7 +22,7 @@
             {{ client.prenom }}
           </div>
           <div class="col-3 text-center d-flex align-items-center">
-            <span class="roboto-bold pe-1">Email: </span>
+            <span class="roboto-bold pe-1">E-mail: </span>
                <a href="mailto:{{client.mail}}" class="text-black text-decoration-none ">
                   {{client.mail}}
                </a>
@@ -44,6 +44,7 @@
             <span class="ms-2">Détail de l'intervention</span>
             <span class="ms-2 roboto-bold">N°{{ intervention.id }}</span>
         </div>
+        {% if intervention.statut == 'En cours' %}
         <div class="col-sm-6 col-md-3 text-end dropdown" id="profileConnect">
           <span class=" dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-gear text-end "></i>
@@ -53,13 +54,20 @@
           <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('archiver_inter' , {'idInter': intervention.id}) }}">Archiver</a></li>
           </ul>
         </div>
+        {% endif %}
       </div>
     
       <div class="bg-white p-3 rounded-1 mt-2 mb-3">
         <div class="row d-flex justify-content-between mb-3">
           <div class="col-4 ">
             <span class="i_inter roboto-medium">Statut</span><br>
-            <span>{{intervention.statut}}</span>
+            {% set colorSpan = ''%}
+            {% if intervention.statut == 'Archivée' %}
+              {% set colorSpan = 'text-danger' %}
+            {% elseif intervention.statut == 'En cours' %}
+              {% set colorSpan = 'text-success' %}
+            {% endif %}
+            <span class= {{ colorSpan }}>{{intervention.statut}}</span>
           </div>
           <div class="col-4 text-center">
             <span class="i_inter roboto-medium">Date de début</span><br>

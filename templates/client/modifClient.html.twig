@@ -17,17 +17,9 @@
                     <span class="ms-2">Détail du client </span>
                     <span class="ms-2 roboto-bold">N°{{ client.id }}</span>
                 </div>
-                <div class="col-sm-6 col-md-3 text-end dropdown" id="profileConnect">
-                  <span class=" dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-gear text-end "></i>
-                  </span>
-                  <ul class="dropdown-menu text-center">
-                  <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_client', {'id': client.id }) }}">Supprimer</a></li>
-                  </ul>
-                </div>
               </div>
             <!-- section modification -->
-                    <div class="bg-white py-1 my-4 rounded-2 col-lg-none">
+                    <div class="bg-white py-1 my-2 mb-4 rounded-2 col-lg-none">
                         <p class="text-center">Informations client</p>
                         <div class="row">
                             <div class="col-6 text-center">
@@ -73,20 +65,20 @@
                                     </div>
                             </div>
                             </div>
-                            <input class="btn btn-secondary" type="reset" value="Annuler">
+                            <input class="btn btn-secondary" type="button" onClick="history.back()" value="Annuler">
                             <input class="btn btn-success" type="submit" value="Valider">
                             {{ form_end(formModifierClient) }}
                         </div>
                     </div>
                 <!-- fin section modification -->    
-            {% include 'partials/inter_client.html.twig' %}
-
-            <a href="{{ path('app_nouvIntervention', {'idClient': client.id}) }}">
-                <div class="nouvelleIntervention text-center my-3 py-2 rounded-2">
-                   <i class="fa-solid fa-plus"></i><br>
-                    Nouvelle intervention
-                </div>
-            </a>    
+                
+                <a href="{{ path('app_nouvIntervention', {'idClient': client.id}) }}">
+                    <div class="nouvelleIntervention text-center my-5 py-2 rounded-2">
+                        <i class="fa-solid fa-plus"></i><br>
+                        Nouvelle intervention
+                        </div>
+                        </a>    
+                    {% include 'partials/inter_client.html.twig' %}
         </div>
     </div>            
 </main>
