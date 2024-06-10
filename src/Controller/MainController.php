@@ -26,7 +26,7 @@ class MainController extends AbstractController
                 $clients = $ClientRepository->findAll();
                 $interventions = $InterventionRepository->findAll();
                 $interventionsEnCours = $InterventionRepository->findby(['statut' => 'En cours']);
-                $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Terminee']);
+                $interventionsTerminee = $InterventionRepository->findby(['statut' => 'Archivée']);
                 $categorieTaches = $categorieTacheRepository->findAll();
 
                 // Affichage de la page d'accueil

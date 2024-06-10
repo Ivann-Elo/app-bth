@@ -1,4 +1,21 @@
   <!-- Début Nav -->
+  {% for messageSuccess in app.flashes('successUploadPhoto') %}
+  <div class="mb-3 text-center bg-success border border-success-subtle border-2 p-3 bg-opacity-50 rounded-3">
+    {{ messageSuccess }}
+    {% if messageSuccess %}
+      <script>
+          setTimeout(function() {
+              window.location.href = "{{ path('app_intervention', {'show':'photos','idInter': intervention.id }) }}";
+          }, 2000);
+      </script>
+  {% endif %}
+  </div>
+  {% endfor %} 
+   {% for messageErreur in app.flashes('erreurUploadPhoto') %}
+  <div class="mb-3 text-center bg-danger border border-danger-subtle border-2 p-3 bg-opacity-50 rounded-3">
+    {{ messageErreur }}
+  </div>
+{% endfor %} 
   <div class="d-flex start-end">
     <div class="col-3"></div>
     <nav class="d-flex justify-content-center col-6">

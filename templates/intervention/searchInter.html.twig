@@ -1,25 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}Mes interventions{% endblock %}
 
 {% block body %} 
-    <main>
-        <div class="row">
-            <!-- Début de la colonne de gauche -->
-            <div class="col-lg-2 position-relative">
-            {% include "partials/sidebar/sidebar.html.twig" %} 
+    <main class="container-fluid">
+            <div class="row">
+                <!-- Début de la colonne de gauche -->
+                {% include "partials/sidebar/sidebar.html.twig" %} 
+                <!-- Fin de la colonne de gauche -->
+                
+                <!-- Début de la colonne de droite -->
+                <div class="col-lg-10 py-3 offset-lg-2">
+                    <h1 class="text-center">{{ titrePage }}</h1>
+                        <div class="mt-3" id="showInterDiv">
+                            {% include "partials/liste_inter.html.twig" %} 
+                        </div>
+                </div>
+                <!-- Fin de la colonne de droite -->
             </div>
-            <!-- Fin de la colonne de gauche -->
-            
-            <!-- Début de la colonne de droite -->
-            <div class="col-lg-10 py-3 offset-lg-2">
-                <h1 class="text-center">{{ titrePage }}</h1>
-                    <div class="mt-3" id="showInterDiv">
-                        {% include "partials/liste_inter.html.twig" %} 
-                    </div>
-            </div>
-            <!-- Fin de la colonne de droite -->
-        </div>
     </main>    
 {% endblock %}
 

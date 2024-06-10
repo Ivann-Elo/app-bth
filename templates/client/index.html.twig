@@ -23,19 +23,19 @@
                   </span>
                   <ul class="dropdown-menu text-center">
                   <li><a class="dropdown-item roboto-regular " href="{{ path('modifier_client', {'id': client.id } ) }}">Modifier</a></li>
-                  <li><a class="dropdown-item roboto-regular text-danger " href="{{ path('supprimer_client', {'id': client.id }) }}">Supprimer</a></li>
                   </ul>
                 </div>
               </div>
             {% include 'partials/info_dropdown.html.twig' %} 
-            {% include 'partials/inter_client.html.twig' %}
-
+            
             <a href="{{ path('app_nouvIntervention', {'idClient': client.id}) }}">
-                <div class="nouvelleIntervention text-center my-3 py-2 rounded-2">
-                   <i class="fa-solid fa-plus"></i><br>
-                    Nouvelle intervention
+              <div class="nouvelleIntervention text-center my-3 py-2 rounded-2">
+                <i class="fa-solid fa-plus"></i><br>
+                Nouvelle intervention
                 </div>
             </a>    
+
+            {% include 'partials/inter_client.html.twig' %}
         </div>
     </div>            
 </main>

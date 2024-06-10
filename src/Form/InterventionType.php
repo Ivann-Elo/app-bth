@@ -30,6 +30,27 @@ class InterventionType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
+            ->add('villeInter', TextType::class, [
+                'label' => 'Ville de l\'intervention',
+                'attr' => [
+                    'placeholder' => 'Ville de l\'intervention',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('zipInter', TextType::class, [
+                'label' => 'Code postal',
+                'attr' => [
+                    'placeholder' => 'Code postal',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('rueInter', TextType::class, [
+                'label' => 'Adresse de l\'intervention',
+                'attr' => [
+                    'placeholder' => 'Adresse de l\'intervention',
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('dateCreation', HiddenType::class)
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
@@ -55,6 +76,7 @@ class InterventionType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
+          
         ;
     }
 

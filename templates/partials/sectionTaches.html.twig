@@ -15,28 +15,32 @@
     <!-- Début section catégories existante-->
     {% for categorieTache in categorieTaches %}
     <div class="p-2 text-center col-11 col-md-4 mx-3">
-      <span class="roboto-medium">{{ categorieTache.nomCat }} </span> 
-      <a href="{{ path('supprimer_categorie', {'idInter': intervention.id, 'idCat': categorieTache.id}) }}">   
-        <i class=" fa fa-trash"></i>
-      </a>
+      <span class="roboto-medium">{{ categorieTache.nomCat|upper }} </span> 
       <div class="bg-white rounded-2 mt-1 p-3" style="height:490px">
         <!-- Début suppression d'une tache -->
          {% for tache in taches %}
-          {% if (tache.idCat == categorieTache) %}
-        <div class="text-center my-2 py-2 taches rounded-2">
-          <span class="kalam-regular">{{ tache.description}}</span>
-          <a href="{{path('supprimer_tache', {'idInter': intervention.id, 'idTache': tache.id})}}"><i class="fa-solid fa-trash"></i></a>
-        </div>
-        {% endif %}
+            {% if (tache.idCat == categorieTache) %}
+          
+            <div class="text-center my-2 py-2 taches rounded-2">
+              {% if tache.statutTache == 'En cours' %}
+              <span class="kalam-regular">{{ tache.description }}</span>
+              {% else %}
+              <del class="kalam-regular">{{ tache.description }}</del>
+              {% endif %}
+              <div class="row">
+                <div class="col-3 text-center text-secondary"><i class="fa-solid fa-arrow-left"></i></div>
+                <div class="col-6 text-center text-success"><a href="{{ path('archiver_tache' ,{'idTache': tache.id , 'idInter': intervention.id }) }}" ><i class="fa-solid fa-check"></i></a></div>
+                <div class="col-3 text-center text-warning"><i class="fa-solid fa-pen-to-square"></i></div>
+              </div>
+            </div>
+          {% endif %}
         {% endfor %} 
         <!-- Fin suppression d'une tache -->
 
         <!-- Début section ajout d'une tâche -->
-       
-        <!-- Début Section formulaire caché -->
+    
         {% for key, tacheForm in tacheForms %}
           {% if (key == categorieTache.nomCat) %}
-          <!-- ici j'aimerai controler si c'est bien un formulaire unique qui est créer et pas le même a chaque boucle -->
            <div class="text-center my-2 p-2 taches rounded-2">
               {{ form_start(tacheForm) }}
               {{ form_row(tacheForm.description) }}
@@ -45,12 +49,9 @@
               {{ form_end(tacheForm) }}
            </div>
         
-           {% endif %}
-           {% endfor %}
-
-       
-        <!-- Fin Section formulaire caché -->
-        
+          {% endif %}
+        {% endfor %}
+     
         <!-- Fin section ajout d'une tâche -->
 
       </div>
