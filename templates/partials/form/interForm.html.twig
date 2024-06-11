@@ -1,53 +1,74 @@
 <div class="row d-flex justify-content-between mb-3">
     <!-- Debut adresse intervention -->
     <div class="col-6">
-    <span class="i_inter roboto-medium">Adresse d'intervention</span><br>
-    {{ form_start(interventionForm) }}
-        <div>
-            <select name="choixAdresse" id="choixAdresse">
+    <span class="i_inter roboto-medium mb-2">Adresse d'intervention</span><br>
+{{ form_start(interventionForm) }}
+        <div class="col-6">
+            <select class="form-select" name="choixAdresse" id="choixAdresse">
                 <option value="adresseClient">Adresse du client</option>
-                <option value="autreClient">Autre adresse</option>
+                <option value="autreAdresse">Autre adresse</option>
             </select>
         </div>
     </div>
+    
     <!-- Fin adresse intervention -->
     <div class="col-6">
         <div class="row">
-            <div class="col-sm-6 text-center">
+            <div class="col-sm-6 text-center i_inter roboto-medium">
                 {{ form_row(interventionForm.dateDebut) }}
             </div>
-            <div class="col-sm-6 text-center">
+            <div class="col-sm-6 text-center i_inter roboto-medium">
                 {{ form_row(interventionForm.dateFin) }}
             </div>  
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-5">
-        <div class="mb-3">
+    <div class="col-md-4">
+        <div class="mb-3 i_inter roboto-medium">
          {{ form_row(interventionForm.description) }}
         </div>
-        <div class="mb-3">
+        <div class="mb-3 i_inter roboto-medium">
            {{ form_row(interventionForm.note) }}
         </div>
-        <div class="mb-3">
+        <div class="col-6 mb-3 i_inter roboto-medium">
             {{ form_row(interventionForm.statut) }}
         </div>
-        <button class="btn btn-success" type="submit">valider</button>
     </div> 
-    <div class="text-center col-md-7 bg-secondary bg-opacity-25 p-3 rounded-1 ">
-        <span>Saisir l'adresse d'intervention</span>
-        <div class="row col-8 my-3">
-            <div>
-                {{ form_row(interventionForm.rueInter) }}
+
+    <!-- Section nouvelle adresse -->
+    <div class="col-md-6 mx-auto d-flex justify-content-center">
+        <div class="row text-center border border-1 p-3 rounded-1 d-none" id="nouvelleAdresseSection">
+            <span class="i_inter roboto-medium">Saisir l'adresse d'intervention</span>
+            <div class="d-flex justify-content-center">
+                <div class="row col-8 my-3">
+                    <div class="i_inter roboto-medium">
+                        {{ form_row(interventionForm.rueInter) }}
+                    </div>
+                    <div class="col-6 i_inter roboto-medium">
+                        {{ form_row(interventionForm.zipInter) }}
+                    </div>
+                    <div class="col-6 i_inter roboto-medium">
+                        {{ form_row(interventionForm.villeInter) }}
+                    </div>
+                </div>    
             </div>
-            <div class="col-6">
-                {{ form_row(interventionForm.zipInter) }}
+        </div> 
+        <div class="row text-center border border-1 p-3 rounded-1" id="actuelleAdresseSection">
+            <span class="i_inter roboto-medium">Attention</span>
+            <div class="d-flex justify-content-center">
+                <p>
+                    l'adresse de l'intervention est actuellement l'adresse renseignée lors de la création du client
+                </p>
             </div>
-            <div class="col-6">
-                {{ form_row(interventionForm.villeInter) }}
-            </div>
-        </div>    
-    </div>  
+        </div> 
+    </div>
+    <!-- Fin section nouvelle adresse -->
+
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-secondary mx-2" type="bouton" onclick="history.back()">Annuler</button>
+        <button class="btn btn-success mx-2" type="submit">valider</button>
+    </div> 
 </div>
-    {{ form_end(interventionForm) }}
+{{ form_end(interventionForm) }}
+       

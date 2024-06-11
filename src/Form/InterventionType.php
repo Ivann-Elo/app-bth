@@ -18,6 +18,9 @@ class InterventionType extends AbstractType
         $builder
             ->add('description', TextType::class, [
                 'label' => '',
+                'label_attr' => [
+                    'class' => 'mb-2'
+                ],
                 'attr' => [
                     'placeholder' => 'Description de l\'intervention',
                     'class' => 'form-control'
@@ -25,6 +28,9 @@ class InterventionType extends AbstractType
             ])
             ->add('note', TextType::class, [
                 'label' => 'Note de l\'intervention',
+                'label_attr' => [
+                    'class' => 'mb-2'
+                ],
                 'attr' => [
                     'placeholder' => 'note de l\'intervention',
                     'class' => 'form-control'
@@ -32,29 +38,41 @@ class InterventionType extends AbstractType
             ])
             ->add('villeInter', TextType::class, [
                 'label' => 'Ville de l\'intervention',
+                'label_attr' => [
+                    'class' => 'mb-2'
+                ],
                 'attr' => [
                     'placeholder' => 'Ville de l\'intervention',
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ]
             ])
             ->add('zipInter', TextType::class, [
                 'label' => 'Code postal',
+                'label_attr' => [
+                    'class' => 'mb-2'
+                ],
                 'attr' => [
                     'placeholder' => 'Code postal',
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ]
             ])
             ->add('rueInter', TextType::class, [
                 'label' => 'Adresse de l\'intervention',
+                'label_attr' => [
+                    'class' => 'mb-2',
+                ],
                 'attr' => [
                     'placeholder' => 'Adresse de l\'intervention',
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ]
             ])
             ->add('dateCreation', HiddenType::class)
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date de début',
+                'label_attr' => [
+                    'class' => 'mb-2'
+                ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -62,6 +80,9 @@ class InterventionType extends AbstractType
             ->add('dateFin', DateType::class,[
                 'widget' => 'single_text',
                 'label' => 'Date de fin',
+                'label_attr' => [
+                    'class' => 'mb-2'
+                ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -69,11 +90,14 @@ class InterventionType extends AbstractType
             ->add('statut', ChoiceType::class, [
                 'choices' => [
                     'Terminée' => 'Terminée',
-                    'En attente' => 'En attente'
+                    'En cours' => 'En cours'
                 ],
                 'label' => 'Statut de l\'intervention',
+                'label_attr' => [
+                    'class' => 'mb-2'
+                ],
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-select'
                 ]
             ])
           
