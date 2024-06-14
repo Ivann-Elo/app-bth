@@ -194,13 +194,25 @@ class InterventionController extends AbstractController
         $interventionForm = $this->createForm(InterventionType::class);
         $interventionForm->handleRequest($request);
 
+        //Si le formulaire autre adress est rempli on récupère les données
+        if ( isset($_GET['rue'])){
+            $rueInter = $_GET['rue'];
+            $villeInter = $_GET['ville'];
+            $zipInter = $_GET['zip'];
+        } else {
+            $rueInter = $client->getRueClient();
+            $villeInter = $client->getVilleClient();
+            $zipInter = $client->getZipClient();
+        }
+
         if($interventionForm->isSubmitted() && $interventionForm->isValid())
-        {
+        {   
+
             $entity = $interventionForm->getData();
             $entity->setIdClient($client);
-            $entity->setRueinter($client->getRueClient());
-            $entity->setVilleinter($client->getVilleClient());
-            $entity->setZipInter($client->getZipClient());
+            $entity->setRueinter($rueInter);
+            $entity->setVilleinter($villeInter);
+            $entity->setZipInter($zipInter);
             $entity->setDateCreation(new \DateTimeImmutable());
             $entityManager->persist($entity);
             $entityManager->flush();

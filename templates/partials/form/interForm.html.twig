@@ -1,74 +1,97 @@
-<div class="row d-flex justify-content-between mb-3">
-    <!-- Debut adresse intervention -->
-    <div class="col-6">
-    <span class="i_inter roboto-medium mb-2">Adresse d'intervention</span><br>
-{{ form_start(interventionForm) }}
-        <div class="col-6">
-            <select class="form-select" name="choixAdresse" id="choixAdresse">
-                <option value="adresseClient">Adresse du client</option>
-                <option value="autreAdresse">Autre adresse</option>
-            </select>
-        </div>
-    </div>
-    
-    <!-- Fin adresse intervention -->
-    <div class="col-6">
+
+<div class="col-5 pe-1 d-flex flex-column">
+    <div class="bg-white p-3 rounded-1 my-3">
         <div class="row">
-            <div class="col-sm-6 text-center i_inter roboto-medium">
-                {{ form_row(interventionForm.dateDebut) }}
+            <div class="col-6">
+                <span class="i_inter roboto-medium">Adresse d'intervention</span>
+                <p>L'adresse de l'intervention est actuellement l'adresse du client</p>
             </div>
-            <div class="col-sm-6 text-center i_inter roboto-medium">
-                {{ form_row(interventionForm.dateFin) }}
-            </div>  
+            <div class="col-6">
+                <div class="row d-flex justify-content-center">
+                    <span><strong>Rue :</strong> {{ client.rueClient }}</span>
+                    <span><strong>Code postal :</strong> {{ client.zipClient }}</span>
+                    <span><strong>Ville :</strong> {{ client.villeClient }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <form method="GET" action="">
+                <div class="border-top row mx-auto d-flex justify-content-center pt-3">
+                    <div class="col-10">
+                        <label for="rue">Rue:</label>
+                        <input id="rue" name="rue" type="text" class="form-control" required>
+                    </div>
+                    <div class="row mt-2 d-flex justify-content-center">
+                        <div class="col-5">
+                            <label for="zip">Code postal:</label>
+                            <input id="zip" name="zip" type="text" class="form-control" required>
+                        </div>
+                        <div class="col-5">
+                            <label for="ville">Ville:</label>
+                            <input id="ville" name="ville" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center pt-3">
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="mb-3 i_inter roboto-medium">
-         {{ form_row(interventionForm.description) }}
-        </div>
-        <div class="mb-3 i_inter roboto-medium">
-           {{ form_row(interventionForm.note) }}
-        </div>
-        <div class="col-6 mb-3 i_inter roboto-medium">
-            {{ form_row(interventionForm.statut) }}
-        </div>
-    </div> 
+  
 
-    <!-- Section nouvelle adresse -->
-    <div class="col-md-6 mx-auto d-flex justify-content-center">
-        <div class="row text-center border border-1 p-3 rounded-1 d-none" id="nouvelleAdresseSection">
-            <span class="i_inter roboto-medium">Saisir l'adresse d'intervention</span>
-            <div class="d-flex justify-content-center">
-                <div class="row col-8 my-3">
-                    <div class="i_inter roboto-medium">
-                        {{ form_row(interventionForm.rueInter) }}
+<div class="col-7 ps-1 d-flex flex-column">
+    <div class="bg-white p-3 rounded-1 my-3 ">
+        {{ form_start(interventionForm) }} <!-- Début du formulaire interventionForm -->
+            <div class="row d-flex justify-content-between mb-3">
+                <div class="col-6 offset-lg-6">
+                    <div class="row">
+                        <div class="col-sm-6 text-center i_inter roboto-medium">
+                            {{ form_row(interventionForm.dateDebut) }}
+                        </div>
+                        <div class="col-sm-6 text-center i_inter roboto-medium">
+                            {{ form_row(interventionForm.dateFin) }}
+                        </div>  
                     </div>
-                    <div class="col-6 i_inter roboto-medium">
-                        {{ form_row(interventionForm.zipInter) }}
-                    </div>
-                    <div class="col-6 i_inter roboto-medium">
-                        {{ form_row(interventionForm.villeInter) }}
-                    </div>
-                </div>    
+                </div>
             </div>
-        </div> 
-        <div class="row text-center border border-1 p-3 rounded-1" id="actuelleAdresseSection">
-            <span class="i_inter roboto-medium">Attention</span>
-            <div class="d-flex justify-content-center">
-                <p>
-                    l'adresse de l'intervention est actuellement l'adresse renseignée lors de la création du client
-                </p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3 i_inter roboto-medium">
+                        {{ form_row(interventionForm.description) }}
+                    </div>
+                    <div class="mb-3 i_inter roboto-medium">
+                        {{ form_row(interventionForm.note) }}
+                    </div>
+                    <div class="col-6 mb-3 i_inter roboto-medium">
+                        {{ form_row(interventionForm.statut) }}
+                    </div>
+                </div> 
+
+                <!-- Section infos adresse -->
+                <div class="col-md-6 mx-auto d-flex justify-content-center">
+                    <div class="row text-center border border-1 p-3 rounded-1" id="actuelleAdresseSection">
+                        <span class="i_inter roboto-medium">Adresse d'intervention</span>
+                        <p>L'adresse de l'intervention est actuellement l'adresse du client</p>
+                        <div class="row d-flex justify-content-center">
+                            <span><strong>Rue :</strong> {{ client.rueClient }}</span>
+                            <span><strong>Code postal :</strong> {{ client.zipClient }}</span>
+                            <span><strong>Ville :</strong> {{ client.villeClient }}</span>
+                        </div>
+                    </div> 
+                </div>
+                <!-- Fin section infos adresse -->
+
+                <!-- Boutons de soumission pour le formulaire interventionForm -->
+                <div class="d-flex justify-content-center mt-3">
+                    <button class="btn btn-secondary mx-2" type="button" onclick="history.back()">Annuler</button>
+                    <button class="btn btn-success mx-2" type="submit">Valider</button> 
+                </div>
             </div>
-        </div> 
+
+        {{ form_end(interventionForm) }} <!-- Fin du formulaire interventionForm -->
     </div>
-    <!-- Fin section nouvelle adresse -->
-
-    <div class="d-flex justify-content-center mt-3">
-        <button class="btn btn-secondary mx-2" type="bouton" onclick="history.back()">Annuler</button>
-        <button class="btn btn-success mx-2" type="submit">valider</button>
-    </div> 
 </div>
-{{ form_end(interventionForm) }}
-       
