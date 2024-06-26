@@ -44,7 +44,6 @@ class InterventionController extends AbstractController
             'interventionsEnCours' => $interventionsEnCours,
             'interventionsTerminee' => $interventionsTerminee,
             'categorieTaches' => $categorieTaches,
-            'visibility' => 'd-block'
         ]);
     }
 
@@ -168,19 +167,17 @@ class InterventionController extends AbstractController
             'photoInter' => $photoInter,
             'show' => $show,
             'titrePage' => 'Fiche d\'intervention',
-            'titreSideBar' => 'Informations client',
             'taches' => $tache,
             'tacheForms' => $tabFormTache,
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
             'uploadDeviForm' => $uploadDeviForm->createView(),
             'uploadFactureForm' => $uploadFactureForm->createView(),
-            'visibility' => 'd-block',
             ]);
     }
     
     // Ajout d'une nouvelle intervention
     #[Route('/nouvelleIntervention/{idClient}', name: 'app_nouvIntervention')]
-    public function nouvelleIntervention( int $idClient, ClientRegistry $clientRegistry,  ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
+    public function nouvelleIntervention( int $idClient, ClientRepository $clientRepository , Request $request, EntityManagerInterface $entityManager): Response
     {   
         // Si l'utilisateut n'est pas connecté retour à la page login
         if(!$this->getUser()) {
@@ -194,13 +191,29 @@ class InterventionController extends AbstractController
         $interventionForm = $this->createForm(InterventionType::class);
         $interventionForm->handleRequest($request);
 
+        //Si le formulaire autre adress est rempli on récupère les données
+        if ( isset($_GET['rue'])){
+            $rueInter = $_GET['rue'];
+            $villeInter = $_GET['ville'];
+            $zipInter = $_GET['zip'];
+        } else {
+            $rueInter = $client->getRueClient();
+            $villeInter = $client->getVilleClient();
+            $zipInter = $client->getZipClient();
+        }
+
         if($interventionForm->isSubmitted() && $interventionForm->isValid())
-        {
+        {   
             $entity = $interventionForm->getData();
+
+            if($entity->getDateDebut() > $entity->getDateFin()){
+                $this->addFlash('erreurDate', 'La date de fin ne peut être inférieur à la date de début.');
+                return $this->redirectToRoute('app_nouvIntervention', ['idClient' => $idClient]);
+            }
             $entity->setIdClient($client);
-            $entity->setRueinter($client->getRueClient());
-            $entity->setVilleinter($client->getVilleClient());
-            $entity->setZipInter($client->getZipClient());
+            $entity->setRueinter($rueInter);
+            $entity->setVilleinter($villeInter);
+            $entity->setZipInter($zipInter);
             $entity->setDateCreation(new \DateTimeImmutable());
             $entityManager->persist($entity);
             $entityManager->flush();
@@ -216,11 +229,9 @@ class InterventionController extends AbstractController
             'controller_name' => 'InterventionController',
             'titrePage' => 'Création d\'une nouvelle intervention',
             'interventionForm' => $interventionForm->createView(),
-            'titreSideBar' => 'Informations client',
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('l j F Y'),
-            'client' => $client,
-            'visibility' => 'd-block']);
+            'client' => $client]);
     }
 
     // Modification d'une intervention
@@ -271,7 +282,6 @@ class InterventionController extends AbstractController
             'modifInterForm' => $modifInterForm->createView(),
             'titrePage' => 'Modification d\'une intervention',
             'titreSideBar' => 'Informations client',
-            'visibility' => 'd-block',
         ]);
     }
 
