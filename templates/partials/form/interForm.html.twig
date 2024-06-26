@@ -1,17 +1,28 @@
 
-<div class="col-5 pe-1 d-flex flex-column">
+
     <div class="bg-white p-3 rounded-1 my-3">
         <div class="row">
-            <div class="col-6">
+            <div class="col-5">
                 <span class="i_inter roboto-medium">Adresse d'intervention</span>
+                {% if app.request.get('rue') %}
+                <p>La nouvelle adresse est</p>
+                {% else %}
                 <p>L'adresse de l'intervention est actuellement l'adresse du client</p>
+                {% endif %}
             </div>
-            <div class="col-6">
+            <div class="col-7">
                 <div class="row d-flex justify-content-center">
+                {% if app.request.get('rue') %}
+                    <span><strong>Rue :</strong> {{ app.request.get('rue') }}</span>
+                    <span><strong>Code postal :</strong> {{ app.request.get('zip') }}</span>
+                    <span><strong>Ville :</strong> {{ app.request.get('ville') }}</span>
+                {% else %}
                     <span><strong>Rue :</strong> {{ client.rueClient }}</span>
                     <span><strong>Code postal :</strong> {{ client.zipClient }}</span>
                     <span><strong>Ville :</strong> {{ client.villeClient }}</span>
-                </div>
+                {% endif %}
+                
+                <!-- sinon --> 
             </div>
         </div>
         <div class="text-center">
@@ -46,8 +57,14 @@
     <div class="bg-white p-3 rounded-1 my-3 ">
         {{ form_start(interventionForm) }} <!-- Début du formulaire interventionForm -->
             <div class="row d-flex justify-content-between mb-3">
-                <div class="col-6 offset-lg-6">
+                <div>
                     <div class="row">
+                        <!-- ajout d'un flash -->
+                        <div class="col-12">
+                            {% for message in app.flashes('erreurDate') %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% endfor %}
+                        </div>    
                         <div class="col-sm-6 text-center i_inter roboto-medium">
                             {{ form_row(interventionForm.dateDebut) }}
                         </div>
@@ -59,18 +76,18 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div>
                     <div class="mb-3 i_inter roboto-medium">
                         {{ form_row(interventionForm.description) }}
                     </div>
                     <div class="mb-3 i_inter roboto-medium">
                         {{ form_row(interventionForm.note) }}
                     </div>
-                    <div class="col-6 mb-3 i_inter roboto-medium">
+                    <div class="mb-3 i_inter roboto-medium">
                         {{ form_row(interventionForm.statut) }}
                     </div>
                 </div> 
-
+{# 
                 <!-- Section infos adresse -->
                 <div class="col-md-6 mx-auto d-flex justify-content-center">
                     <div class="row text-center border border-1 p-3 rounded-1" id="actuelleAdresseSection">
@@ -83,7 +100,7 @@
                         </div>
                     </div> 
                 </div>
-                <!-- Fin section infos adresse -->
+                <!-- Fin section infos adresse --> #}
 
                 <!-- Boutons de soumission pour le formulaire interventionForm -->
                 <div class="d-flex justify-content-center mt-3">
