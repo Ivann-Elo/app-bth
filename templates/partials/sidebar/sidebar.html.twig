@@ -1,44 +1,49 @@
-<div class="d-none col-lg-2 d-lg-flex flex-column flex-shrink-0 p-3 bg-white position-fixed top-0 border-end border-secondary" style=" height:100vh">
-      <span class="fs-4">Navigation</span>
-      <img src="{{ asset('assets/images/LogoBTHsansfond-06.png')}}" alt="">
-    </a>
+<div class="d-none col-md-2 d-md-flex flex-column flex-shrink-0 p-3 bg-white position-fixed top-0 border-end border-secondary" style=" height:100vh">
+    <div class="mx-auto">
+      <img src="/media/photos/iconeBTH4.png" alt="" style="height: 50px; width: 50px";>
+    </div>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="{{path('main')}}" class="nav-link active" aria-current="page">
-          <i class="fa-solid fa-house pe-2"></i>
-          Tableau de bord
+      <li class="mx-md-auto mx-lg-0">
+          <a href="{{path('main')}}" class="nav-link active" id="tableauDeBord" aria-current="page">
+            <i class="fa-solid fa-house pe-2"></i>
+            <span class="d-none d-lg-inline">Tableau de bord</span>
+          </a>
+      </li>
+      <hr>
+      <li class="mx-md-auto mx-lg-0">
+        <a href="{{ path('liste_interventions') }}" id="mesInter" class="nav-link text-black">
+          <i class="fa-solid fa-building fa-lg pe-2"></i>
+          <span class="d-none d-lg-inline">Mes interventions</span>
         </a>
       </li>
-      <li>
-        <a data-bs-toggle="modal" class="nav-link text-black" data-bs-target="#modalCalendar">
-          <i class="fa-solid fa-calendar fa-lg pe-2"></i>
-          Calendrier
+      <hr>
+      <li class="mx-md-auto mx-lg-0">
+        <a href="{{ path('liste_clients') }}" id="mesClients" class="nav-link text-black">
+          <i class="fa-solid fa-user fa-lg pe-2"></i>
+          <span class="d-none d-lg-inline">Mes clients</span>
         </a>
       </li>
-      <li>
-        <a href="{{path('ajout_client')}}" class="nav-link text-black">
+      <hr>
+      <li class="mx-md-auto mx-lg-0">
+        <a href="{{path('ajout_client')}}"  id="ajoutClient" class="nav-link text-black">
           <i class="fa-solid fa-user-plus fa-lg pe-2"></i>
-          Ajouter un client
+          <span class="d-none d-lg-inline">Ajouter un client</span>
         </a>
       </li>
-      <li>
-        <a href="{{ path('liste_interventions') }}" class="nav-link text-black">
-          <i class="fa-solid fa-magnifying-glass fa-lg pe-2"></i>
-          Mes interventions
+      <hr>
+      <li class="mx-md-auto mx-lg-0">
+        <a data-bs-toggle="modal" id="monAgenda" class="nav-link text-black" data-bs-target="#modalCalendar">
+          <i class="fa-solid fa-calendar fa-lg pe-2"></i>
+          <span class="d-none d-lg-inline">Mon Agenda</span>
         </a>
       </li>
-      <li>
-        <a href="{{ path('liste_clients') }}" class="nav-link text-black">
-          <i class="fa-solid fa-magnifying-glass fa-lg pe-2"></i>
-          Mes clients
-        </a>
-      </li>
+      <hr>
     </ul>
     <hr>
-    <div class="dropdown">
+    <div class="dropdown mx-auto">
       <a href="#" class="d-flex align-items-center text-black text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <img src="/media/photos/iconeBTH4.png" alt="" width="32" height="32" class="rounded-circle me-2">
         {{ email }}
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
