@@ -42,6 +42,7 @@ class MainController extends AbstractController
                     'interventionsTerminee' => $interventionsTerminee,
                     'categorieTaches' => $categorieTaches,
                     'visibility' => 'd-block',
+                    'location' => 'home',
                 ]);
         
         // Sinon redirection vers la page d'accueil

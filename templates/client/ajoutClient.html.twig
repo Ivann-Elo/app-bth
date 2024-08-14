@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détail client{% endblock %}
+{% block title %}Ajout d'un client{% endblock %}
 
 {% block body %}
 <main class="container-fluid">
@@ -10,7 +10,7 @@
         <!-- Fin de la colonne de gauche -->
         
         <!-- Début de la colonne de droite -->
-        <div class="col-lg-10 py-3 offset-lg-2">
+        <div class="col-md-10 py-3 offset-md-2">
             <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
                  {% for messageSuccess in app.flashes('successClient') %}
                 <div class="mb-3 text-center bg-success border border-success-subtle border-2 p-3 bg-opacity-50 rounded-3">

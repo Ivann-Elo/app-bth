@@ -39,12 +39,6 @@ class ModifInterType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('statut', ChoiceType::class, [
-                'choices' => [
-                    'En cours' => 'En cours',
-                    'Terminée' => 'Terminée',
-                ],
-            ])
         ;
     }
 

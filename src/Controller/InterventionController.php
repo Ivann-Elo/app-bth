@@ -44,6 +44,7 @@ class InterventionController extends AbstractController
             'interventionsEnCours' => $interventionsEnCours,
             'interventionsTerminee' => $interventionsTerminee,
             'categorieTaches' => $categorieTaches,
+            'location' => 'listeInter',
         ]);
     }
 
@@ -172,6 +173,7 @@ class InterventionController extends AbstractController
             'uploadPhotoForm' => $uploadPhotoForm->createView(),
             'uploadDeviForm' => $uploadDeviForm->createView(),
             'uploadFactureForm' => $uploadFactureForm->createView(),
+            'location' => 'listeInter',
             ]);
     }
     
@@ -231,7 +233,9 @@ class InterventionController extends AbstractController
             'interventionForm' => $interventionForm->createView(),
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('l j F Y'),
-            'client' => $client]);
+            'client' => $client,
+            'location' => 'listeInter',
+        ]);
     }
 
     // Modification d'une intervention
@@ -282,6 +286,7 @@ class InterventionController extends AbstractController
             'modifInterForm' => $modifInterForm->createView(),
             'titrePage' => 'Modification d\'une intervention',
             'titreSideBar' => 'Informations client',
+            'location' => 'listeInter',
         ]);
     }
 

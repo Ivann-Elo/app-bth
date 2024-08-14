@@ -21,13 +21,13 @@
             <span class="roboto-bold pe-1">Prénom: </span>
             {{ client.prenom }}
           </div>
-          <div class="col-3 text-center d-flex align-items-center">
+          <div class="col-3 text-center d-flex align-items-center d-none d-lg-flex">
             <span class="roboto-bold pe-1">E-mail: </span>
                <a href="mailto:{{client.mail}}" class="text-black text-decoration-none ">
                   {{client.mail}}
                </a>
          </div>
-          <div class="col-2 text-center d-flex align-items-center">
+          <div class="col-2 text-center d-flex align-items-center d-none d-lg-flex">
             <span class="roboto-bold pe-1">Numéro: </span> 
                <a href="tel:+33{{client.telephone}}" class="text-black text-decoration-none ">
                   {{client.telephone}}
@@ -40,7 +40,7 @@
 
       <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1> 
       <div class="d-flex justify-content-between align-items-center">
-        <div class="col-6">
+        <div class="col-lg-6 col-10">
             <span class="ms-2">Détail de l'intervention</span>
             <span class="ms-2 roboto-bold">N°{{ intervention.id }}</span>
         </div>

@@ -1,4 +1,4 @@
-<div class="formNewClient py-4 col-12 px-3 rounded-2">
+<div class="formNewClient mt-4 py-4 col-12 px-3 rounded-2">
     <!-- Affichage des erreurs du formulaire -->
     {{ form_errors(formAjoutClient) }}
 
@@ -49,6 +49,8 @@
             {{form_row(formAjoutClient.zipClient)}}
         </div>
     </div>
-    <button type="submit" class="btn btn-success">Créer</button>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success text-center">Créer</button>
+    </div>
     {{form_end(formAjoutClient)}}
 </div>

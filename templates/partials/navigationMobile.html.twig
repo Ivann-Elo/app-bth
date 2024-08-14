@@ -1,17 +1,27 @@
-<nav class="nav-mobile navbar fixed-bottom d-md-none mb-5 rounded-5 bg-white col-6 mx-auto py-3">
+<nav class="nav-mobile navbar fixed-bottom d-md-none mb-2 rounded-5 col-10 bg-white mx-auto py-3">
     <div class="container-fluid ">
       <div class="row w-100 d-flex justify-content-around text-center mx-auto">
-        <div class="col-3">
+        <div class="col-2">
           <a href="{{ path('main') }}" class="nav-link">
             <i class="fa-solid fa-house  fa-lg"></i>
           </a>
         </div>
-        <div class="col-3">
-          <a data-bs-toggle="modal" data-bs-target="#modalAjoutClient">
+        <div class="col-2">
+          <a href="{{ path('liste_interventions') }}" class="nav-link">
+            <i class="fa-solid fa-building fa-lg pe-2"></i>
+          </a>
+        </div>
+        <div class="col-2">
+          <a href="{{ path('liste_clients') }}" class="nav-link">
+            <i class="fa-solid fa-user fa-lg pe-2"></i>
+          </a>
+        </div>
+        <div class="col-2">
+          <a href="{{ path('ajout_client') }}" class="nav-link">
             <i class="fa-solid fa-user-plus fa-lg"></i>
           </a>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <a data-bs-toggle="modal" data-bs-target="#modalCalendar">
             <i class="fa-solid fa-calendar fa-lg"></i>
           </a>
