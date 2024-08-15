@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}Liste des clients{% endblock %}
 
 {% block body %} 
     <main class="container-fluid">
@@ -10,7 +10,7 @@
             <!-- Fin de la colonne de gauche -->
             
             <!-- Début de la colonne de droite -->
-            <div class="col-lg-10 py-3 offset-lg-2">
+            <div class="col-md-10 py-3 offset-md-2">
                 <h1 class="text-center">{{ titrePage }}</h1>
                     <div class="mt-3" id="showInterDiv">
                         {% include "partials/liste_client.html.twig" %} 

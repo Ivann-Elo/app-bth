@@ -10,7 +10,7 @@
         <!-- Fin de la colonne de gauche -->
         
         <!-- Début de la colonne de droite -->
-        <div class="col-lg-10 py-3 offset-lg-2 mb-5">
+        <div class="col-md-10 py-3 offset-md-2 mb-5">
             <h1 class="text-center fs-4 roboto-medium">{{ titrePage }}</h1>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="col-6">
@@ -38,7 +38,7 @@
                             {{ form_errors(formModifierClient) }}
                             {{ form_start(formModifierClient) }}
                             <div class="row d-flex justify-content-center">
-                                <div class="col-5">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <span class="roboto-medium">Téléphone</span><br>
                                         <span >{{ form_row(formModifierClient.telephone)}}</span>
@@ -48,13 +48,13 @@
                                         <span>{{ form_row(formModifierClient.mail)}}</span>
                                     </div>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <span class="roboto-medium">Adresse</span><br>
                                         <span>{{form_row(formModifierClient.rueClient)}}</span><br>
                                         <div class="row">
                                             <div class="col-4">
-                                                <span class="roboto-medium">Code postal</span><br>
+                                                <span class="roboto-medium">Zip</span><br>
                                                 <span>{{form_row(formModifierClient.zipClient)}}</span><br>
                                             </div>
                                             <div class="col-8">

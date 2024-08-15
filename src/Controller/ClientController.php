@@ -31,7 +31,8 @@ class ClientController extends AbstractController
             'interventions' => $interventions,
             'interventionsTerminees' => $interventionsTerminees,
             'interventionsEnCours' => $interventionsEnCours,
-            'visibility' => 'd-block'
+            'visibility' => 'd-block',
+            'location' => 'listClient'
         ]);
     } 
 
@@ -44,7 +45,8 @@ class ClientController extends AbstractController
             'email' => $this->getUser()->getEmail(),
             'date' => (new \DateTime())->format('d-m-Y'),
             'Clients' => $client,
-            'visibility' => 'd-block'
+            'visibility' => 'd-block',
+            'location' => 'listClient'
         ]);
     }
 
@@ -78,7 +80,8 @@ class ClientController extends AbstractController
             'date' => (new \DateTime())->format('d-m-Y'),
             'visibility' => 'd-block',
             'formAjoutClient' => $formAjoutClient,
-            'client' => $client
+            'client' => $client,
+            'location' => 'addClient'
        ]);
     }
 
@@ -120,7 +123,8 @@ class ClientController extends AbstractController
             'client' => $client,
             'interventions' => $interventions,
             'interventionsTerminees' => $interventionsTerminees,
-            'interventionsEnCours' => $interventionsEnCours
+            'interventionsEnCours' => $interventionsEnCours,
+            'location' => 'listClient'
         ]);
     }
 

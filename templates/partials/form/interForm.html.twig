@@ -1,66 +1,64 @@
-
-
-    <div class="bg-white p-3 rounded-1 my-3">
-        <div class="row">
-            <div class="col-5">
-                <span class="i_inter roboto-medium">Adresse d'intervention</span>
-                {% if app.request.get('rue') %}
-                <p>La nouvelle adresse est</p>
-                {% else %}
-                <p>L'adresse de l'intervention est actuellement l'adresse du client</p>
-                {% endif %}
-            </div>
-            <div class="col-7">
-                <div class="row d-flex justify-content-center">
-                {% if app.request.get('rue') %}
-                    <span><strong>Rue :</strong> {{ app.request.get('rue') }}</span>
-                    <span><strong>Code postal :</strong> {{ app.request.get('zip') }}</span>
-                    <span><strong>Ville :</strong> {{ app.request.get('ville') }}</span>
-                {% else %}
-                    <span><strong>Rue :</strong> {{ client.rueClient }}</span>
-                    <span><strong>Code postal :</strong> {{ client.zipClient }}</span>
-                    <span><strong>Ville :</strong> {{ client.villeClient }}</span>
-                {% endif %}
-                
-                <!-- sinon --> 
-            </div>
-        </div>
-        <div class="text-center">
-            <form method="GET" action="">
-                <div class="border-top row mx-auto d-flex justify-content-center pt-3">
-                    <div class="col-10">
-                        <label for="rue">Rue:</label>
-                        <input id="rue" name="rue" type="text" class="form-control" required>
-                    </div>
-                    <div class="row mt-2 d-flex justify-content-center">
-                        <div class="col-5">
-                            <label for="zip">Code postal:</label>
-                            <input id="zip" name="zip" type="text" class="form-control" required>
-                        </div>
-                        <div class="col-5">
-                            <label for="ville">Ville:</label>
-                            <input id="ville" name="ville" type="text" class="form-control" required>
-                        </div>
-                    </div>
+<div class="row justify-content-between mb-5 px-3">
+    <div class="col-lg-5 bg-white mt-2 p-3 rounded-2">
+            <div class="row">
+                <div class="col-5">
+                    <span class="i_inter roboto-medium">Adresse d'intervention</span>
+                    {% if app.request.get('rue') %}
+                    <p>La nouvelle adresse est</p>
+                    {% else %}
+                    <p>L'adresse de l'intervention est actuellement l'adresse du client</p>
+                    {% endif %}
                 </div>
-                <div class="text-center pt-3">
-                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <div class="col-7">
+                    <div class="row d-flex justify-content-center">
+                    {% if app.request.get('rue') %}
+                        <span><strong>Rue :</strong> {{ app.request.get('rue') }}</span>
+                        <span><strong>Code postal :</strong> {{ app.request.get('zip') }}</span>
+                        <span><strong>Ville :</strong> {{ app.request.get('ville') }}</span>
+                    {% else %}
+                        <span><strong>Rue :</strong> {{ client.rueClient }}</span>
+                        <span><strong>Code postal :</strong> {{ client.zipClient }}</span>
+                        <span><strong>Ville :</strong> {{ client.villeClient }}</span>
+                    {% endif %}
+                    
+                    <!-- sinon --> 
                 </div>
-            </form>
+            </div>
+            <div class="text-center">
+                <form method="GET" action="">
+                    <div class="border-top row mx-auto d-flex justify-content-center pt-3">
+                        <div class="col-10">
+                            <label for="rue">Rue:</label>
+                            <input id="rue" name="rue" type="text" class="form-control" required>
+                        </div>
+                        <div class="row mt-2 d-flex justify-content-center">
+                            <div class="col-5">
+                                <label for="zip">Code postal:</label>
+                                <input id="zip" name="zip" type="text" class="form-control" required>
+                            </div>
+                            <div class="col-5">
+                                <label for="ville">Ville:</label>
+                                <input id="ville" name="ville" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center pt-3">
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-  
+    
 
-<div class="col-7 ps-1 d-flex flex-column">
-    <div class="bg-white p-3 rounded-1 my-3 ">
+    <div class="col-lg-6 d-flex flex-column mt-2 mb-5 bg-white p-3 rounded-2">
         {{ form_start(interventionForm) }} <!-- Début du formulaire interventionForm -->
             <div class="row d-flex justify-content-between mb-3">
                 <div>
                     <div class="row">
                         <!-- ajout d'un flash -->
-                        <div class="col-12">
+                        <div>
                             {% for message in app.flashes('erreurDate') %}
                                 <div class="alert alert-danger">{{ message }}</div>
                             {% endfor %}
@@ -87,20 +85,6 @@
                         {{ form_row(interventionForm.statut) }}
                     </div>
                 </div> 
-{# 
-                <!-- Section infos adresse -->
-                <div class="col-md-6 mx-auto d-flex justify-content-center">
-                    <div class="row text-center border border-1 p-3 rounded-1" id="actuelleAdresseSection">
-                        <span class="i_inter roboto-medium">Adresse d'intervention</span>
-                        <p>L'adresse de l'intervention est actuellement l'adresse du client</p>
-                        <div class="row d-flex justify-content-center">
-                            <span><strong>Rue :</strong> {{ client.rueClient }}</span>
-                            <span><strong>Code postal :</strong> {{ client.zipClient }}</span>
-                            <span><strong>Ville :</strong> {{ client.villeClient }}</span>
-                        </div>
-                    </div> 
-                </div>
-                <!-- Fin section infos adresse --> #}
 
                 <!-- Boutons de soumission pour le formulaire interventionForm -->
                 <div class="d-flex justify-content-center mt-3">
@@ -108,7 +92,6 @@
                     <button class="btn btn-success mx-2" type="submit">Valider</button> 
                 </div>
             </div>
-
         {{ form_end(interventionForm) }} <!-- Fin du formulaire interventionForm -->
     </div>
 </div>

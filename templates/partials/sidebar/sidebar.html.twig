@@ -5,35 +5,59 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="mx-md-auto mx-lg-0">
-          <a href="{{path('main')}}" class="nav-link active" id="tableauDeBord" aria-current="page">
+        {% set etat = '' %}
+        {% set color = 'text-black' %}
+        {% if location == 'home' %}
+          {% set etat = 'active' %}
+          {% set color = 'text-white' %}
+        {% endif %}
+          <a href="{{path('main')}}" class="nav-link {{ color}} {{ etat }}">
             <i class="fa-solid fa-house pe-2"></i>
             <span class="d-none d-lg-inline">Tableau de bord</span>
           </a>
       </li>
       <hr>
       <li class="mx-md-auto mx-lg-0">
-        <a href="{{ path('liste_interventions') }}" id="mesInter" class="nav-link text-black">
+        {% set etat = '' %}
+        {% set color = 'text-black' %}
+        {% if location == 'listeInter' %}
+          {% set etat = 'active' %}
+          {% set color = 'text-white' %}
+        {% endif %}
+        <a href="{{ path('liste_interventions') }}" class="nav-link {{ color}} {{ etat }}">
           <i class="fa-solid fa-building fa-lg pe-2"></i>
           <span class="d-none d-lg-inline">Mes interventions</span>
         </a>
       </li>
       <hr>
       <li class="mx-md-auto mx-lg-0">
-        <a href="{{ path('liste_clients') }}" id="mesClients" class="nav-link text-black">
+        {% set etat = '' %}
+        {% set color = 'text-black' %}
+        {% if location == 'listClient' %}
+          {% set etat = 'active' %}
+          {% set color = 'text-white' %}
+        {% endif %}
+        <a href="{{ path('liste_clients') }}" class="nav-link {{ color}} {{ etat }}">
           <i class="fa-solid fa-user fa-lg pe-2"></i>
           <span class="d-none d-lg-inline">Mes clients</span>
         </a>
       </li>
       <hr>
       <li class="mx-md-auto mx-lg-0">
-        <a href="{{path('ajout_client')}}"  id="ajoutClient" class="nav-link text-black">
+        {% set etat = '' %}
+        {% set color = 'text-black' %}
+        {% if location == 'addClient' %}
+          {% set etat = 'active' %}
+          {% set color = 'text-white' %}
+        {% endif %}
+        <a href="{{path('ajout_client')}}" class="nav-link {{ color }} {{ etat }}">
           <i class="fa-solid fa-user-plus fa-lg pe-2"></i>
           <span class="d-none d-lg-inline">Ajouter un client</span>
         </a>
       </li>
       <hr>
       <li class="mx-md-auto mx-lg-0">
-        <a data-bs-toggle="modal" id="monAgenda" class="nav-link text-black" data-bs-target="#modalCalendar">
+        <a data-bs-toggle="modal" class="nav-link text-black" data-bs-target="#modalCalendar">
           <i class="fa-solid fa-calendar fa-lg pe-2"></i>
           <span class="d-none d-lg-inline">Mon Agenda</span>
         </a>
